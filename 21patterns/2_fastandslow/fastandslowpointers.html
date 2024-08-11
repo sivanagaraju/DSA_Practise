@@ -1,0 +1,785 @@
+<!DOCTYPE html><html><head>
+      <title>fastandslowpointers</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\sivan\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.13\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h3 id="fast-and-slow-pointers-concept">Fast and Slow Pointers Concept </h3>
+<p><strong>Concept Explanation:</strong><br>
+The Fast and Slow Pointers technique (also known as the Tortoise and Hare algorithm) is a two-pointer strategy commonly used for cycle detection in linked lists and other similar problems. It involves using two pointers that move through the data structure at different speeds. Typically, the fast pointer moves two steps at a time, while the slow pointer moves one step at a time. If there's a cycle, the fast pointer will eventually meet the slow pointer.</p>
+<p><strong>When to Use Fast and Slow Pointers:</strong></p>
+<ul>
+<li>The problem involves a linked list and you need to detect cycles.</li>
+<li>You need to find the middle of a linked list.</li>
+<li>You need to detect the start of a cycle in a linked list.</li>
+<li>The problem involves repeated patterns or cycles in arrays.</li>
+</ul>
+<p><strong>Visualizing Fast and Slow Pointers:</strong></p>
+<p>Consider the problem of detecting a cycle in a linked list. Let's visualize this:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Linked List: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 3 (cycle back to 3)
+
+Initial pointers:
+  slow = 1
+  fast = 1
+
+Steps:
+1. Move slow one step and fast two steps:
+   slow = 2
+   fast = 3
+
+2. Move slow one step and fast two steps:
+   slow = 3
+   fast = 5
+
+3. Move slow one step and fast two steps:
+   slow = 4
+   fast = 4 (cycle detected)
+</code></pre><p>Sure, let's visualize the detection of a cycle in the array <code>[2, 3, 1, 4, 0, 9, 7]</code> using the Floyd’s Tortoise and Hare algorithm. I'll illustrate each iteration with the positions of the <code>slow</code> and <code>fast</code> pointers.</p>
+<h3 id="visualize-the-detect-cycle-in-a-array">Visualize the Detect cycle in a array: </h3>
+<p><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mn>2</mn><mo separator="true">,</mo><mn>3</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mn>4</mn><mo separator="true">,</mo><mn>0</mn><mo separator="true">,</mo><mn>9</mn><mo separator="true">,</mo><mn>7</mn></mrow><annotation encoding="application/x-tex">2, 3, 1, 4, 0, 9, 7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">3</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">9</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">7</span></span></span></span></span></p>
+<h3 id="iteration-details">Iteration Details: </h3>
+<ol>
+<li>
+<p><strong>Initial State:</strong></p>
+<ul>
+<li><code>slow</code> starts at index 0.</li>
+<li><code>fast</code> starts at index 0.</li>
+<li>Array values: <span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mn>2</mn><mo separator="true">,</mo><mn>3</mn><mo separator="true">,</mo><mn>1</mn><mo separator="true">,</mo><mn>4</mn><mo separator="true">,</mo><mn>0</mn><mo separator="true">,</mo><mn>9</mn><mo separator="true">,</mo><mn>7</mn></mrow><annotation encoding="application/x-tex">2, 3, 1, 4, 0, 9, 7</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8389em;vertical-align:-0.1944em;"></span><span class="mord">2</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">3</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">1</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">4</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">0</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">9</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord">7</span></span></span></span></span></li>
+</ul>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>slow = 0, fast = 0
+</code></pre></li>
+<li>
+<p><strong>Iteration 1:</strong></p>
+<ul>
+<li><code>slow</code> moves to <code>arr[0]</code> = 2 (next index is 2).</li>
+<li><code>fast</code> moves to <code>arr[arr[0]]</code> = <code>arr[2]</code> = 1 (next index is 1).</li>
+</ul>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>slow = 2, fast = 1
+</code></pre></li>
+<li>
+<p><strong>Iteration 2:</strong></p>
+<ul>
+<li><code>slow</code> moves to <code>arr[2]</code> = 1 (next index is 1).</li>
+<li><code>fast</code> moves to <code>arr[arr[1]]</code> = <code>arr[3]</code> = 4 (next index is 4).</li>
+</ul>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>slow = 1, fast = 4
+</code></pre></li>
+<li>
+<p><strong>Iteration 3:</strong></p>
+<ul>
+<li><code>slow</code> moves to <code>arr[1]</code> = 3 (next index is 3).</li>
+<li><code>fast</code> moves to <code>arr[arr[4]]</code> = <code>arr[0]</code> = 2 (next index is 2).</li>
+</ul>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>slow = 3, fast = 2
+</code></pre></li>
+<li>
+<p><strong>Iteration 4:</strong></p>
+<ul>
+<li><code>slow</code> moves to <code>arr[3]</code> = 4 (next index is 4).</li>
+<li><code>fast</code> moves to <code>arr[arr[2]]</code> = <code>arr[1]</code> = 3 (next index is 3).</li>
+</ul>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>slow = 4, fast = 3
+</code></pre></li>
+<li>
+<p><strong>Iteration 5:</strong></p>
+<ul>
+<li><code>slow</code> moves to <code>arr[4]</code> = 0 (next index is 0).</li>
+<li><code>fast</code> moves to <code>arr[arr[3]]</code> = <code>arr[4]</code> = 0 (next index is 0).</li>
+</ul>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>slow = 0, fast = 0
+</code></pre><p>At this point, the <code>slow</code> and <code>fast</code> pointers meet, indicating the presence of a cycle.</p>
+</li>
+</ol>
+<h3 id="visualization">Visualization: </h3>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Initial State:
+Index:  0   1   2   3   4   5   6
+Array: [2,  3,  1,  4,  0,  9,  7]
+slow:  ^  
+fast:  ^
+
+Iteration 1:
+Index:  0   1   2   3   4   5   6
+Array: [2,  3,  1,  4,  0,  9,  7]
+slow:          ^  
+fast:      ^
+
+Iteration 2:
+Index:  0   1   2   3   4   5   6
+Array: [2,  3,  1,  4,  0,  9,  7]
+slow:      ^  
+fast:                  ^
+
+Iteration 3:
+Index:  0   1   2   3   4   5   6
+Array: [2,  3,  1,  4,  0,  9,  7]
+slow:              ^  
+fast:          ^
+
+Iteration 4:
+Index:  0   1   2   3   4   5   6
+Array: [2,  3,  1,  4,  0,  9,  7]
+slow:                  ^  
+fast:              ^
+
+Iteration 5:
+Index:  0   1   2   3   4   5   6
+Array: [2,  3,  1,  4,  0,  9,  7]
+slow:  ^  
+fast:  ^
+
+Cycle detected at index 0.
+</code></pre><h3 id="explanation">Explanation: </h3>
+<ul>
+<li>In each iteration, the <code>slow</code> pointer moves one step forward and the <code>fast</code> pointer moves two steps forward.</li>
+<li>When both pointers meet, it indicates the presence of a cycle.</li>
+<li>The cycle is detected at index 0, confirming that there is a cycle in the array.</li>
+</ul>
+<p><strong>General Template for Fast and Slow Pointers:</strong></p>
+<p>While the specific implementation can vary based on the problem, a general template for the Fast and Slow Pointers approach can be outlined as follows:</p>
+<ol>
+<li>
+<p><strong>Initialize Pointers:</strong></p>
+<ul>
+<li>Set both the fast and slow pointers to the head of the linked list (or start of the data structure).</li>
+</ul>
+</li>
+<li>
+<p><strong>Move Pointers:</strong></p>
+<ul>
+<li>Move the slow pointer one step at a time.</li>
+<li>Move the fast pointer two steps at a time.</li>
+</ul>
+</li>
+<li>
+<p><strong>Check for Cycle:</strong></p>
+<ul>
+<li>If the fast pointer meets the slow pointer, a cycle is detected.</li>
+<li>If the fast pointer reaches the end (null), no cycle is present.</li>
+</ul>
+</li>
+</ol>
+<h3 id="example-problems-and-solutions">Example Problems and Solutions </h3>
+<p><strong>Example 1: Detect Cycle in a Linked List</strong></p>
+<p><strong>Problem Statement:</strong><br>
+Given the head of a linked list, determine if the linked list has a cycle in it.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Linked list: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 3 (cycle back to 3)</span>
+
+<span class="token comment"># Expected Output: True</span>
+</code></pre><p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-class">class</span> <span class="token class-name">ListNode</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-def">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> val<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token builtin">next</span><span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>val <span class="token operator">=</span> val
+        self<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> <span class="token builtin">next</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">has_cycle</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> head<span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">False</span>
+
+    slow<span class="token punctuation">,</span> fast <span class="token operator">=</span> head<span class="token punctuation">,</span> head
+
+    <span class="token keyword keyword-while">while</span> fast <span class="token keyword keyword-and">and</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span><span class="token builtin">next</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>
+        <span class="token keyword keyword-if">if</span> slow <span class="token operator">==</span> fast<span class="token punctuation">:</span>
+            <span class="token keyword keyword-return">return</span> <span class="token boolean">True</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">False</span>
+
+<span class="token comment"># Example usage</span>
+head <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>  <span class="token comment"># Creating a cycle</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>has_cycle<span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: True</span>
+</code></pre><p><strong>Example 2: Find the Start of the Cycle in a Linked List</strong></p>
+<p><strong>Problem Statement:</strong><br>
+Given the head of a linked list that contains a cycle, return the node where the cycle begins.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Linked list: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 3 (cycle back to 3)</span>
+
+<span class="token comment"># Expected Output: Node with value 3</span>
+</code></pre><p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">find_cycle_start</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> head<span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">None</span>
+
+    slow<span class="token punctuation">,</span> fast <span class="token operator">=</span> head<span class="token punctuation">,</span> head
+    cycle_detected <span class="token operator">=</span> <span class="token boolean">False</span>
+
+    <span class="token keyword keyword-while">while</span> fast <span class="token keyword keyword-and">and</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span><span class="token builtin">next</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>
+        <span class="token keyword keyword-if">if</span> slow <span class="token operator">==</span> fast<span class="token punctuation">:</span>
+            cycle_detected <span class="token operator">=</span> <span class="token boolean">True</span>
+            <span class="token keyword keyword-break">break</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> cycle_detected<span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">None</span>
+
+    slow <span class="token operator">=</span> head
+    <span class="token keyword keyword-while">while</span> slow <span class="token operator">!=</span> fast<span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span><span class="token builtin">next</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span>
+
+    <span class="token keyword keyword-return">return</span> slow
+
+<span class="token comment"># Example usage</span>
+head <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>  <span class="token comment"># Creating a cycle</span>
+
+start_of_cycle <span class="token operator">=</span> find_cycle_start<span class="token punctuation">(</span>head<span class="token punctuation">)</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>start_of_cycle<span class="token punctuation">.</span>val<span class="token punctuation">)</span>  <span class="token comment"># Output: 3</span>
+</code></pre><p><strong>Example 3: Find the Middle of a Linked List</strong></p>
+<p><strong>Problem Statement:</strong><br>
+Given the head of a singly linked list, return the middle node of the linked list. If there are two middle nodes, return the second middle node.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Linked list: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5</span>
+
+<span class="token comment"># Expected Output: Node with value 3</span>
+</code></pre><p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">find_middle</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    slow<span class="token punctuation">,</span> fast <span class="token operator">=</span> head<span class="token punctuation">,</span> head
+
+    <span class="token keyword keyword-while">while</span> fast <span class="token keyword keyword-and">and</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span><span class="token builtin">next</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>
+
+    <span class="token keyword keyword-return">return</span> slow
+
+<span class="token comment"># Example usage</span>
+head <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+
+middle <span class="token operator">=</span> find_middle<span class="token punctuation">(</span>head<span class="token punctuation">)</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>middle<span class="token punctuation">.</span>val<span class="token punctuation">)</span>  <span class="token comment"># Output: 3</span>
+</code></pre><h3 id="additional-practice-questions">Additional Practice Questions </h3>
+<ol>
+<li>
+<p><strong>Linked List Cycle Length</strong>:<br>
+Given the head of a linked list, return the length of the cycle in the list. If there is no cycle, return 0.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Linked list: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 3 (cycle back to 3)</span>
+
+<span class="token comment"># Expected Output: 3</span>
+</code></pre></li>
+<li>
+<p><strong>Happy Number</strong>:<br>
+Write an algorithm to determine if a number n is happy. A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1. If the number loops endlessly in a cycle that does not include 1, those numbers that do not end in 1 are unhappy.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>n <span class="token operator">=</span> <span class="token number">19</span>
+
+<span class="token comment"># Expected Output: True (because 19 is a happy number)</span>
+</code></pre></li>
+<li>
+<p><strong>Palindrome Linked List</strong>:<br>
+Given the head of a singly linked list, return true if it is a palindrome.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Linked list: 1 -&gt; 2 -&gt; 2 -&gt; 1</span>
+
+<span class="token comment"># Expected Output: True</span>
+</code></pre></li>
+<li>
+<p><strong>Reorder List</strong>:<br>
+Given a singly linked list L: L0 → L1 → … → Ln-1 → Ln, reorder it to: L0 → Ln → L1 → Ln-1 → L2 → Ln-2 → …</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Linked list: 1 -&gt; 2 -&gt; 3 -&gt; 4</span>
+
+<span class="token comment"># Expected Output: 1 -&gt; 4 -&gt; 2 -&gt; 3</span>
+</code></pre></li>
+<li>
+<p><strong>Intersection of Two Linked Lists</strong>:<br>
+Write a program to find the node at which the intersection of two singly linked lists begins.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Linked lists: A = 1 -&gt; 2</span>
+<span class="token comment">#               B = 3 -&gt; 2</span>
+
+<span class="token comment"># Expected Output: Node with value 2</span>
+</code></pre></li>
+</ol>
+<h3 id="solutions">Solutions </h3>
+<p><strong>Linked List Cycle Length:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">cycle_length</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> head<span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token number">0</span>
+
+    slow<span class="token punctuation">,</span> fast <span class="token operator">=</span> head<span class="token punctuation">,</span> head
+
+    <span class="token keyword keyword-while">while</span> fast <span class="token keyword keyword-and">and</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span><span class="token builtin">next</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>
+        <span class="token keyword keyword-if">if</span> slow <span class="token operator">==</span> fast<span class="token punctuation">:</span>
+            <span class="token keyword keyword-return">return</span> calculate_cycle_length<span class="token punctuation">(</span>slow<span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">calculate_cycle_length</span><span class="token punctuation">(</span>slow<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    current <span class="token operator">=</span> slow
+    cycle_length <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword keyword-while">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+        current <span class="token operator">=</span> current<span class="token punctuation">.</span><span class="token builtin">next</span>
+        cycle_length <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword keyword-if">if</span> current <span class="token operator">==</span> slow<span class="token punctuation">:</span>
+            <span class="token keyword keyword-break">break</span>
+    <span class="token keyword keyword-return">return</span> cycle_length
+
+<span class="token comment"># Example usage</span>
+head <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>  <span class="token comment"># Creating a cycle</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>cycle_length<span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: 3</span>
+</code></pre><p><strong>Happy Number:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">is_happy</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-def">def</span> <span class="token function">get_next</span><span class="token punctuation">(</span>number<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        total_sum <span class="token operator">=</span> <span class="token number">0</span>
+        <span class="token keyword keyword-while">while</span> number <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            digit <span class="token operator">=</span> number <span class="token operator">%</span> <span class="token number">10</span>
+            total_sum <span class="token operator">+=</span> digit <span class="token operator">*</span> digit
+            number <span class="token operator">//=</span> <span class="token number">10</span>
+        <span class="token keyword keyword-return">return</span> total_sum
+
+    slow<span class="token punctuation">,</span> fast <span class="token operator">=</span> n<span class="token punctuation">,</span> get_next<span class="token punctuation">(</span>n<span class="token punctuation">)</span>
+    <span class="token keyword keyword-while">while</span> fast <span class="token operator">!=</span> <span class="token number">1</span> <span class="token keyword keyword-and">and</span> slow <span class="token operator">!=</span> fast<span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> get_next<span class="token punctuation">(</span>slow<span class="token punctuation">)</span>
+        fast <span class="token operator">=</span> get_next<span class="token punctuation">(</span>get_next<span class="token punctuation">(</span>fast<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-return">return</span> fast <span class="token operator">==</span> <span class="token number">1</span>
+
+<span class="token comment"># Example usage</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>is_happy<span class="token punctuation">(</span><span class="token number">19</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: True</span>
+</code></pre><p><strong>Palindrome Linked List:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">is_palindrome</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> head <span class="token keyword keyword-or">or</span> <span class="token keyword keyword-not">not</span> head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">True</span>
+
+    <span class="token comment"># Find the middle of the linked list</span>
+    slow<span class="token punctuation">,</span> fast <span class="token operator">=</span> head<span class="token punctuation">,</span> head
+    <span class="token keyword keyword-while">while</span> fast <span class="token keyword keyword-and">and</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> slow
+
+<span class="token punctuation">.</span><span class="token builtin">next</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>
+
+    <span class="token comment"># Reverse the second half of the linked list</span>
+    prev <span class="token operator">=</span> <span class="token boolean">None</span>
+    <span class="token keyword keyword-while">while</span> slow<span class="token punctuation">:</span>
+        next_node <span class="token operator">=</span> slow<span class="token punctuation">.</span><span class="token builtin">next</span>
+        slow<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> prev
+        prev <span class="token operator">=</span> slow
+        slow <span class="token operator">=</span> next_node
+
+    <span class="token comment"># Compare the first and second half</span>
+    left<span class="token punctuation">,</span> right <span class="token operator">=</span> head<span class="token punctuation">,</span> prev
+    <span class="token keyword keyword-while">while</span> right<span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> left<span class="token punctuation">.</span>val <span class="token operator">!=</span> right<span class="token punctuation">.</span>val<span class="token punctuation">:</span>
+            <span class="token keyword keyword-return">return</span> <span class="token boolean">False</span>
+        left <span class="token operator">=</span> left<span class="token punctuation">.</span><span class="token builtin">next</span>
+        right <span class="token operator">=</span> right<span class="token punctuation">.</span><span class="token builtin">next</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">True</span>
+
+<span class="token comment"># Example usage</span>
+head <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>is_palindrome<span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: True</span>
+</code></pre><p><strong>Reorder List:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">reorder_list</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> head <span class="token keyword keyword-or">or</span> <span class="token keyword keyword-not">not</span> head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span>
+
+    <span class="token comment"># Find the middle of the linked list</span>
+    slow<span class="token punctuation">,</span> fast <span class="token operator">=</span> head<span class="token punctuation">,</span> head
+    <span class="token keyword keyword-while">while</span> fast <span class="token keyword keyword-and">and</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span><span class="token builtin">next</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>
+
+    <span class="token comment"># Reverse the second half of the linked list</span>
+    prev<span class="token punctuation">,</span> curr <span class="token operator">=</span> <span class="token boolean">None</span><span class="token punctuation">,</span> slow
+    <span class="token keyword keyword-while">while</span> curr<span class="token punctuation">:</span>
+        next_temp <span class="token operator">=</span> curr<span class="token punctuation">.</span><span class="token builtin">next</span>
+        curr<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> prev
+        prev <span class="token operator">=</span> curr
+        curr <span class="token operator">=</span> next_temp
+
+    <span class="token comment"># Merge the two halves</span>
+    first<span class="token punctuation">,</span> second <span class="token operator">=</span> head<span class="token punctuation">,</span> prev
+    <span class="token keyword keyword-while">while</span> second<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        first_next<span class="token punctuation">,</span> second_next <span class="token operator">=</span> first<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">,</span> second<span class="token punctuation">.</span><span class="token builtin">next</span>
+        first<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> second
+        second<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> first_next
+        first<span class="token punctuation">,</span> second <span class="token operator">=</span> first_next<span class="token punctuation">,</span> second_next
+
+<span class="token comment"># Example usage</span>
+head <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+
+reorder_list<span class="token punctuation">(</span>head<span class="token punctuation">)</span>
+
+<span class="token keyword keyword-while">while</span> head<span class="token punctuation">:</span>
+    <span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>head<span class="token punctuation">.</span>val<span class="token punctuation">,</span> end<span class="token operator">=</span><span class="token string">" -&gt; "</span><span class="token punctuation">)</span>
+    head <span class="token operator">=</span> head<span class="token punctuation">.</span><span class="token builtin">next</span>
+<span class="token comment"># Output: 1 -&gt; 4 -&gt; 2 -&gt; 3 -&gt; </span>
+</code></pre><p><strong>Intersection of Two Linked Lists:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">get_intersection_node</span><span class="token punctuation">(</span>headA<span class="token punctuation">,</span> headB<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> headA <span class="token keyword keyword-or">or</span> <span class="token keyword keyword-not">not</span> headB<span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">None</span>
+
+    a<span class="token punctuation">,</span> b <span class="token operator">=</span> headA<span class="token punctuation">,</span> headB
+    <span class="token keyword keyword-while">while</span> a <span class="token operator">!=</span> b<span class="token punctuation">:</span>
+        a <span class="token operator">=</span> a<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token keyword keyword-if">if</span> a <span class="token keyword keyword-else">else</span> headB
+        b <span class="token operator">=</span> b<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token keyword keyword-if">if</span> b <span class="token keyword keyword-else">else</span> headA
+
+    <span class="token keyword keyword-return">return</span> a
+
+<span class="token comment"># Example usage</span>
+headA <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+headA<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+intersection <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+headA<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> intersection
+
+headB <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+headB<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> intersection
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>get_intersection_node<span class="token punctuation">(</span>headA<span class="token punctuation">,</span> headB<span class="token punctuation">)</span><span class="token punctuation">.</span>val<span class="token punctuation">)</span>  <span class="token comment"># Output: 3</span>
+</code></pre><p>Sure! Here are some additional medium and hard questions that utilize the Fast and Slow Pointers technique:</p>
+<h3 id="medium-level-fast-and-slow-pointers-problems">Medium-Level Fast and Slow Pointers Problems </h3>
+<ol>
+<li>
+<p><strong>Linked List Cycle II</strong>:<br>
+Given the head of a linked list, return the node where the cycle begins. If there is no cycle, return null.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Linked list: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 3 (cycle back to 3)</span>
+<span class="token comment"># Expected Output: Node with value 3</span>
+</code></pre></li>
+<li>
+<p><strong>Middle of the Linked List</strong>:<br>
+Given the head of a singly linked list, return the middle node of the linked list. If there are two middle nodes, return the second middle node.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Linked list: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5</span>
+<span class="token comment"># Expected Output: Node with value 3</span>
+</code></pre></li>
+<li>
+<p><strong>Palindrome Linked List</strong>:<br>
+Given the head of a singly linked list, return true if it is a palindrome.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Linked list: 1 -&gt; 2 -&gt; 2 -&gt; 1</span>
+<span class="token comment"># Expected Output: True</span>
+</code></pre></li>
+<li>
+<p><strong>Remove Nth Node From End of List</strong>:<br>
+Given the head of a linked list, remove the nth node from the end of the list and return its head.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Linked list: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5, n = 2</span>
+<span class="token comment"># Expected Output: 1 -&gt; 2 -&gt; 3 -&gt; 5</span>
+</code></pre></li>
+<li>
+<p><strong>Find the Duplicate Number</strong>:<br>
+Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at least one duplicate number must exist. Find the duplicate one.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+<span class="token comment"># Expected Output: 2</span>
+</code></pre></li>
+</ol>
+<h3 id="hard-level-fast-and-slow-pointers-problems">Hard-Level Fast and Slow Pointers Problems </h3>
+<ol>
+<li>
+<p><strong>Find the Duplicate Number (Cycle Detection)</strong>:<br>
+Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), there is only one duplicate number in the array, but it could be repeated more than once. Find the duplicate one using constant space.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+<span class="token comment"># Expected Output: 3</span>
+</code></pre></li>
+<li>
+<p><strong>Intersection of Two Linked Lists</strong>:<br>
+Write a program to find the node at which the intersection of two singly linked lists begins.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Linked lists: A = 1 -&gt; 2</span>
+<span class="token comment">#               B = 3 -&gt; 2</span>
+<span class="token comment"># Expected Output: Node with value 2</span>
+</code></pre></li>
+<li>
+<p><strong>Cycle in Circular Array</strong>:<br>
+You are given a circular array nums of positive and negative integers. If a number k at an index is positive, move forward k steps. Conversely, if it's negative (-k), move backward k steps. Since the array is circular, you may assume that the last element's next element is the first element, and the first element's previous element is the last element. Determine if there is a cycle in the array.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+<span class="token comment"># Expected Output: True (The cycle is: nums[0] -&gt; nums[2] -&gt; nums[3] -&gt; nums[0])</span>
+</code></pre></li>
+<li>
+<p><strong>Happy Number</strong>:<br>
+Write an algorithm to determine if a number n is happy. A happy number is a number defined by the following process: Starting with any positive integer, replace the number by the sum of the squares of its digits, and repeat the process until the number equals 1. If the number loops endlessly in a cycle that does not include 1, those numbers that do not end in 1 are unhappy.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>n <span class="token operator">=</span> <span class="token number">19</span>
+<span class="token comment"># Expected Output: True</span>
+</code></pre></li>
+<li>
+<p><strong>Linked List Cycle Length</strong>:<br>
+Given the head of a linked list, return the length of the cycle in the list. If there is no cycle, return 0.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Linked list: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 3 (cycle back to 3)</span>
+<span class="token comment"># Expected Output: 3</span>
+</code></pre></li>
+</ol>
+<h3 id="solutions-1">Solutions </h3>
+<p><strong>Linked List Cycle II:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">detect_cycle</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> head <span class="token keyword keyword-or">or</span> <span class="token keyword keyword-not">not</span> head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">None</span>
+
+    slow<span class="token punctuation">,</span> fast <span class="token operator">=</span> head<span class="token punctuation">,</span> head
+
+    <span class="token keyword keyword-while">while</span> fast <span class="token keyword keyword-and">and</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span><span class="token builtin">next</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>
+        <span class="token keyword keyword-if">if</span> slow <span class="token operator">==</span> fast<span class="token punctuation">:</span>
+            <span class="token keyword keyword-break">break</span>
+
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> fast <span class="token keyword keyword-or">or</span> <span class="token keyword keyword-not">not</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">None</span>
+
+    slow <span class="token operator">=</span> head
+    <span class="token keyword keyword-while">while</span> slow <span class="token operator">!=</span> fast<span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span><span class="token builtin">next</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span>
+
+    <span class="token keyword keyword-return">return</span> slow
+
+<span class="token comment"># Example usage</span>
+head <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>  <span class="token comment"># Creating a cycle</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>detect_cycle<span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">.</span>val<span class="token punctuation">)</span>  <span class="token comment"># Output: 3</span>
+</code></pre><p><strong>Middle of the Linked List:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">middle_node</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    slow<span class="token punctuation">,</span> fast <span class="token operator">=</span> head<span class="token punctuation">,</span> head
+
+    <span class="token keyword keyword-while">while</span> fast <span class="token keyword keyword-and">and</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span><span class="token builtin">next</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>
+
+    <span class="token keyword keyword-return">return</span> slow
+
+<span class="token comment"># Example usage</span>
+head <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>middle_node<span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">.</span>val<span class="token punctuation">)</span>  <span class="token comment"># Output: 3</span>
+</code></pre><p><strong>Palindrome Linked List:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">is_palindrome</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> head <span class="token keyword keyword-or">or</span> <span class="token keyword keyword-not">not</span> head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">True</span>
+
+    <span class="token comment"># Find the middle of the linked list</span>
+    slow<span class="token punctuation">,</span> fast <span class="token operator">=</span> head<span class="token punctuation">,</span> head
+    <span class="token keyword keyword-while">while</span> fast <span class="token keyword keyword-and">and</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span><span class="token builtin">next</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>
+
+    <span class="token comment"># Reverse the second half of the linked list</span>
+    prev <span class="token operator">=</span> <span class="token boolean">None</span>
+    <span class="token keyword keyword-while">while</span> slow<span class="token punctuation">:</span>
+        next_node <span class="token operator">=</span> slow<span class="token punctuation">.</span><span class="token builtin">next</span>
+        slow<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> prev
+        prev <span class="token operator">=</span> slow
+        slow <span class="token operator">=</span> next_node
+
+    <span class="token comment"># Compare the first and second half</span>
+    left<span class="token punctuation">,</span> right <span class="token operator">=</span> head<span class="token punctuation">,</span> prev
+    <span class="token keyword keyword-while">while</span> right<span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> left<span class="token punctuation">.</span>val <span class="token operator">!=</span> right<span class="token punctuation">.</span>val<span class="token punctuation">:</span>
+            <span class="token keyword keyword-return">return</span> <span class="token boolean">False</span>
+        left <span class="token operator">=</span> left<span class="token punctuation">.</span><span class="token builtin">next</span>
+        right <span class="token operator">=</span> right<span class="token punctuation">.</span><span class="token builtin">next</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">True</span>
+
+<span class="token comment"># Example usage</span>
+head <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>is_palindrome<span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: True</span>
+</code></pre><p><strong>Remove Nth Node From End of List:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">remove_nth_from_end</span><span class="token punctuation">(</span>head<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    dummy <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+    dummy<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> head
+    slow<span class="token punctuation">,</span> fast <span class="token operator">=</span> dummy<span class="token punctuation">,</span> dummy
+
+    <span class="token keyword keyword-for">for</span> _ <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span>
+
+    <span class="token keyword keyword-while">while</span> fast<span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span><span class="token builtin">next</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span>
+
+    slow<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> slow<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>
+    <span class="token keyword keyword-return">return</span> dummy<span class="token punctuation">.</span><span class="token builtin">next</span>
+
+<span class="token comment"># Example usage</span>
+head <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+
+new_head <span class="token operator">=</span> remove_nth_from_end<span class="token punctuation">(</span>head<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+
+<span class="token keyword keyword-while">while</span> new_head<span class="token punctuation">:</span>
+    <span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>new_head<span class="token punctuation">.</span>val<span class="token punctuation">,</span> end<span class="token operator">=</span><span class="token string">" -&gt; "</span><span class="token punctuation">)</span>
+    new_head <span class="token operator">=</span> new_head<span class="token punctuation">.</span><span class="token builtin">next</span>
+<span class="token comment"># Output: 1 -&gt; 2 -&gt; 3 -&gt; 5 -&gt; </span>
+</code></pre><p><strong>Find the Duplicate Number:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">find_duplicate</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    slow<span class="token punctuation">,</span> fast <span class="token operator">=</span> nums<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+
+    <span class="token keyword keyword-while">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> nums<span class="token punctuation">[</span>slow<span class="token punctuation">]</span>
+        fast <span class="token operator">=</span> nums<span class="token punctuation">[</span>nums<span class="token punctuation">[</span>fast<span class="token punctuation">]</span><span class="token punctuation">]</span>
+        <span class="token keyword keyword-if">if</span> slow <span class="token operator">==</span> fast<span class="token punctuation">:</span>
+            <span class="token keyword keyword-break">break</span>
+
+    slow <span class="token operator">=</span> nums<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    <span class="token keyword keyword-while">while</span> slow <span class="token operator">!=</span> fast<span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> nums<span class="token punctuation">[</span>slow<span class="token punctuation">]</span>
+        fast <span class="token operator">=</span> nums<span class="token punctuation">[</span>fast<span class="token punctuation">]</span>
+
+    <span class="token keyword keyword-return">return</span> slow
+
+<span class="token comment"># Example usage</span>
+nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>find_duplicate<span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: 2</span>
+</code></pre><p><strong>Cycle in Circular Array:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">circular_array_loop</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-def">def</span> <span class="token function">next_index</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token punctuation">(</span>i <span class="token operator">+</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-for">for</span> i <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        slow<span class="token punctuation">,</span> fast <span class="token operator">=</span> i<span class="token punctuation">,</span> i
+
+        <span class="token keyword keyword-while">while</span> nums<span class="token punctuation">[</span>slow<span class="token punctuation">]</span> <span class="token operator">*</span> nums<span class="token punctuation">[</span>next_index<span class="token punctuation">(</span>fast<span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token keyword keyword-and">and</span> nums<span class="token punctuation">[</span>slow<span class="token punctuation">]</span> <span class="token operator">*</span> nums<span class="token punctuation">[</span>next_index<span class="token punctuation">(</span>next_index<span class="token punctuation">(</span>fast<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            slow <span class="token operator">=</span> next_index<span class="token punctuation">(</span>slow<span class="token punctuation">)</span>
+            fast <span class="token operator">=</span> next_index<span class="token punctuation">(</span>next_index<span class="token punctuation">(</span>fast<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+            <span class="token keyword keyword-if">if</span> slow <span class="token operator">==</span> fast<span class="token punctuation">:</span>
+                <span class="token keyword keyword-if">if</span> slow <span class="token operator">==</span> next_index<span class="token punctuation">(</span>slow<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                    <span class="token keyword keyword-break">break</span>
+                <span class="token keyword keyword-return">return</span> <span class="token boolean">True</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">False</span>
+
+<span class="token comment"># Example usage</span>
+nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>circular_array_loop<span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: True</span>
+</code></pre><p><strong>Happy Number:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">is_happy</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-def">def</span> <span class="token function">get_next</span><span class="token punctuation">(</span>number<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        total_sum <span class="token operator">=</span> <span class="token number">0</span>
+        <span class="token keyword keyword-while">while</span> number <span class="token operator">&gt;</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            digit <span class="token operator">=</span> number <span class="token operator">%</span> <span class="token number">10</span>
+            total_sum <span class="token operator">+=</span> digit <span class="token operator">*</span> digit
+            number <span class="token operator">//=</span> <span class="token number">10</span>
+        <span class="token keyword keyword-return">return</span> total_sum
+
+    slow
+
+<span class="token punctuation">,</span> fast <span class="token operator">=</span> n<span class="token punctuation">,</span> get_next<span class="token punctuation">(</span>n<span class="token punctuation">)</span>
+    <span class="token keyword keyword-while">while</span> fast <span class="token operator">!=</span> <span class="token number">1</span> <span class="token keyword keyword-and">and</span> slow <span class="token operator">!=</span> fast<span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> get_next<span class="token punctuation">(</span>slow<span class="token punctuation">)</span>
+        fast <span class="token operator">=</span> get_next<span class="token punctuation">(</span>get_next<span class="token punctuation">(</span>fast<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-return">return</span> fast <span class="token operator">==</span> <span class="token number">1</span>
+
+<span class="token comment"># Example usage</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>is_happy<span class="token punctuation">(</span><span class="token number">19</span><span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: True</span>
+</code></pre><p><strong>Linked List Cycle Length:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">cycle_length</span><span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> head<span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token number">0</span>
+
+    slow<span class="token punctuation">,</span> fast <span class="token operator">=</span> head<span class="token punctuation">,</span> head
+
+    <span class="token keyword keyword-while">while</span> fast <span class="token keyword keyword-and">and</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> slow<span class="token punctuation">.</span><span class="token builtin">next</span>
+        fast <span class="token operator">=</span> fast<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>
+        <span class="token keyword keyword-if">if</span> slow <span class="token operator">==</span> fast<span class="token punctuation">:</span>
+            <span class="token keyword keyword-return">return</span> calculate_cycle_length<span class="token punctuation">(</span>slow<span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token number">0</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">calculate_cycle_length</span><span class="token punctuation">(</span>slow<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    current <span class="token operator">=</span> slow
+    cycle_length <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword keyword-while">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+        current <span class="token operator">=</span> current<span class="token punctuation">.</span><span class="token builtin">next</span>
+        cycle_length <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword keyword-if">if</span> current <span class="token operator">==</span> slow<span class="token punctuation">:</span>
+            <span class="token keyword keyword-break">break</span>
+    <span class="token keyword keyword-return">return</span> cycle_length
+
+<span class="token comment"># Example usage</span>
+head <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> ListNode<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> head<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>  <span class="token comment"># Creating a cycle</span>
+
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>cycle_length<span class="token punctuation">(</span>head<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: 3</span>
+</code></pre>
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

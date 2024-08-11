@@ -1,0 +1,711 @@
+<!DOCTYPE html><html><head>
+      <title>twopointers</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\sivan\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.13\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h3 id="two-pointers-concept">Two Pointers Concept </h3>
+<p><strong>Concept Explanation:</strong><br>
+The Two Pointers technique involves using two pointers (or indices) to traverse an array (or linked list) from different directions. Typically, one pointer starts at the beginning and the other at the end, and they move toward each other until they meet. This method is effective for problems involving arrays where you need to compare elements or find pairs with specific properties.</p>
+<p><strong>When to Use Two Pointers:</strong></p>
+<ul>
+<li>The problem involves a sorted array or can be sorted to simplify the solution.</li>
+<li>You need to find pairs or triplets that satisfy a condition (e.g., sum to a target).</li>
+<li>You need to perform operations with elements from different parts of the array (e.g., merge intervals, remove duplicates).</li>
+</ul>
+<p><strong>Visualizing Two Pointers:</strong></p>
+<p>Consider the problem of finding a pair with a given sum in a sorted array. Let's visualize this:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Array: [1, 2, 3, 4, 6]
+Target Sum: 6
+
+Initial pointers:
+  left = 0 (points to 1)
+  right = 4 (points to 6)
+
+Steps:
+1. Check sum of elements at left and right pointers: 1 + 6 = 7 (greater than target)
+   Move the right pointer leftward: right = 3 (points to 4)
+
+2. Check sum of elements at left and right pointers: 1 + 4 = 5 (less than target)
+   Move the left pointer rightward: left = 1 (points to 2)
+
+3. Check sum of elements at left and right pointers: 2 + 4 = 6 (equals target)
+   Found the pair: (2, 4)
+</code></pre><p><strong>General Template for Two Pointers:</strong></p>
+<p>While the specific implementation can vary based on the problem, a general template for the Two Pointers approach can be outlined as follows:</p>
+<ol>
+<li>
+<p><strong>Initialize Pointers:</strong></p>
+<ul>
+<li>For arrays: Typically, set one pointer at the start (<code>left</code>) and the other at the end (<code>right</code>).</li>
+<li>For linked lists or other structures: The initialization might vary (e.g., <code>slow</code> and <code>fast</code> pointers).</li>
+</ul>
+</li>
+<li>
+<p><strong>Loop Until Pointers Meet:</strong></p>
+<ul>
+<li>While <code>left</code> is less than or equal to <code>right</code> (or some condition based on the problem), perform the necessary checks.</li>
+</ul>
+</li>
+<li>
+<p><strong>Check and Move Pointers:</strong></p>
+<ul>
+<li>Check the condition (e.g., sum of elements, comparison).</li>
+<li>Based on the condition, move the pointers:
+<ul>
+<li>Increment <code>left</code> if the condition requires moving rightward.</li>
+<li>Decrement <code>right</code> if the condition requires moving leftward.</li>
+</ul>
+</li>
+<li>Continue until the pointers meet or the condition is satisfied.</li>
+</ul>
+</li>
+</ol>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">two_pointers_template</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># Step 1: Initialize Pointers</span>
+    left <span class="token operator">=</span> <span class="token number">0</span>  <span class="token comment"># Pointer at the start</span>
+    right <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span>  <span class="token comment"># Pointer at the end</span>
+    
+    <span class="token comment"># Step 2: Loop Until Pointers Meet</span>
+    <span class="token keyword keyword-while">while</span> left <span class="token operator">&lt;=</span> right<span class="token punctuation">:</span>
+        <span class="token comment"># Perform the necessary checks</span>
+        <span class="token keyword keyword-if">if</span> condition_met<span class="token punctuation">(</span>arr<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">,</span> arr<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token comment"># Process the elements if condition is met</span>
+            process_elements<span class="token punctuation">(</span>arr<span class="token punctuation">,</span> left<span class="token punctuation">,</span> right<span class="token punctuation">)</span>
+        
+        <span class="token comment"># Step 3: Check and Move Pointers</span>
+        <span class="token keyword keyword-if">if</span> some_condition_for_left<span class="token punctuation">(</span>arr<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">,</span> arr<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            left <span class="token operator">+=</span> <span class="token number">1</span>  <span class="token comment"># Increment left pointer to move rightward</span>
+        <span class="token keyword keyword-if">if</span> some_condition_for_right<span class="token punctuation">(</span>arr<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">,</span> arr<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            right <span class="token operator">-=</span> <span class="token number">1</span>  <span class="token comment"># Decrement right pointer to move leftward</span>
+
+    <span class="token comment"># Return the result based on the problem's requirements</span>
+    <span class="token keyword keyword-return">return</span> result_based_on_problem<span class="token punctuation">(</span>arr<span class="token punctuation">)</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">condition_met</span><span class="token punctuation">(</span>left_element<span class="token punctuation">,</span> right_element<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># Implement the condition to check</span>
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">True</span>  <span class="token comment"># Placeholder</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">process_elements</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span> left<span class="token punctuation">,</span> right<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># Implement the processing of elements when condition is met</span>
+    <span class="token keyword keyword-pass">pass</span>  <span class="token comment"># Placeholder</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">some_condition_for_left</span><span class="token punctuation">(</span>left_element<span class="token punctuation">,</span> right_element<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># Implement the condition to decide if the left pointer should be moved</span>
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">True</span>  <span class="token comment"># Placeholder</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">some_condition_for_right</span><span class="token punctuation">(</span>left_element<span class="token punctuation">,</span> right_element<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># Implement the condition to decide if the right pointer should be moved</span>
+    <span class="token keyword keyword-return">return</span> <span class="token boolean">True</span>  <span class="token comment"># Placeholder</span>
+
+<span class="token keyword keyword-def">def</span> <span class="token function">result_based_on_problem</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># Implement the result return based on the problem</span>
+    <span class="token keyword keyword-return">return</span> arr  <span class="token comment"># Placeholder</span>
+</code></pre><h3 id="identifying-two-pointers-problems">Identifying Two Pointers Problems </h3>
+<p><strong>Checklist for Using Two Pointers:</strong></p>
+<ul>
+<li>Is the array (or linked list) sorted or can be sorted to simplify the problem?</li>
+<li>Are you looking for pairs, triplets, or subarrays that satisfy certain conditions?</li>
+<li>Do you need to compare or merge elements from different ends of the array?</li>
+<li>Are you trying to perform in-place operations without using extra space?</li>
+</ul>
+<p>If you answer "yes" to these questions, the Two Pointers technique is likely a good fit for the problem.</p>
+<h3 id="example-1-remove-duplicates-from-a-sorted-array">Example 1: Remove Duplicates from a Sorted Array </h3>
+<p><strong>Problem Statement:</strong><br>
+Given a sorted array, remove the duplicates in-place such that each element appears only once and return the new length. Do not allocate extra space for another array; you must do this by modifying the input array in-place with O(1) extra memory.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span>
+</code></pre><p><strong>Output:</strong><br>
+The array after removing duplicates: <code>[1, 2, 3, 4, 5]</code></p>
+<p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">remove_duplicates</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> nums<span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token number">0</span>
+
+    write_index <span class="token operator">=</span> <span class="token number">1</span>
+
+    <span class="token keyword keyword-for">for</span> i <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">!=</span> nums<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+            nums<span class="token punctuation">[</span>write_index<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+            write_index <span class="token operator">+=</span> <span class="token number">1</span>
+
+    <span class="token keyword keyword-return">return</span> write_index
+
+<span class="token comment"># Example usage</span>
+nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span>
+new_length <span class="token operator">=</span> remove_duplicates<span class="token punctuation">(</span>nums<span class="token punctuation">)</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Array after removing duplicates: </span><span class="token interpolation"><span class="token punctuation">{</span>nums<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token format-spec">new_length]</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+</code></pre><h3 id="example-2-pair-with-target-sum">Example 2: Pair with Target Sum </h3>
+<p><strong>Problem Statement:</strong><br>
+Given an array of sorted numbers and a target sum, find a pair in the array whose sum equals the given target. Return the indices of the two numbers (0-based index).</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span>
+target_sum <span class="token operator">=</span> <span class="token number">6</span>
+</code></pre><p><strong>Output:</strong><br>
+The indices of the pair with target sum are <code>[1, 3]</code>.</p>
+<p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">pair_with_target_sum</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span> target_sum<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    left<span class="token punctuation">,</span> right <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span>
+
+    <span class="token keyword keyword-while">while</span> left <span class="token operator">&lt;</span> right<span class="token punctuation">:</span>
+        current_sum <span class="token operator">=</span> arr<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">+</span> arr<span class="token punctuation">[</span>right<span class="token punctuation">]</span>
+        <span class="token keyword keyword-if">if</span> current_sum <span class="token operator">==</span> target_sum<span class="token punctuation">:</span>
+            <span class="token keyword keyword-return">return</span> <span class="token punctuation">[</span>left<span class="token punctuation">,</span> right<span class="token punctuation">]</span>
+        <span class="token keyword keyword-elif">elif</span> current_sum <span class="token operator">&lt;</span> target_sum<span class="token punctuation">:</span>
+            left <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword keyword-else">else</span><span class="token punctuation">:</span>
+            right <span class="token operator">-=</span> <span class="token number">1</span>
+
+    <span class="token keyword keyword-return">return</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span>
+
+<span class="token comment"># Example usage</span>
+arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span>
+target_sum <span class="token operator">=</span> <span class="token number">6</span>
+result <span class="token operator">=</span> pair_with_target_sum<span class="token punctuation">(</span>arr<span class="token punctuation">,</span> target_sum<span class="token punctuation">)</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Indices of the pair with target sum: </span><span class="token interpolation"><span class="token punctuation">{</span>result<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+</code></pre><h3 id="example-3-squaring-a-sorted-array">Example 3: Squaring a Sorted Array </h3>
+<p><strong>Problem Statement:</strong><br>
+Given a sorted array, create a new array containing squares of all the numbers in the input array in sorted order.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span>
+</code></pre><p><strong>Output:</strong><br>
+The squares of the sorted array: <code>[0, 1, 9, 16, 100]</code>.</p>
+<p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">sorted_squares</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    n <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span>
+    squares <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">*</span> n
+    left<span class="token punctuation">,</span> right <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> n <span class="token operator">-</span> <span class="token number">1</span>
+    highest_square_index <span class="token operator">=</span> n <span class="token operator">-</span> <span class="token number">1</span>
+
+    <span class="token keyword keyword-while">while</span> left <span class="token operator">&lt;=</span> right<span class="token punctuation">:</span>
+        left_square <span class="token operator">=</span> nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">**</span> <span class="token number">2</span>
+        right_square <span class="token operator">=</span> nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span> <span class="token operator">**</span> <span class="token number">2</span>
+
+        <span class="token keyword keyword-if">if</span> left_square <span class="token operator">&gt;</span> right_square<span class="token punctuation">:</span>
+            squares<span class="token punctuation">[</span>highest_square_index<span class="token punctuation">]</span> <span class="token operator">=</span> left_square
+            left <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword keyword-else">else</span><span class="token punctuation">:</span>
+            squares<span class="token punctuation">[</span>highest_square_index<span class="token punctuation">]</span> <span class="token operator">=</span> right_square
+            right <span class="token operator">-=</span> <span class="token number">1</span>
+
+        highest_square_index <span class="token operator">-=</span> <span class="token number">1</span>
+
+    <span class="token keyword keyword-return">return</span> squares
+
+<span class="token comment"># Example usage</span>
+nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span>
+squares <span class="token operator">=</span> sorted_squares<span class="token punctuation">(</span>nums<span class="token punctuation">)</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Squares of the sorted array: </span><span class="token interpolation"><span class="token punctuation">{</span>squares<span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+</code></pre><h3 id="additional-practice-questions">Additional Practice Questions </h3>
+<ol>
+<li>
+<p><strong>Dutch National Flag Problem</strong>:<br>
+Given an array containing only 0s, 1s, and 2s, sort the array in-place. You should treat the array as if it contains three distinct colors.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+</code></pre></li>
+<li>
+<p><strong>Triplet Sum to Zero</strong>:<br>
+Given an array of unsorted numbers, find all unique triplets in it that add up to zero.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">]</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+</code></pre></li>
+<li>
+<p><strong>Triplet Sum Close to Target</strong>:<br>
+Given an array of unsorted numbers and a target number, find a triplet in the array whose sum is as close to the target number as possible. Return the sum of the triplet.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+target <span class="token operator">=</span> <span class="token number">2</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token number">1</span>
+</code></pre></li>
+<li>
+<p><strong>Subarrays with Product Less than Target</strong>:<br>
+Given an array with positive numbers and a target number, find all of its contiguous subarrays whose product is less than the target number.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">]</span>
+target <span class="token operator">=</span> <span class="token number">30</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+</code></pre></li>
+<li>
+<p><strong>Comparing Strings Containing Backspaces</strong>:<br>
+Given two strings containing backspaces (identified by the character ‘#’), check if the two strings are equal.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>str1 <span class="token operator">=</span> <span class="token string">"xy#z"</span>
+str2 <span class="token operator">=</span> <span class="token string">"xzz#"</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token boolean">True</span>
+</code></pre></li>
+</ol>
+<p>Sure! Here are some more challenging problems that utilize the Two Pointers technique:</p>
+<h3 id="harder-two-pointers-problems">Harder Two Pointers Problems </h3>
+<ol>
+<li>
+<p><strong>4Sum Problem</strong>:<br>
+Given an array of numbers and a target sum, find all unique quadruplets in the array that add up to the target sum.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+target <span class="token operator">=</span> <span class="token number">0</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+</code></pre></li>
+<li>
+<p><strong>Container With Most Water</strong>:<br>
+Given n non-negative integers a1, a2, ..., an, where each represents a point at coordinate (i, ai). n vertical lines are drawn such that the two endpoints of the line i are at (i, ai) and (i, 0). Find two lines, which, together with the x-axis, forms a container, such that the container contains the most water.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>height <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">]</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token number">49</span>
+</code></pre></li>
+<li>
+<p><strong>Longest Substring with At Most K Distinct Characters</strong>:<br>
+Given a string, find the length of the longest substring in it with at most K distinct characters.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>s <span class="token operator">=</span> <span class="token string">"eceba"</span>
+k <span class="token operator">=</span> <span class="token number">2</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token number">3</span>  <span class="token comment"># "ece"</span>
+</code></pre></li>
+<li>
+<p><strong>Longest Substring with At Most Two Distinct Characters</strong>:<br>
+Given a string, find the length of the longest substring that contains at most two distinct characters.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>s <span class="token operator">=</span> <span class="token string">"eceba"</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token number">3</span>  <span class="token comment"># "ece"</span>
+</code></pre></li>
+<li>
+<p><strong>Minimum Window Substring</strong>:<br>
+Given two strings <code>s</code> and <code>t</code>, return the minimum window in <code>s</code> which will contain all the characters in <code>t</code>.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>s <span class="token operator">=</span> <span class="token string">"ADOBECODEBANC"</span>
+t <span class="token operator">=</span> <span class="token string">"ABC"</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token string">"BANC"</span>
+</code></pre></li>
+</ol>
+<h3 id="solutions">Solutions </h3>
+<p><strong>4Sum Problem:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">four_sum</span><span class="token punctuation">(</span>nums<span class="token punctuation">,</span> target<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    nums<span class="token punctuation">.</span>sort<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    quadruplets <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword keyword-for">for</span> i <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> i <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token keyword keyword-and">and</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> nums<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+            <span class="token keyword keyword-continue">continue</span>
+        <span class="token keyword keyword-for">for</span> j <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword keyword-if">if</span> j <span class="token operator">&gt;</span> i <span class="token operator">+</span> <span class="token number">1</span> <span class="token keyword keyword-and">and</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">==</span> nums<span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                <span class="token keyword keyword-continue">continue</span>
+            left<span class="token punctuation">,</span> right <span class="token operator">=</span> j <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span>
+            <span class="token keyword keyword-while">while</span> left <span class="token operator">&lt;</span> right<span class="token punctuation">:</span>
+                total <span class="token operator">=</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+</span> nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">+</span> nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span>
+                <span class="token keyword keyword-if">if</span> total <span class="token operator">==</span> target<span class="token punctuation">:</span>
+                    quadruplets<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">[</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+                    <span class="token keyword keyword-while">while</span> left <span class="token operator">&lt;</span> right <span class="token keyword keyword-and">and</span> nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">==</span> nums<span class="token punctuation">[</span>left <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                        left <span class="token operator">+=</span> <span class="token number">1</span>
+                    <span class="token keyword keyword-while">while</span> left <span class="token operator">&lt;</span> right <span class="token keyword keyword-and">and</span> nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span> <span class="token operator">==</span> nums<span class="token punctuation">[</span>right <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                        right <span class="token operator">-=</span> <span class="token number">1</span>
+                    left <span class="token operator">+=</span> <span class="token number">1</span>
+                    right <span class="token operator">-=</span> <span class="token number">1</span>
+                <span class="token keyword keyword-elif">elif</span> total <span class="token operator">&lt;</span> target<span class="token punctuation">:</span>
+                    left <span class="token operator">+=</span> <span class="token number">1</span>
+                <span class="token keyword keyword-else">else</span><span class="token punctuation">:</span>
+                    right <span class="token operator">-=</span> <span class="token number">1</span>
+    <span class="token keyword keyword-return">return</span> quadruplets
+
+<span class="token comment"># Example usage</span>
+nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+target <span class="token operator">=</span> <span class="token number">0</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>four_sum<span class="token punctuation">(</span>nums<span class="token punctuation">,</span> target<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre><p><strong>Container With Most Water:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">max_area</span><span class="token punctuation">(</span>height<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    left<span class="token punctuation">,</span> right <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>height<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span>
+    max_area <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword keyword-while">while</span> left <span class="token operator">&lt;</span> right<span class="token punctuation">:</span>
+        width <span class="token operator">=</span> right <span class="token operator">-</span> left
+        max_area <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>max_area<span class="token punctuation">,</span> <span class="token builtin">min</span><span class="token punctuation">(</span>height<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">,</span> height<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">*</span> width<span class="token punctuation">)</span>
+        <span class="token keyword keyword-if">if</span> height<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">&lt;</span> height<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">:</span>
+            left <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword keyword-else">else</span><span class="token punctuation">:</span>
+            right <span class="token operator">-=</span> <span class="token number">1</span>
+    <span class="token keyword keyword-return">return</span> max_area
+
+<span class="token comment"># Example usage</span>
+height <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">6</span><span class="token punctuation">,</span><span class="token number">2</span><span class="token punctuation">,</span><span class="token number">5</span><span class="token punctuation">,</span><span class="token number">4</span><span class="token punctuation">,</span><span class="token number">8</span><span class="token punctuation">,</span><span class="token number">3</span><span class="token punctuation">,</span><span class="token number">7</span><span class="token punctuation">]</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>max_area<span class="token punctuation">(</span>height<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre><p><strong>Longest Substring with At Most K Distinct Characters:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">length_of_longest_substring_k_distinct</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> k <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token number">0</span>
+    char_count <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    left <span class="token operator">=</span> <span class="token number">0</span>
+    max_length <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword keyword-for">for</span> right <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        char_count<span class="token punctuation">[</span>s<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">=</span> char_count<span class="token punctuation">.</span>get<span class="token punctuation">(</span>s<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span>
+        <span class="token keyword keyword-while">while</span> <span class="token builtin">len</span><span class="token punctuation">(</span>char_count<span class="token punctuation">)</span> <span class="token operator">&gt;</span> k<span class="token punctuation">:</span>
+            char_count<span class="token punctuation">[</span>s<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">-=</span> <span class="token number">1</span>
+            <span class="token keyword keyword-if">if</span> char_count<span class="token punctuation">[</span>s<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+                <span class="token keyword keyword-del">del</span> char_count<span class="token punctuation">[</span>s<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">]</span>
+            left <span class="token operator">+=</span> <span class="token number">1</span>
+        max_length <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>max_length<span class="token punctuation">,</span> right <span class="token operator">-</span> left <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-return">return</span> max_length
+
+<span class="token comment"># Example usage</span>
+s <span class="token operator">=</span> <span class="token string">"eceba"</span>
+k <span class="token operator">=</span> <span class="token number">2</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>length_of_longest_substring_k_distinct<span class="token punctuation">(</span>s<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre><p><strong>Longest Substring with At Most Two Distinct Characters:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">length_of_longest_substring_two_distinct</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-return">return</span> length_of_longest_substring_k_distinct<span class="token punctuation">(</span>s<span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Example usage</span>
+s <span class="token operator">=</span> <span class="token string">"eceba"</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>length_of_longest_substring_two_distinct<span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre><p><strong>Minimum Window Substring:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">min_window</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> t<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> <span class="token keyword keyword-not">not</span> t <span class="token keyword keyword-or">or</span> <span class="token keyword keyword-not">not</span> s<span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token string">""</span>
+    dict_t <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    <span class="token keyword keyword-for">for</span> char <span class="token keyword keyword-in">in</span> t<span class="token punctuation">:</span>
+        dict_t<span class="token punctuation">[</span>char<span class="token punctuation">]</span> <span class="token operator">=</span> dict_t<span class="token punctuation">.</span>get<span class="token punctuation">(</span>char<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span>
+    required <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>dict_t<span class="token punctuation">)</span>
+    l<span class="token punctuation">,</span> r <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span>
+    formed <span class="token operator">=</span> <span class="token number">0</span>
+    window_counts <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    ans <span class="token operator">=</span> <span class="token builtin">float</span><span class="token punctuation">(</span><span class="token string">"inf"</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token boolean">None</span>
+    <span class="token keyword keyword-while">while</span> r <span class="token operator">&lt;</span> <span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        char <span class="token operator">=</span> s<span class="token punctuation">[</span>r<span class="token punctuation">]</span>
+        window_counts<span class="token punctuation">[</span>char<span class="token punctuation">]</span> <span class="token operator">=</span> window_counts<span class="token punctuation">.</span>get<span class="token punctuation">(</span>char<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span>
+        <span class="token keyword keyword-if">if</span> char <span class="token keyword keyword-in">in</span> dict_t <span class="token keyword keyword-and">and</span> window_counts<span class="token punctuation">[</span>char<span class="token punctuation">]</span> <span class="token operator">==</span> dict_t<span class="token punctuation">[</span>char<span class="token punctuation">]</span><span class="token punctuation">:</span>
+            formed <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword keyword-while">while</span> l <span class="token operator">&lt;=</span> r <span class="token keyword keyword-and">and</span> formed <span class="token operator">==</span> required<span class="token punctuation">:</span>
+            char <span class="token operator">=</span> s<span class="token punctuation">[</span>l<span class="token punctuation">]</span>
+            <span class="token keyword keyword-if">if</span> r <span class="token operator">-</span> l <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&lt;</span> ans<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                ans <span class="token operator">=</span> <span class="token punctuation">(</span>r <span class="token operator">-</span> l <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> l<span class="token punctuation">,</span> r<span class="token punctuation">)</span>
+            window_counts<span class="token punctuation">[</span>char<span class="token punctuation">]</span> <span class="token operator">-=</span> <span class="token number">1</span>
+            <span class="token keyword keyword-if">if</span> char <span class="token keyword keyword-in">in</span> dict_t <span class="token keyword keyword-and">and</span> window_counts<span class="token punctuation">[</span>char<span class="token punctuation">]</span> <span class="token operator">&lt;</span> dict_t<span class="token punctuation">[</span>char<span class="token punctuation">]</span><span class="token punctuation">:</span>
+                formed <span class="token operator">-=</span> <span class="token number">1</span>
+            l <span class="token operator">+=</span> <span class="token number">1</span>
+        r <span class="token operator">+=</span> <span class="token number">1</span>
+    <span class="token keyword keyword-return">return</span> <span class="token string">""</span> <span class="token keyword keyword-if">if</span> ans<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token builtin">float</span><span class="token punctuation">(</span><span class="token string">"inf"</span><span class="token punctuation">)</span> <span class="token keyword keyword-else">else</span> s<span class="token punctuation">[</span>ans<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>ans<span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span>
+
+<span class="token comment"># Example usage</span>
+s <span class="token operator">=</span> <span class="token string">"ADOBECODEBANC"</span>
+t <span class="token operator">=</span> <span class="token string">"ABC"</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>min_window<span class="token punctuation">(</span>s<span class="token punctuation">,</span> t<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre><p>Sure! Here are some additional medium and hard questions that utilize the Two Pointers technique:</p>
+<h3 id="medium-level-two-pointers-problems">Medium-Level Two Pointers Problems </h3>
+<ol>
+<li>
+<p><strong>Three Sum</strong>:<br>
+Given an array of integers, find all unique triplets in the array which gives the sum of zero.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">4</span><span class="token punctuation">]</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+</code></pre></li>
+<li>
+<p><strong>Sort Colors (Dutch National Flag Problem)</strong>:<br>
+Given an array with n objects colored red, white, or blue, sort them in-place so that objects of the same color are adjacent, with the colors in the order red, white, and blue.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+</code></pre></li>
+<li>
+<p><strong>Remove Element</strong>:<br>
+Given an array nums and a value val, remove all instances of that value in-place and return the new length.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span>
+val <span class="token operator">=</span> <span class="token number">3</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>Length <span class="token operator">=</span> <span class="token number">2</span><span class="token punctuation">,</span> nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+</code></pre></li>
+<li>
+<p><strong>Move Zeroes</strong>:<br>
+Given an array nums, write a function to move all 0's to the end while maintaining the relative order of the non-zero elements.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">]</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span>
+</code></pre></li>
+<li>
+<p><strong>Find the Duplicate Number</strong>:<br>
+Given an array nums containing n + 1 integers where each integer is between 1 and n (inclusive), prove that at least one duplicate number must exist. Find the duplicate one.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token number">2</span>
+</code></pre></li>
+</ol>
+<h3 id="hard-level-two-pointers-problems">Hard-Level Two Pointers Problems </h3>
+<ol>
+<li>
+<p><strong>Palindrome Pairs</strong>:<br>
+Given a list of unique words, find all pairs of distinct indices (i, j) in the given list so that the concatenation of the two words, i.e., words[i] + words[j] is a palindrome.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>words <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"abcd"</span><span class="token punctuation">,</span> <span class="token string">"dcba"</span><span class="token punctuation">,</span> <span class="token string">"lls"</span><span class="token punctuation">,</span> <span class="token string">"s"</span><span class="token punctuation">,</span> <span class="token string">"sssll"</span><span class="token punctuation">]</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token punctuation">[</span><span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span><span class="token punctuation">]</span>
+</code></pre></li>
+<li>
+<p><strong>Subarray Product Less Than K</strong>:<br>
+Given an array of positive integers nums and a positive integer k, find the number of contiguous subarrays where the product of all the elements in the subarray is less than k.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span>
+k <span class="token operator">=</span> <span class="token number">100</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token number">8</span>
+</code></pre></li>
+<li>
+<p><strong>Longest Substring with At Most K Distinct Characters</strong>:<br>
+Given a string, find the length of the longest substring that contains at most k distinct characters.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>s <span class="token operator">=</span> <span class="token string">"eceba"</span>
+k <span class="token operator">=</span> <span class="token number">2</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token number">3</span>  <span class="token comment"># "ece"</span>
+</code></pre></li>
+<li>
+<p><strong>Minimum Swaps to Group All 1's Together</strong>:<br>
+Given a binary array data, return the minimum number of swaps required to group all 1’s present in the array together in any place in the array.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>data <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token number">1</span>
+</code></pre></li>
+<li>
+<p><strong>Max Consecutive Ones III</strong>:<br>
+Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code>nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span>
+k <span class="token operator">=</span> <span class="token number">2</span>
+</code></pre><p><strong>Expected Output:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token number">11</span>
+</code></pre></li>
+</ol>
+<h3 id="solutions-1">Solutions </h3>
+<p><strong>Three Sum:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">three_sum</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    nums<span class="token punctuation">.</span>sort<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword keyword-for">for</span> i <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">2</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> i <span class="token operator">&gt;</span> <span class="token number">0</span> <span class="token keyword keyword-and">and</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> nums<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+            <span class="token keyword keyword-continue">continue</span>
+        left<span class="token punctuation">,</span> right <span class="token operator">=</span> i <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span>
+        <span class="token keyword keyword-while">while</span> left <span class="token operator">&lt;</span> right<span class="token punctuation">:</span>
+            total <span class="token operator">=</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">+</span> nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">+</span> nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span>
+            <span class="token keyword keyword-if">if</span> total <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+                result<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">[</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+                <span class="token keyword keyword-while">while</span> left <span class="token operator">&lt;</span> right <span class="token keyword keyword-and">and</span> nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">==</span> nums<span class="token punctuation">[</span>left <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                    left <span class="token operator">+=</span> <span class="token number">1</span>
+                <span class="token keyword keyword-while">while</span> left <span class="token operator">&lt;</span> right <span class="token keyword keyword-and">and</span> nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span> <span class="token operator">==</span> nums<span class="token punctuation">[</span>right <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                    right <span class="token operator">-=</span> <span class="token number">1</span>
+                left <span class="token operator">+=</span> <span class="token number">1</span>
+                right <span class="token operator">-=</span> <span class="token number">1</span>
+            <span class="token keyword keyword-elif">elif</span> total <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">:</span>
+                left <span class="token operator">+=</span> <span class="token number">1</span>
+            <span class="token keyword keyword-else">else</span><span class="token punctuation">:</span>
+                right <span class="token operator">-=</span> <span class="token number">1</span>
+    <span class="token keyword keyword-return">return</span> result
+
+<span class="token comment"># Example usage</span>
+nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">4</span><span class="token punctuation">]</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>three_sum<span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre><p><strong>Sort Colors (Dutch National Flag Problem):</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">sort_colors</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    low<span class="token punctuation">,</span> high <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token number">1</span>
+    i <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword keyword-while">while</span> i <span class="token operator">&lt;=</span> high<span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span>low<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>low<span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+            low <span class="token operator">+=</span> <span class="token number">1</span>
+            i <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword keyword-elif">elif</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">2</span><span class="token punctuation">:</span>
+            nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span>high<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>high<span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+            high <span class="token operator">-=</span> <span class="token number">1</span>
+        <span class="token keyword keyword-else">else</span><span class="token punctuation">:</span>
+            i <span class="token operator">+=</span> <span class="token number">1</span>
+
+<span class="token comment"># Example usage</span>
+nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span>
+sort_colors<span class="token punctuation">(</span>nums<span class="token punctuation">)</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span>
+</code></pre><p><strong>Remove Element:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">remove_element</span><span class="token punctuation">(</span>nums<span class="token punctuation">,</span> val<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    write_index <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword keyword-for">for</span> i <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">!=</span> val<span class="token punctuation">:</span>
+            nums<span class="token punctuation">[</span>write_index<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+            write_index <span class="token operator">+=</span> <span class="token number">1</span>
+    <span class="token keyword keyword-return">return</span> write_index
+
+<span class="token comment"># Example usage</span>
+nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span>
+val <span class="token operator">=</span> <span class="token number">3</span>
+new_length <span class="token operator">=</span> remove_element<span class="token punctuation">(</span>nums<span class="token punctuation">,</span> val<span class="token punctuation">)</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span><span class="token string-interpolation"><span class="token string">f"Length = </span><span class="token interpolation"><span class="token punctuation">{</span>new_length<span class="token punctuation">}</span></span><span class="token string">, nums = </span><span class="token interpolation"><span class="token punctuation">{</span>nums<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token format-spec">new_length]</span><span class="token punctuation">}</span></span><span class="token string">"</span></span><span class="token punctuation">)</span>
+</code></pre><p><strong>Move Zeroes:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">move_zeroes</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    non_zero_index <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword keyword-for">for</span> i <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            nums<span class="token punctuation">[</span>non_zero_index<span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">=</span> nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span>non_zero_index<span class="token punctuation">]</span>
+            non_zero_index <span class="token operator">+=</span> <span class="token number">1</span>
+
+<span class="token comment"># Example usage</span>
+nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">]</span>
+move_zeroes<span class="token punctuation">(</span>nums<span class="token punctuation">)</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span>
+</code></pre><p><strong>Find the Duplicate Number:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">find_duplicate</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    slow<span class="token punctuation">,</span> fast <span class="token operator">=</span> nums<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token punctuation">,</span> nums<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    <span class="token keyword keyword-while">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> nums<span class="token punctuation">[</span>slow<span class="token punctuation">]</span>
+        fast <span class="token operator">=</span> nums<span class="token punctuation">[</span>nums<span class="token punctuation">[</span>fast<span class="token punctuation">]</span><span class="token punctuation">]</span>
+        <span class="token keyword keyword-if">if</span> slow <span class="token operator">==</span> fast<span class="token punctuation">:</span>
+            <span class="token keyword keyword-break">break</span>
+    slow <span class="token operator">=</span> nums<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+    <span class="token keyword keyword-while">while</span> slow <span class="token operator">!=</span> fast<span class="token punctuation">:</span>
+        slow <span class="token operator">=</span> nums<span class="token punctuation">[</span>slow<span class="token punctuation">]</span>
+        fast <span class="token operator">=</span> nums<span class="token punctuation">[</span>fast<span class="token punctuation">]</span>
+    <span class="token keyword keyword-return">return</span> slow
+
+<span class="token comment"># Example usage</span>
+nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>find_duplicate<span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre><p><strong>Palindrome Pairs:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">palindrome_pairs</span><span class="token punctuation">(</span>words<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-def">def</span> <span class="token function">is_palindrome</span><span class="token punctuation">(</span>word<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> word <span class="token operator">==</span> word<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span>
+
+    word_dict <span class="token operator">=</span> <span class="token punctuation">{</span>word<span class="token punctuation">:</span> i <span class="token keyword keyword-for">for</span> i<span class="token punctuation">,</span> word <span class="token keyword keyword-in">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>words<span class="token punctuation">)</span><span class="token punctuation">}</span>
+    result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+    <span class="token keyword keyword-for">for</span> i<span class="token punctuation">,</span> word <span class="token keyword keyword-in">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>words<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-for">for</span> j <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>word<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            prefix<span class="token punctuation">,</span> suffix <span class="token operator">=</span> word<span class="token punctuation">[</span><span class="token punctuation">:</span>j<span class="token punctuation">]</span><span class="token punctuation">,</span> word<span class="token punctuation">[</span>j<span class="token punctuation">:</span><span class="token punctuation">]</span>
+            <span class="token keyword keyword-if">if</span> is_palindrome<span class="token punctuation">(</span>prefix<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                reversed_suffix <span class="token operator">=</span> suffix<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span>
+                <span class="token keyword keyword-if">if</span> reversed_suffix <span class="token keyword keyword-in">in</span> word_dict <span class="token keyword keyword-and">and</span> word_dict<span class="token punctuation">[</span>reversed_suffix<span class="token punctuation">]</span> <span class="token operator">!=</span> i<span class="token punctuation">:</span>
+                    result<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">[</span>word_dict<span class="token punctuation">[</span>reversed_suffix<span class="token punctuation">]</span><span class="token punctuation">,</span> i<span class="token punctuation">]</span><span class="token punctuation">)</span>
+            <span class="token keyword keyword-if">if</span> j <span class="token operator">!=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>word<span class="token punctuation">)</span> <span class="token keyword keyword-and">and</span> is_palindrome<span class="token punctuation">(</span>suffix<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                reversed_prefix <span class="token operator">=</span> prefix<span class="token punctuation">[</span><span class="token punctuation">:</span><span class="token punctuation">:</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">]</span>
+                <span class="token keyword keyword-if">if</span> reversed_prefix <span class="token keyword keyword-in">in</span> word_dict <span class="token keyword keyword-and">and</span> word_dict<span class="token punctuation">[</span>reversed_prefix<span class="token punctuation">]</span> <span class="token operator">!=</span> i<span class="token punctuation">:</span>
+                    result<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">[</span>i<span class="token punctuation">,</span> word_dict<span class="token punctuation">[</span>reversed_prefix<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-return">return</span> result
+
+<span class="token comment"># Example usage</span>
+words <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token string">"abcd"</span><span class="token punctuation">,</span> <span class="token string">"dcba"</span><span class="token punctuation">,</span> <span class="token string">"lls"</span><span class="token punctuation">,</span> <span class="token string">"s"</span><span class="token punctuation">,</span> <span class="token string">"sssll"</span><span class="token punctuation">]</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>palindrome_pairs<span class="token punctuation">(</span>words<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre><p><strong>Subarray Product Less Than K:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">num_subarray_product_less_than_k</span><span class="token punctuation">(</span>nums<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> k <span class="token operator">&lt;=</span> <span class="token number">1</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token number">0</span>
+    product <span class="token operator">=</span> <span class="token number">1</span>
+    left <span class="token operator">=</span> <span class="token number">0</span>
+    result <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword keyword-for">for</span> right <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        product <span class="token operator">*=</span> nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span>
+        <span class="token keyword keyword-while">while</span> product
+
+ <span class="token operator">&gt;=</span> k<span class="token punctuation">:</span>
+            product <span class="token operator">/=</span> nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span>
+            left <span class="token operator">+=</span> <span class="token number">1</span>
+        result <span class="token operator">+=</span> right <span class="token operator">-</span> left <span class="token operator">+</span> <span class="token number">1</span>
+    <span class="token keyword keyword-return">return</span> result
+
+<span class="token comment"># Example usage</span>
+nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">]</span>
+k <span class="token operator">=</span> <span class="token number">100</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>num_subarray_product_less_than_k<span class="token punctuation">(</span>nums<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre><p><strong>Longest Substring with At Most K Distinct Characters:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">length_of_longest_substring_k_distinct</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> k <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token number">0</span>
+    char_count <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+    left <span class="token operator">=</span> <span class="token number">0</span>
+    max_length <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword keyword-for">for</span> right <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        char_count<span class="token punctuation">[</span>s<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">=</span> char_count<span class="token punctuation">.</span>get<span class="token punctuation">(</span>s<span class="token punctuation">[</span>right<span class="token punctuation">]</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span>
+        <span class="token keyword keyword-while">while</span> <span class="token builtin">len</span><span class="token punctuation">(</span>char_count<span class="token punctuation">)</span> <span class="token operator">&gt;</span> k<span class="token punctuation">:</span>
+            char_count<span class="token punctuation">[</span>s<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">-=</span> <span class="token number">1</span>
+            <span class="token keyword keyword-if">if</span> char_count<span class="token punctuation">[</span>s<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+                <span class="token keyword keyword-del">del</span> char_count<span class="token punctuation">[</span>s<span class="token punctuation">[</span>left<span class="token punctuation">]</span><span class="token punctuation">]</span>
+            left <span class="token operator">+=</span> <span class="token number">1</span>
+        max_length <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>max_length<span class="token punctuation">,</span> right <span class="token operator">-</span> left <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token keyword keyword-return">return</span> max_length
+
+<span class="token comment"># Example usage</span>
+s <span class="token operator">=</span> <span class="token string">"eceba"</span>
+k <span class="token operator">=</span> <span class="token number">2</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>length_of_longest_substring_k_distinct<span class="token punctuation">(</span>s<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre><p><strong>Minimum Swaps to Group All 1's Together:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">min_swaps</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    total_ones <span class="token operator">=</span> <span class="token builtin">sum</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span>
+    max_ones_in_window <span class="token operator">=</span> <span class="token number">0</span>
+    current_ones <span class="token operator">=</span> <span class="token number">0</span>
+    left <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword keyword-for">for</span> right <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        current_ones <span class="token operator">+=</span> data<span class="token punctuation">[</span>right<span class="token punctuation">]</span>
+        <span class="token keyword keyword-if">if</span> right <span class="token operator">-</span> left <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">&gt;</span> total_ones<span class="token punctuation">:</span>
+            current_ones <span class="token operator">-=</span> data<span class="token punctuation">[</span>left<span class="token punctuation">]</span>
+            left <span class="token operator">+=</span> <span class="token number">1</span>
+        max_ones_in_window <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>max_ones_in_window<span class="token punctuation">,</span> current_ones<span class="token punctuation">)</span>
+    <span class="token keyword keyword-return">return</span> total_ones <span class="token operator">-</span> max_ones_in_window
+
+<span class="token comment"># Example usage</span>
+data <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>min_swaps<span class="token punctuation">(</span>data<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre><p><strong>Max Consecutive Ones III:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">longest_ones</span><span class="token punctuation">(</span>nums<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    left <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword keyword-for">for</span> right <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> nums<span class="token punctuation">[</span>right<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            k <span class="token operator">-=</span> <span class="token number">1</span>
+        <span class="token keyword keyword-if">if</span> k <span class="token operator">&lt;</span> <span class="token number">0</span><span class="token punctuation">:</span>
+            <span class="token keyword keyword-if">if</span> nums<span class="token punctuation">[</span>left<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+                k <span class="token operator">+=</span> <span class="token number">1</span>
+            left <span class="token operator">+=</span> <span class="token number">1</span>
+    <span class="token keyword keyword-return">return</span> right <span class="token operator">-</span> left <span class="token operator">+</span> <span class="token number">1</span>
+
+<span class="token comment"># Example usage</span>
+nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">]</span>
+k <span class="token operator">=</span> <span class="token number">2</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>longest_ones<span class="token punctuation">(</span>nums<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre><p>Feel free to work on these problems, and if you have any questions or need further explanations, let me know!</p>
+
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>

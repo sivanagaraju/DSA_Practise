@@ -1,0 +1,418 @@
+<!DOCTYPE html><html><head>
+      <title>slidingWindow</title>
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      
+      <link rel="stylesheet" href="file:///c:\Users\sivan\.vscode\extensions\shd101wyy.markdown-preview-enhanced-0.8.13\crossnote\dependencies\katex\katex.min.css">
+      
+      
+      
+      
+      
+      <style>
+      code[class*=language-],pre[class*=language-]{color:#333;background:0 0;font-family:Consolas,"Liberation Mono",Menlo,Courier,monospace;text-align:left;white-space:pre;word-spacing:normal;word-break:normal;word-wrap:normal;line-height:1.4;-moz-tab-size:8;-o-tab-size:8;tab-size:8;-webkit-hyphens:none;-moz-hyphens:none;-ms-hyphens:none;hyphens:none}pre[class*=language-]{padding:.8em;overflow:auto;border-radius:3px;background:#f5f5f5}:not(pre)>code[class*=language-]{padding:.1em;border-radius:.3em;white-space:normal;background:#f5f5f5}.token.blockquote,.token.comment{color:#969896}.token.cdata{color:#183691}.token.doctype,.token.macro.property,.token.punctuation,.token.variable{color:#333}.token.builtin,.token.important,.token.keyword,.token.operator,.token.rule{color:#a71d5d}.token.attr-value,.token.regex,.token.string,.token.url{color:#183691}.token.atrule,.token.boolean,.token.code,.token.command,.token.constant,.token.entity,.token.number,.token.property,.token.symbol{color:#0086b3}.token.prolog,.token.selector,.token.tag{color:#63a35c}.token.attr-name,.token.class,.token.class-name,.token.function,.token.id,.token.namespace,.token.pseudo-class,.token.pseudo-element,.token.url-reference .token.variable{color:#795da3}.token.entity{cursor:help}.token.title,.token.title .token.punctuation{font-weight:700;color:#1d3e81}.token.list{color:#ed6a43}.token.inserted{background-color:#eaffea;color:#55a532}.token.deleted{background-color:#ffecec;color:#bd2c00}.token.bold{font-weight:700}.token.italic{font-style:italic}.language-json .token.property{color:#183691}.language-markup .token.tag .token.punctuation{color:#333}.language-css .token.function,code.language-css{color:#0086b3}.language-yaml .token.atrule{color:#63a35c}code.language-yaml{color:#183691}.language-ruby .token.function{color:#333}.language-markdown .token.url{color:#795da3}.language-makefile .token.symbol{color:#795da3}.language-makefile .token.variable{color:#183691}.language-makefile .token.builtin{color:#0086b3}.language-bash .token.keyword{color:#0086b3}pre[data-line]{position:relative;padding:1em 0 1em 3em}pre[data-line] .line-highlight-wrapper{position:absolute;top:0;left:0;background-color:transparent;display:block;width:100%}pre[data-line] .line-highlight{position:absolute;left:0;right:0;padding:inherit 0;margin-top:1em;background:hsla(24,20%,50%,.08);background:linear-gradient(to right,hsla(24,20%,50%,.1) 70%,hsla(24,20%,50%,0));pointer-events:none;line-height:inherit;white-space:pre}pre[data-line] .line-highlight:before,pre[data-line] .line-highlight[data-end]:after{content:attr(data-start);position:absolute;top:.4em;left:.6em;min-width:1em;padding:0 .5em;background-color:hsla(24,20%,50%,.4);color:#f4f1ef;font:bold 65%/1.5 sans-serif;text-align:center;vertical-align:.3em;border-radius:999px;text-shadow:none;box-shadow:0 1px #fff}pre[data-line] .line-highlight[data-end]:after{content:attr(data-end);top:auto;bottom:.4em}html body{font-family:'Helvetica Neue',Helvetica,'Segoe UI',Arial,freesans,sans-serif;font-size:16px;line-height:1.6;color:#333;background-color:#fff;overflow:initial;box-sizing:border-box;word-wrap:break-word}html body>:first-child{margin-top:0}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{line-height:1.2;margin-top:1em;margin-bottom:16px;color:#000}html body h1{font-size:2.25em;font-weight:300;padding-bottom:.3em}html body h2{font-size:1.75em;font-weight:400;padding-bottom:.3em}html body h3{font-size:1.5em;font-weight:500}html body h4{font-size:1.25em;font-weight:600}html body h5{font-size:1.1em;font-weight:600}html body h6{font-size:1em;font-weight:600}html body h1,html body h2,html body h3,html body h4,html body h5{font-weight:600}html body h5{font-size:1em}html body h6{color:#5c5c5c}html body strong{color:#000}html body del{color:#5c5c5c}html body a:not([href]){color:inherit;text-decoration:none}html body a{color:#08c;text-decoration:none}html body a:hover{color:#00a3f5;text-decoration:none}html body img{max-width:100%}html body>p{margin-top:0;margin-bottom:16px;word-wrap:break-word}html body>ol,html body>ul{margin-bottom:16px}html body ol,html body ul{padding-left:2em}html body ol.no-list,html body ul.no-list{padding:0;list-style-type:none}html body ol ol,html body ol ul,html body ul ol,html body ul ul{margin-top:0;margin-bottom:0}html body li{margin-bottom:0}html body li.task-list-item{list-style:none}html body li>p{margin-top:0;margin-bottom:0}html body .task-list-item-checkbox{margin:0 .2em .25em -1.8em;vertical-align:middle}html body .task-list-item-checkbox:hover{cursor:pointer}html body blockquote{margin:16px 0;font-size:inherit;padding:0 15px;color:#5c5c5c;background-color:#f0f0f0;border-left:4px solid #d6d6d6}html body blockquote>:first-child{margin-top:0}html body blockquote>:last-child{margin-bottom:0}html body hr{height:4px;margin:32px 0;background-color:#d6d6d6;border:0 none}html body table{margin:10px 0 15px 0;border-collapse:collapse;border-spacing:0;display:block;width:100%;overflow:auto;word-break:normal;word-break:keep-all}html body table th{font-weight:700;color:#000}html body table td,html body table th{border:1px solid #d6d6d6;padding:6px 13px}html body dl{padding:0}html body dl dt{padding:0;margin-top:16px;font-size:1em;font-style:italic;font-weight:700}html body dl dd{padding:0 16px;margin-bottom:16px}html body code{font-family:Menlo,Monaco,Consolas,'Courier New',monospace;font-size:.85em;color:#000;background-color:#f0f0f0;border-radius:3px;padding:.2em 0}html body code::after,html body code::before{letter-spacing:-.2em;content:'\00a0'}html body pre>code{padding:0;margin:0;word-break:normal;white-space:pre;background:0 0;border:0}html body .highlight{margin-bottom:16px}html body .highlight pre,html body pre{padding:1em;overflow:auto;line-height:1.45;border:#d6d6d6;border-radius:3px}html body .highlight pre{margin-bottom:0;word-break:normal}html body pre code,html body pre tt{display:inline;max-width:initial;padding:0;margin:0;overflow:initial;line-height:inherit;word-wrap:normal;background-color:transparent;border:0}html body pre code:after,html body pre code:before,html body pre tt:after,html body pre tt:before{content:normal}html body blockquote,html body dl,html body ol,html body p,html body pre,html body ul{margin-top:0;margin-bottom:16px}html body kbd{color:#000;border:1px solid #d6d6d6;border-bottom:2px solid #c7c7c7;padding:2px 4px;background-color:#f0f0f0;border-radius:3px}@media print{html body{background-color:#fff}html body h1,html body h2,html body h3,html body h4,html body h5,html body h6{color:#000;page-break-after:avoid}html body blockquote{color:#5c5c5c}html body pre{page-break-inside:avoid}html body table{display:table}html body img{display:block;max-width:100%;max-height:100%}html body code,html body pre{word-wrap:break-word;white-space:pre}}.markdown-preview{width:100%;height:100%;box-sizing:border-box}.markdown-preview ul{list-style:disc}.markdown-preview ul ul{list-style:circle}.markdown-preview ul ul ul{list-style:square}.markdown-preview ol{list-style:decimal}.markdown-preview ol ol,.markdown-preview ul ol{list-style-type:lower-roman}.markdown-preview ol ol ol,.markdown-preview ol ul ol,.markdown-preview ul ol ol,.markdown-preview ul ul ol{list-style-type:lower-alpha}.markdown-preview .newpage,.markdown-preview .pagebreak{page-break-before:always}.markdown-preview pre.line-numbers{position:relative;padding-left:3.8em;counter-reset:linenumber}.markdown-preview pre.line-numbers>code{position:relative}.markdown-preview pre.line-numbers .line-numbers-rows{position:absolute;pointer-events:none;top:1em;font-size:100%;left:0;width:3em;letter-spacing:-1px;border-right:1px solid #999;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.markdown-preview pre.line-numbers .line-numbers-rows>span{pointer-events:none;display:block;counter-increment:linenumber}.markdown-preview pre.line-numbers .line-numbers-rows>span:before{content:counter(linenumber);color:#999;display:block;padding-right:.8em;text-align:right}.markdown-preview .mathjax-exps .MathJax_Display{text-align:center!important}.markdown-preview:not([data-for=preview]) .code-chunk .code-chunk-btn-group{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .status{display:none}.markdown-preview:not([data-for=preview]) .code-chunk .output-div{margin-bottom:16px}.markdown-preview .md-toc{padding:0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link div,.markdown-preview .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}.markdown-preview .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}.scrollbar-style::-webkit-scrollbar{width:8px}.scrollbar-style::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}.scrollbar-style::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode]){position:relative;width:100%;height:100%;top:0;left:0;margin:0;padding:0;overflow:auto}html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{position:relative;top:0;min-height:100vh}@media screen and (min-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em calc(50% - 457px + 2em)}}@media screen and (max-width:914px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode]) .markdown-preview{font-size:14px!important;padding:1em}}@media print{html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{display:none}}html body[for=html-export]:not([data-presentation-mode]) #sidebar-toc-btn{position:fixed;bottom:8px;left:8px;font-size:28px;cursor:pointer;color:inherit;z-index:99;width:32px;text-align:center;opacity:.4}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] #sidebar-toc-btn{opacity:1}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc{position:fixed;top:0;left:0;width:300px;height:100%;padding:32px 0 48px 0;font-size:14px;box-shadow:0 0 4px rgba(150,150,150,.33);box-sizing:border-box;overflow:auto;background-color:inherit}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar{width:8px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-track{border-radius:10px;background-color:transparent}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc::-webkit-scrollbar-thumb{border-radius:5px;background-color:rgba(150,150,150,.66);border:4px solid rgba(150,150,150,.66);background-clip:content-box}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc a{text-decoration:none}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc{padding:0 16px}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link{display:inline;padding:.25rem 0}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link div,html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper .md-toc-link p{display:inline}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .md-sidebar-toc .md-toc .md-toc-link-wrapper.highlighted .md-toc-link{font-weight:800}html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{left:300px;width:calc(100% - 300px);padding:2em calc(50% - 457px - 300px / 2);margin:0;box-sizing:border-box}@media screen and (max-width:1274px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{padding:2em}}@media screen and (max-width:450px){html body[for=html-export]:not([data-presentation-mode])[html-show-sidebar-toc] .markdown-preview{width:100%}}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .markdown-preview{left:50%;transform:translateX(-50%)}html body[for=html-export]:not([data-presentation-mode]):not([html-show-sidebar-toc]) .md-sidebar-toc{display:none}
+/* Please visit the URL below for more information: */
+/*   https://shd101wyy.github.io/markdown-preview-enhanced/#/customize-css */
+
+      </style>
+      <!-- The content below will be included at the end of the <head> element. --><script type="text/javascript">
+  document.addEventListener("DOMContentLoaded", function () {
+    // your code here
+  });
+</script></head><body for="html-export">
+    
+    
+      <div class="crossnote markdown-preview  ">
+      
+<h3 id="sliding-window-concept">Sliding Window Concept </h3>
+<p><strong>Concept Explanation:</strong><br>
+The Sliding Window technique is used to reduce the time complexity of algorithms that require checking all subsets of a given size in a dataset. It involves maintaining a window that slides over the dataset to check contiguous subarrays or substrings efficiently.</p>
+<p><strong>When to Use Sliding Window:</strong></p>
+<ul>
+<li>The problem involves a contiguous subarray or substring.</li>
+<li>You need to find the maximum, minimum, or a specific condition within a subarray or substring of a certain size.</li>
+<li>You need to optimize the time complexity by avoiding nested loops.</li>
+</ul>
+<p><strong>Visualizing Sliding Window:</strong></p>
+<p>Consider the problem of finding the maximum sum of a subarray of size k. Let's visualize this:</p>
+<pre data-role="codeBlock" data-info="" class="language-text"><code>Array: [1, 2, 3, 4, 5, 6]
+k = 3
+
+Initial window:
+  [1, 2, 3] -&gt; Sum = 6
+
+Steps:
+1. Slide the window to the right by one element:
+   [2, 3, 4] -&gt; Sum = 9
+
+2. Continue sliding the window:
+   [3, 4, 5] -&gt; Sum = 12
+   [4, 5, 6] -&gt; Sum = 15
+</code></pre><p><strong>General Template for Sliding Window:</strong></p>
+<p>While the specific implementation can vary based on the problem, a general template for the Sliding Window approach can be outlined as follows:</p>
+<ol>
+<li>
+<p><strong>Initialize the Window:</strong></p>
+<ul>
+<li>Set the initial window size and calculate the sum or condition for the initial window.</li>
+</ul>
+</li>
+<li>
+<p><strong>Slide the Window:</strong></p>
+<ul>
+<li>Move the window one element at a time.</li>
+<li>Update the sum or condition by adding the new element and removing the element that is no longer in the window.</li>
+</ul>
+</li>
+<li>
+<p><strong>Check the Condition:</strong></p>
+<ul>
+<li>At each step, check if the current window satisfies the condition (e.g., maximum sum, minimum length).</li>
+</ul>
+</li>
+</ol>
+<h3 id="checklist-for-sliding-window-problems">Checklist for Sliding Window Problems </h3>
+<ol>
+<li>
+<p><strong>Problem Type</strong>:</p>
+<ul>
+<li>Does the problem involve subarrays or substrings?</li>
+<li>Is there a fixed window size or a condition that needs to be met?</li>
+</ul>
+</li>
+<li>
+<p><strong>Initialization</strong>:</p>
+<ul>
+<li>Initialize the window (e.g., set initial sums or counts).</li>
+<li>Define variables to keep track of the current window state.</li>
+</ul>
+</li>
+<li>
+<p><strong>Sliding Mechanism</strong>:</p>
+<ul>
+<li>How does the window slide (e.g., by adding the next element and removing the previous element)?</li>
+<li>What conditions need to be checked or updated when the window slides?</li>
+</ul>
+</li>
+<li>
+<p><strong>Condition Check</strong>:</p>
+<ul>
+<li>What condition must be met (e.g., sum &gt;= target, length of substring)?</li>
+<li>How to update results based on the current window?</li>
+</ul>
+</li>
+</ol>
+<h3 id="template-for-sliding-window">Template for Sliding Window </h3>
+<p>The template for the Sliding Window approach can vary slightly based on the specific problem, but a general structure is:</p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">sliding_window</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># Initialize variables</span>
+    window_sum <span class="token operator">=</span> <span class="token number">0</span>
+    max_sum <span class="token operator">=</span> <span class="token number">0</span>
+    window_start <span class="token operator">=</span> <span class="token number">0</span>
+
+    <span class="token keyword keyword-for">for</span> window_end <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment"># Add the next element</span>
+        window_sum <span class="token operator">+=</span> arr<span class="token punctuation">[</span>window_end<span class="token punctuation">]</span>
+
+        <span class="token comment"># Slide the window if we have reached the desired window size 'k'</span>
+        <span class="token keyword keyword-if">if</span> window_end <span class="token operator">&gt;=</span> k <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">:</span>
+            <span class="token comment"># Update the result</span>
+            max_sum <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>max_sum<span class="token punctuation">,</span> window_sum<span class="token punctuation">)</span>
+            <span class="token comment"># Subtract the element going out of the window</span>
+            window_sum <span class="token operator">-=</span> arr<span class="token punctuation">[</span>window_start<span class="token punctuation">]</span>
+            <span class="token comment"># Slide the window ahead</span>
+            window_start <span class="token operator">+=</span> <span class="token number">1</span>
+
+    <span class="token keyword keyword-return">return</span> max_sum
+
+<span class="token comment"># Example usage</span>
+arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+k <span class="token operator">=</span> <span class="token number">3</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>sliding_window<span class="token punctuation">(</span>arr<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Example output</span>
+</code></pre><h3 id="example-problems-and-solutions">Example Problems and Solutions </h3>
+<p><strong>Example 1: Maximum Sum Subarray of Size K</strong></p>
+<p><strong>Problem Statement:</strong><br>
+Given an array of integers and a number k, find the maximum sum of a subarray of size k.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Array: [2, 1, 5, 1, 3, 2], k = 3</span>
+<span class="token comment"># Expected Output: 9 (subarray [5, 1, 3] has the maximum sum)</span>
+</code></pre><p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">max_sum_subarray</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    max_sum<span class="token punctuation">,</span> window_sum <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span>
+
+    <span class="token keyword keyword-for">for</span> i <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        window_sum <span class="token operator">+=</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span>  <span class="token comment"># Add the next element</span>
+        <span class="token keyword keyword-if">if</span> i <span class="token operator">&gt;=</span> k <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">:</span>
+            max_sum <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>max_sum<span class="token punctuation">,</span> window_sum<span class="token punctuation">)</span>
+            window_sum <span class="token operator">-=</span> arr<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token punctuation">(</span>k <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span>  <span class="token comment"># Subtract the element going out of the window</span>
+
+    <span class="token keyword keyword-return">return</span> max_sum
+
+<span class="token comment"># Example usage</span>
+arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+k <span class="token operator">=</span> <span class="token number">3</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>max_sum_subarray<span class="token punctuation">(</span>arr<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: 9</span>
+</code></pre><p><strong>Example 2: Smallest Subarray with a Given Sum</strong></p>
+<p><strong>Problem Statement:</strong><br>
+Given an array of positive integers and a positive integer S, find the length of the smallest contiguous subarray whose sum is greater than or equal to S. If there isn't one, return 0.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># Array: [2, 1, 5, 2, 3, 2], S = 7</span>
+<span class="token comment"># Expected Output: 2 (subarray [5, 2] has the smallest length)</span>
+</code></pre><p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">min_subarray_length</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> arr<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    min_length <span class="token operator">=</span> <span class="token builtin">float</span><span class="token punctuation">(</span><span class="token string">'inf'</span><span class="token punctuation">)</span>
+    window_sum <span class="token operator">=</span> <span class="token number">0</span>
+    window_start <span class="token operator">=</span> <span class="token number">0</span>
+
+    <span class="token keyword keyword-for">for</span> window_end <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        window_sum <span class="token operator">+=</span> arr<span class="token punctuation">[</span>window_end<span class="token punctuation">]</span>  <span class="token comment"># Add the next element</span>
+        <span class="token keyword keyword-while">while</span> window_sum <span class="token operator">&gt;=</span> s<span class="token punctuation">:</span>
+            min_length <span class="token operator">=</span> <span class="token builtin">min</span><span class="token punctuation">(</span>min_length<span class="token punctuation">,</span> window_end <span class="token operator">-</span> window_start <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+            window_sum <span class="token operator">-=</span> arr<span class="token punctuation">[</span>window_start<span class="token punctuation">]</span>  <span class="token comment"># Subtract the element going out of the window</span>
+            window_start <span class="token operator">+=</span> <span class="token number">1</span>
+
+    <span class="token keyword keyword-return">return</span> min_length <span class="token keyword keyword-if">if</span> min_length <span class="token operator">!=</span> <span class="token builtin">float</span><span class="token punctuation">(</span><span class="token string">'inf'</span><span class="token punctuation">)</span> <span class="token keyword keyword-else">else</span> <span class="token number">0</span>
+
+<span class="token comment"># Example usage</span>
+arr <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">]</span>
+s <span class="token operator">=</span> <span class="token number">7</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>min_subarray_length<span class="token punctuation">(</span>s<span class="token punctuation">,</span> arr<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: 2</span>
+</code></pre><p><strong>Example 3: Longest Substring with K Distinct Characters</strong></p>
+<p><strong>Problem Statement:</strong><br>
+Given a string, find the length of the longest substring in it with at most K distinct characters.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># String: "araaci", K = 2</span>
+<span class="token comment"># Expected Output: 4 (longest substring with 2 distinct characters is "araa")</span>
+</code></pre><p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">longest_substring_with_k_distinct</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    max_length <span class="token operator">=</span> <span class="token number">0</span>
+    window_start <span class="token operator">=</span> <span class="token number">0</span>
+    char_frequency <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-for">for</span> window_end <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        right_char <span class="token operator">=</span> s<span class="token punctuation">[</span>window_end<span class="token punctuation">]</span>
+        char_frequency<span class="token punctuation">[</span>right_char<span class="token punctuation">]</span> <span class="token operator">=</span> char_frequency<span class="token punctuation">.</span>get<span class="token punctuation">(</span>right_char<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span>
+
+        <span class="token keyword keyword-while">while</span> <span class="token builtin">len</span><span class="token punctuation">(</span>char_frequency<span class="token punctuation">)</span> <span class="token operator">&gt;</span> k<span class="token punctuation">:</span>
+            left_char <span class="token operator">=</span> s<span class="token punctuation">[</span>window_start<span class="token punctuation">]</span>
+            char_frequency<span class="token punctuation">[</span>left_char<span class="token punctuation">]</span> <span class="token operator">-=</span> <span class="token number">1</span>
+            <span class="token keyword keyword-if">if</span> char_frequency<span class="token punctuation">[</span>left_char<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+                <span class="token keyword keyword-del">del</span> char_frequency<span class="token punctuation">[</span>left_char<span class="token punctuation">]</span>
+            window_start <span class="token operator">+=</span> <span class="token number">1</span>
+
+        max_length <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>max_length<span class="token punctuation">,</span> window_end <span class="token operator">-</span> window_start <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-return">return</span> max_length
+
+<span class="token comment"># Example usage</span>
+s <span class="token operator">=</span> <span class="token string">"araaci"</span>
+k <span class="token operator">=</span> <span class="token number">2</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>longest_substring_with_k_distinct<span class="token punctuation">(</span>s<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: 4</span>
+</code></pre><h3 id="additional-practice-questions">Additional Practice Questions </h3>
+<ol>
+<li>
+<p><strong>Longest Substring Without Repeating Characters</strong>:<br>
+Given a string, find the length of the longest substring without repeating characters.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># String: "abcabcbb"</span>
+<span class="token comment"># Expected Output: 3 (longest substring without repeating characters is "abc")</span>
+</code></pre></li>
+<li>
+<p><strong>Longest Repeating Character Replacement</strong>:<br>
+Given a string s and an integer k, return the length of the longest substring containing the same letter you can get after performing the allowed number of replacements.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># String: "AABABBA", k = 1</span>
+<span class="token comment"># Expected Output: 4 (replace the one 'A' with 'B' to form "AABBBBA")</span>
+</code></pre></li>
+<li>
+<p><strong>Permutation in String</strong>:<br>
+Given two strings s1 and s2, return true if s2 contains a permutation of s1, or false otherwise.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># s1 = "ab", s2 = "eidbaooo"</span>
+<span class="token comment"># Expected Output: True (s2 contains one permutation of s1 ("ba"))</span>
+</code></pre></li>
+<li>
+<p><strong>Longest Subarray with Ones after Replacement</strong>:<br>
+Given a binary array nums and an integer k, return the length of the longest subarray containing only 1's you can get after performing at most k replacements.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># nums = [1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0], k = 2</span>
+<span class="token comment"># Expected Output: 6 (replace the two 0's with 1's to form the longest subarray with 1's)</span>
+</code></pre></li>
+<li>
+<p><strong>Maximum Sum of Two Non-Overlapping Subarrays</strong>:<br>
+Given an array nums of positive integers and two positive integers firstLen and secondLen, return the maximum sum of elements in two non-overlapping subarrays of lengths firstLen and secondLen.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># nums = [0,6,5,2,2,5,1,9,4], firstLen = 1, secondLen = 2</span>
+<span class="token comment"># Expected Output: 20 (subarrays [9] and [6, 5])</span>
+</code></pre></li>
+</ol>
+<h3 id="solutions">Solutions </h3>
+<p><strong>Longest Substring Without Repeating Characters:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">length_of_longest_substring</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    window_start <span class="token operator">=</span> <span class="token number">0</span>
+    max_length <span class="token operator">=</span> <span class="token number">0</span>
+    char_index_map <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-for">for</span> window_end <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        right_char <span class="token operator">=</span> s<span class="token punctuation">[</span>window_end<span class="token punctuation">]</span>
+        <span class="token keyword keyword-if">if</span> right_char <span class="token keyword keyword-in">in</span> char_index_map<span class="token punctuation">:</span>
+            window_start <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>window_start<span class="token punctuation">,</span> char_index_map<span class="token punctuation">[</span>right_char<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        char_index_map<span class="token punctuation">[</span>right_char<span class="token punctuation">]</span> <span class="token operator">=</span> window_end
+        max_length <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>max_length<span class="token punctuation">,</span> window_end <span class="token operator">-</span> window_start <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-return">return</span> max_length
+
+<span class="token comment"># Example usage</span>
+s <span class="token operator">=</span> <span class="token string">"abcabcbb"</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>length_of_longest_substring<span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: 3</span>
+</code></pre><p><strong>Longest Repeating Character Replacement:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">character_replacement</span><span class="token punctuation">(</span>s<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    window_start <span class="token operator">=</span> <span class="token number">0</span>
+    max_length <span class="token operator">=</span> <span class="token number">0</span>
+    max_count <span class="token operator">=</span> <span class="token number">0</span>
+    frequency_map <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+
+    <span class="token keyword keyword-for">for</span> window_end <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        right_char <span class="token operator">=</span> s<span class="token punctuation">[</span>window_end<span class="token punctuation">]</span>
+        frequency_map<span class="token punctuation">[</span>right_char<span class="token punctuation">]</span> <span class="token operator">=</span> frequency_map<span class="token punctuation">.</span>get<span class="token punctuation">(</span>right_char<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span>
+        max_count <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>max_count<span class="token punctuation">,</span> frequency_map<span class="token punctuation">[</span>right_char<span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+        <span class="token keyword keyword-if">if</span> window_end <span class="token operator">-</span> window_start <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">-</span> max_count <span class="token operator">&gt;</span> k<span class="token punctuation">:</span>
+            left_char <span class="token operator">=</span> s<span class="token punctuation">[</span>window_start<span class="token punctuation">]</span>
+            frequency_map<span class="token punctuation">[</span>left_char<span class="token punctuation">]</span> <span class="token operator">-=</span> <span class="token number">1</span>
+            window_start <span class="token operator">+=</span> <span class="token number">1</span>
+
+        max_length <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>max_length<span class="token punctuation">,</span> window_end <span class="token operator">-</span> window_start <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-return">return</span> max_length
+
+<span class="token comment"># Example usage</span>
+s <span class="token operator">=</span> <span class="token string">"AABABBA"</span>
+k <span class="token operator">=</span> <span class="token number">1</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>character_replacement<span class="token punctuation">(</span>s<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: 4</span>
+</code></pre><p><strong>Permutation in String:</strong></p>
+<p><strong>Problem Statement:</strong><br>
+Given two strings <code>s1</code> and <code>s2</code>, return true if <code>s2</code> contains a permutation of <code>s1</code>, or false otherwise.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># s1 = "ab", s2 = "eidbaooo"</span>
+<span class="token comment"># Expected Output: True (s2 contains one permutation of s1 ("ba"))</span>
+</code></pre><p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">check_inclusion</span><span class="token punctuation">(</span>s1<span class="token punctuation">,</span> s2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-if">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>s1<span class="token punctuation">)</span> <span class="token operator">&gt;</span> <span class="token builtin">len</span><span class="token punctuation">(</span>s2<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-return">return</span> <span class="token boolean">False</span>
+
+    s1_count <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">*</span> <span class="token number">26</span>
+    s2_count <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">*</span> <span class="token number">26</span>
+
+    <span class="token keyword keyword-for">for</span> i <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>s1<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        s1_count<span class="token punctuation">[</span><span class="token builtin">ord</span><span class="token punctuation">(</span>s1<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token builtin">ord</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span>
+        s2_count<span class="token punctuation">[</span><span class="token builtin">ord</span><span class="token punctuation">(</span>s2<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token builtin">ord</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span>
+
+    matches <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword keyword-for">for</span> i <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">26</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> s1_count<span class="token punctuation">[</span>i<span class="token punctuation">]</span> <span class="token operator">==</span> s2_count<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">:</span>
+            matches <span class="token operator">+=</span> <span class="token number">1</span>
+
+    l <span class="token operator">=</span> <span class="token number">0</span>
+    <span class="token keyword keyword-for">for</span> r <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>s1<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token builtin">len</span><span class="token punctuation">(</span>s2<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> matches <span class="token operator">==</span> <span class="token number">26</span><span class="token punctuation">:</span>
+            <span class="token keyword keyword-return">return</span> <span class="token boolean">True</span>
+
+        index <span class="token operator">=</span> <span class="token builtin">ord</span><span class="token punctuation">(</span>s2<span class="token punctuation">[</span>r<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token builtin">ord</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">)</span>
+        s2_count<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword keyword-if">if</span> s1_count<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token operator">==</span> s2_count<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">:</span>
+            matches <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword keyword-elif">elif</span> s1_count<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">==</span> s2_count<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">:</span>
+            matches <span class="token operator">-=</span> <span class="token number">1</span>
+
+        index <span class="token operator">=</span> <span class="token builtin">ord</span><span class="token punctuation">(</span>s2<span class="token punctuation">[</span>l<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">-</span> <span class="token builtin">ord</span><span class="token punctuation">(</span><span class="token string">'a'</span><span class="token punctuation">)</span>
+        s2_count<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token operator">-=</span> <span class="token number">1</span>
+        <span class="token keyword keyword-if">if</span> s1_count<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token operator">==</span> s2_count<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">:</span>
+            matches <span class="token operator">+=</span> <span class="token number">1</span>
+        <span class="token keyword keyword-elif">elif</span> s1_count<span class="token punctuation">[</span>index<span class="token punctuation">]</span> <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">==</span> s2_count<span class="token punctuation">[</span>index<span class="token punctuation">]</span><span class="token punctuation">:</span>
+            matches <span class="token operator">-=</span> <span class="token number">1</span>
+        l <span class="token operator">+=</span> <span class="token number">1</span>
+
+    <span class="token keyword keyword-return">return</span> matches <span class="token operator">==</span> <span class="token number">26</span>
+
+<span class="token comment"># Example usage</span>
+s1 <span class="token operator">=</span> <span class="token string">"ab"</span>
+s2 <span class="token operator">=</span> <span class="token string">"eidbaooo"</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>check_inclusion<span class="token punctuation">(</span>s1<span class="token punctuation">,</span> s2<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: True</span>
+</code></pre><p><strong>Longest Subarray with Ones after Replacement:</strong></p>
+<p><strong>Problem Statement:</strong><br>
+Given a binary array <code>nums</code> and an integer <code>k</code>, return the length of the longest subarray containing only 1's you can get after performing at most <code>k</code> replacements.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># nums = [1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 0], k = 2</span>
+<span class="token comment"># Expected Output: 6 (replace the two 0's with 1's to form the longest subarray with 1's)</span>
+</code></pre><p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">longest_ones</span><span class="token punctuation">(</span>nums<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    window_start <span class="token operator">=</span> <span class="token number">0</span>
+    max_length <span class="token operator">=</span> <span class="token number">0</span>
+    max_ones_count <span class="token operator">=</span> <span class="token number">0</span>
+
+    <span class="token keyword keyword-for">for</span> window_end <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>nums<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword keyword-if">if</span> nums<span class="token punctuation">[</span>window_end<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">:</span>
+            max_ones_count <span class="token operator">+=</span> <span class="token number">1</span>
+
+        <span class="token keyword keyword-if">if</span> window_end <span class="token operator">-</span> window_start <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">-</span> max_ones_count <span class="token operator">&gt;</span> k<span class="token punctuation">:</span>
+            <span class="token keyword keyword-if">if</span> nums<span class="token punctuation">[</span>window_start<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">:</span>
+                max_ones_count <span class="token operator">-=</span> <span class="token number">1</span>
+            window_start <span class="token operator">+=</span> <span class="token number">1</span>
+
+        max_length <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>max_length<span class="token punctuation">,</span> window_end <span class="token operator">-</span> window_start <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+
+    <span class="token keyword keyword-return">return</span> max_length
+
+<span class="token comment"># Example usage</span>
+nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">]</span>
+k <span class="token operator">=</span> <span class="token number">2</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>longest_ones<span class="token punctuation">(</span>nums<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: 6</span>
+</code></pre><p><strong>Maximum Sum of Two Non-Overlapping Subarrays:</strong></p>
+<p><strong>Problem Statement:</strong><br>
+Given an array <code>nums</code> of positive integers and two positive integers <code>firstLen</code> and <code>secondLen</code>, return the maximum sum of elements in two non-overlapping subarrays of lengths <code>firstLen</code> and <code>secondLen</code>.</p>
+<p><strong>Example:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token comment"># nums = [0, 6, 5, 2, 2, 5, 1, 9, 4], firstLen = 1, secondLen = 2</span>
+<span class="token comment"># Expected Output: 20 (subarrays [9] and [6, 5])</span>
+</code></pre><p><strong>Solution:</strong></p>
+<pre data-role="codeBlock" data-info="python" class="language-python python"><code><span class="token keyword keyword-def">def</span> <span class="token function">max_sum_two_no_overlap</span><span class="token punctuation">(</span>nums<span class="token punctuation">,</span> first_len<span class="token punctuation">,</span> second_len<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword keyword-def">def</span> <span class="token function">max_sum</span><span class="token punctuation">(</span>arr<span class="token punctuation">,</span> L<span class="token punctuation">,</span> M<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        L_sum <span class="token operator">=</span> M_sum <span class="token operator">=</span> max_sum <span class="token operator">=</span> <span class="token number">0</span>
+        L_curr <span class="token operator">=</span> M_curr <span class="token operator">=</span> <span class="token number">0</span>
+        
+        <span class="token keyword keyword-for">for</span> i <span class="token keyword keyword-in">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>arr<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            L_curr <span class="token operator">+=</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+            <span class="token keyword keyword-if">if</span> i <span class="token operator">&gt;=</span> L<span class="token punctuation">:</span>
+                L_curr <span class="token operator">-=</span> arr<span class="token punctuation">[</span>i <span class="token operator">-</span> L<span class="token punctuation">]</span>
+            <span class="token keyword keyword-if">if</span> i <span class="token operator">&gt;=</span> L <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">:</span>
+                L_sum <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>L_sum<span class="token punctuation">,</span> L_curr<span class="token punctuation">)</span>
+                max_sum <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>max_sum<span class="token punctuation">,</span> L_sum <span class="token operator">+</span> M_curr<span class="token punctuation">)</span>
+                
+            M_curr <span class="token operator">+=</span> arr<span class="token punctuation">[</span>i<span class="token punctuation">]</span>
+            <span class="token keyword keyword-if">if</span> i <span class="token operator">&gt;=</span> M<span class="token punctuation">:</span>
+                M_curr <span class="token operator">-=</span> arr<span class="token punctuation">[</span>i <span class="token operator">-</span> M<span class="token punctuation">]</span>
+            <span class="token keyword keyword-if">if</span> i <span class="token operator">&gt;=</span> M <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">:</span>
+                M_sum <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>M_sum<span class="token punctuation">,</span> M_curr<span class="token punctuation">)</span>
+                max_sum <span class="token operator">=</span> <span class="token builtin">max</span><span class="token punctuation">(</span>max_sum<span class="token punctuation">,</span> M_sum <span class="token operator">+</span> L_curr<span class="token punctuation">)</span>
+                
+        <span class="token keyword keyword-return">return</span> max_sum
+    
+    <span class="token keyword keyword-return">return</span> <span class="token builtin">max</span><span class="token punctuation">(</span>max_sum<span class="token punctuation">(</span>nums<span class="token punctuation">,</span> first_len<span class="token punctuation">,</span> second_len<span class="token punctuation">)</span><span class="token punctuation">,</span> max_sum<span class="token punctuation">(</span>nums<span class="token punctuation">,</span> second_len<span class="token punctuation">,</span> first_len<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+<span class="token comment"># Example usage</span>
+nums <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">,</span> <span class="token number">6</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">]</span>
+first_len <span class="token operator">=</span> <span class="token number">1</span>
+second_len <span class="token operator">=</span> <span class="token number">2</span>
+<span class="token keyword keyword-print">print</span><span class="token punctuation">(</span>max_sum_two_no_overlap<span class="token punctuation">(</span>nums<span class="token punctuation">,</span> first_len<span class="token punctuation">,</span> second_len<span class="token punctuation">)</span><span class="token punctuation">)</span>  <span class="token comment"># Output: 20</span>
+</code></pre>
+      </div>
+      
+      
+    
+    
+    
+    
+    
+    
+  
+    </body></html>
