@@ -1,0 +1,954 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>StackPattern.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p><strong>1. Core Concepts and Coding Patterns:</strong></p>
+<p>The <strong>Stack Pattern</strong> is a fundamental concept used in solving problems where there is a natural order of elements that need to be processed in a Last-In-First-Out (LIFO) manner. A stack can be visualized as a collection of plates, where you can only remove or add a plate to the top. The Stack Pattern is commonly used to:</p>
+<ul>
+<li>Track previous states (e.g., undo mechanisms).</li>
+<li>Manage function calls or nested elements.</li>
+<li>Solve problems involving backtracking.</li>
+<li>Process elements where you need to keep track of recently accessed items (e.g., balanced parentheses, histogram problems).</li>
+</ul>
+<p>Typical use cases include: evaluating mathematical expressions, backtracking, depth-first search (DFS), and keeping track of previous states.</p>
+<p><strong>How It Works:</strong> A stack has two primary operations:</p>
+<ul>
+<li><strong>Push</strong>: Add an element to the top of the stack.</li>
+<li><strong>Pop</strong>: Remove the element from the top of the stack.</li>
+</ul>
+<p><strong>Example:</strong> Imagine a stack of numbers where you need to reverse the order in which they appear. For numbers [1, 2, 3, 4]:</p>
+<ul>
+<li><strong>Push order</strong>: 1, 2, 3, 4 (added to the stack one by one).</li>
+<li><strong>Pop order</strong>: 4, 3, 2, 1 (elements removed in reverse).</li>
+</ul>
+<p><strong>2. Numeric Examples:</strong></p>
+<p>Consider the problem of balancing parentheses: &quot;((a+b)*c)-(d/e)&quot;.</p>
+<ul>
+<li>As we iterate through the string, we push every &quot;(&quot; onto the stack.</li>
+<li>When we encounter &quot;)&quot;, we pop from the stack.</li>
+<li>If the stack is empty when we need to pop, or there are unmatched &quot;(&quot;, the parentheses are not balanced.</li>
+<li>Final stack state should be empty for a balanced expression.</li>
+</ul>
+<p><strong>3. Problem Identification Checklist:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Criteria</th>
+<th>Example Problem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Need to track order in LIFO</td>
+<td>Checking balanced parentheses in expressions.</td>
+</tr>
+<tr>
+<td>Problem involves backtracking</td>
+<td>Solving a maze using recursive backtracking.</td>
+</tr>
+<tr>
+<td>Nested structures are involved</td>
+<td>Parsing HTML/XML tags to ensure they are closed.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>4. General Templates with Comments:</strong></p>
+<h3 id="template-1-simple-stack-usage">Template 1: Simple Stack Usage</h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># Template: Balancing Parentheses</span>
+<span class="hljs-comment"># Use case: Balancing symbols in an expression.</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">is_balanced</span><span class="hljs-params">(expression)</span>:</span>
+    stack = []
+    <span class="hljs-comment"># Dictionary for matching pairs</span>
+    pairs = {<span class="hljs-string">')'</span>: <span class="hljs-string">'('</span>, <span class="hljs-string">']'</span>: <span class="hljs-string">'['</span>, <span class="hljs-string">'}'</span>: <span class="hljs-string">'{'</span>}
+    <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> expression:
+        <span class="hljs-keyword">if</span> char <span class="hljs-keyword">in</span> <span class="hljs-string">'([{'</span>:
+            <span class="hljs-comment"># Push opening brackets onto the stack</span>
+            stack.append(char)
+        <span class="hljs-keyword">elif</span> char <span class="hljs-keyword">in</span> <span class="hljs-string">')]}'</span>:
+            <span class="hljs-comment"># Pop for closing brackets</span>
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> stack <span class="hljs-keyword">or</span> stack[<span class="hljs-number">-1</span>] != pairs[char]:
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+            stack.pop()
+    <span class="hljs-comment"># Stack should be empty if balanced</span>
+    <span class="hljs-keyword">return</span> len(stack) == <span class="hljs-number">0</span>
+</div></code></pre>
+<p><strong>Use Case:</strong> Used for problems involving well-formed strings (parentheses, brackets).</p>
+<p><strong>Time Complexity:</strong> O(n), where n is the length of the string.
+<strong>Space Complexity:</strong> O(n) for the stack in the worst case.</p>
+<h3 id="template-2-monotonic-stack">Template 2: Monotonic Stack</h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># Template: Finding Next Greater Element</span>
+<span class="hljs-comment"># Use case: Finding the next greater element for each element in an array.</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">next_greater_elements</span><span class="hljs-params">(arr)</span>:</span>
+    stack = []
+    result = [<span class="hljs-number">-1</span>] * len(arr)
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(arr)):
+        <span class="hljs-comment"># Maintain elements in decreasing order in stack</span>
+        <span class="hljs-keyword">while</span> stack <span class="hljs-keyword">and</span> arr[stack[<span class="hljs-number">-1</span>]] &lt; arr[i]:
+            index = stack.pop()
+            result[index] = arr[i]
+        stack.append(i)
+    <span class="hljs-keyword">return</span> result
+</div></code></pre>
+<p><strong>Use Case:</strong> Suitable for problems involving comparisons among elements like Next Greater Element, Stock Span, etc.</p>
+<p><strong>Time Complexity:</strong> O(n).
+<strong>Space Complexity:</strong> O(n).</p>
+<p><strong>5. Complexity Analysis:</strong></p>
+<ul>
+<li><strong>Time Complexity:</strong> Generally, O(n) for each stack operation, where n represents the number of elements processed (push/pop).</li>
+<li><strong>Space Complexity:</strong> Usually O(n) due to stack usage for recursive calls or storing elements.</li>
+<li><strong>Optimization:</strong> Can optimize space in problems that involve only traversal by using implicit call stack or memoization.</li>
+</ul>
+<p><strong>6. Discussion on Templates and Patterns:</strong></p>
+<p>Each stack template can be adjusted depending on the question's specifics. The <code>next_greater_elements</code> template, for instance, can also be modified to find the <strong>previous smaller element</strong> by reversing the order and changing the comparison. Flexibility in modifying these templates to suit related variations is a core skill.</p>
+<p><strong>7. Multiple Approaches and Implementations:</strong></p>
+<ul>
+<li><strong>Iterative vs Recursive:</strong> A <strong>recursive</strong> solution for problems like DFS uses the function call stack, while an <strong>iterative</strong> solution would use an explicit stack.</li>
+<li><strong>Comparison:</strong> Recursive solutions can be concise but may lead to <strong>stack overflow</strong> for deep recursion, while iterative solutions can handle larger inputs but require more manual management.</li>
+</ul>
+<p><strong>9. Practice Problems:</strong></p>
+<table>
+<thead>
+<tr>
+<th>S.No</th>
+<th>Question</th>
+<th>Example</th>
+<th>Difficulty Level</th>
+<th>Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Valid Parentheses</td>
+<td>&quot;(a+b)&quot; → True: The parentheses match properly. &quot;(a+b]*(c/d)&quot; → False: The brackets do not match properly, as <code>]</code> does not match <code>(</code>.</td>
+<td>Easy</td>
+<td>Simple Stack, Template 1. Extra logic includes checking if stack is empty when encountering a closing bracket.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Next Greater Element in Array</td>
+<td>[2, 1, 2, 4, 3] → [4, 2, 4, -1, -1]: For each element, the next greater element is found and returned in the array. For instance, 2's next greater is 4, and for 4, there is none, hence -1.</td>
+<td>Medium</td>
+<td>Monotonic Stack, Template 2. Extra variables include a result array initialized with -1 for storing answers, and logic to maintain decreasing order in the stack.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Daily Temperatures</td>
+<td>[73, 74, 75, 71] → [1, 1, 0, 0]: For each temperature, the number of days to wait until a warmer temperature is found. For 73, it takes 1 day to reach 74, and for 75, there is no warmer temperature ahead.</td>
+<td>Medium</td>
+<td>Monotonic Stack, Template 2. Extra variables include a result array initialized with 0, and logic to calculate the difference in indices to get the number of days.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Min Stack</td>
+<td>Operations: push(2), push(0), push(3), push(0), pop(), min() → [0, 0, 2]: The minimum element is updated as elements are pushed and popped. After the sequence of operations, the minimum values returned are 0, 0, and finally 2 after a pop.</td>
+<td>Medium</td>
+<td>Two Stacks: One for regular values, one for minimum values. Extra logic to maintain both stacks simultaneously.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Evaluate Reverse Polish Notation</td>
+<td>Tokens: [&quot;2&quot;, &quot;1&quot;, &quot;+&quot;, &quot;3&quot;, &quot;*&quot;] → 9: Evaluates arithmetic expressions in Reverse Polish notation. &quot;2 + 1 = 3&quot;, then &quot;3 * 3 = 9&quot;. The result is 9.</td>
+<td>Medium</td>
+<td>Simple Stack, Template 1. Extra variables include a loop to iterate through tokens and perform operations based on the stack.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Largest Rectangle in Histogram</td>
+<td>Heights: [2, 1, 5, 6, 2, 3] → 10: Finds the largest rectangle area in the histogram. The largest area comes from heights 5 and 6 with width 2, resulting in an area of 10.</td>
+<td>Hard</td>
+<td>Monotonic Stack, Template 2. Extra logic to handle heights and calculations of the maximum area using indices.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Basic Calculator II</td>
+<td>Expression: &quot;3+2*2&quot; → 7: First multiply 2 * 2 = 4, then add 3 + 4 = 7. The result is 7.</td>
+<td>Medium</td>
+<td>Stack for operators and numbers, Template 1. Extra logic for handling operator precedence.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Asteroid Collision</td>
+<td>Asteroids: [5, 10, -5] → [5, 10]: The asteroid -5 collides with 5 but is destroyed because 5 &gt; -5, and 10 remains unaffected.</td>
+<td>Medium</td>
+<td>Simple Stack, Template 1. Extra logic for determining collision outcome based on the top of the stack.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Decode String</td>
+<td>String: &quot;3[a]2[bc]&quot; → &quot;aaabcbc&quot;: Repeats the segment &quot;a&quot; three times and &quot;bc&quot; twice, resulting in &quot;aaabcbc&quot;.</td>
+<td>Medium</td>
+<td>Stack for characters and counts, Template 1. Extra logic to handle nested brackets.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Simplify Path</td>
+<td>Path: &quot;/a/./b/../../c/&quot; → &quot;/c&quot;: &quot;..&quot; moves up a directory, &quot;.&quot; means current directory. After simplification, only &quot;/c&quot; remains.</td>
+<td>Medium</td>
+<td>Stack for directory names, Template 1. Extra logic to handle &quot;.&quot;, &quot;..&quot; and empty segments.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Remove K Digits</td>
+<td>Number: &quot;1432219&quot;, k = 3 → &quot;1219&quot;: Removing 3 digits to get the smallest possible value. After removing '4', '3', and '2', the result is &quot;1219&quot;.</td>
+<td>Medium</td>
+<td>Monotonic Stack, Template 2. Extra variables include maintaining the resulting number with a stack.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Binary Tree Inorder Traversal</td>
+<td>Tree: [1, null, 2, 3] → [1, 3, 2]: Visits left subtree, root, and right subtree. Traverses the tree to return [1, 3, 2].</td>
+<td>Easy</td>
+<td>Iterative with Stack, Template 1. Extra logic to push nodes in a controlled order.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Largest Rectangle Under Skyline</td>
+<td>Skyline Heights: [2, 1, 5, 6, 2, 3] → 10: The maximum rectangular area under the skyline is formed by heights 5 and 6 with width 2, giving an area of 10.</td>
+<td>Hard</td>
+<td>Monotonic Stack, Template 2. Extra logic to handle maximum area calculation and height management.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Online Stock Span</td>
+<td>Stock Prices: [100, 80, 60, 70, 60, 75, 85] → [1, 1, 1, 2, 1, 4, 6]: Each element represents how many consecutive days the price was less than or equal to the current price.</td>
+<td>Medium</td>
+<td>Monotonic Stack, Template 2. Extra logic includes maintaining the stack of prices and spans.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Valid Parenthesis String</td>
+<td>String: &quot;(*)&quot; → True: The star can represent an empty string, &quot;(&quot;, or &quot;)&quot;, allowing the parentheses to be valid.</td>
+<td>Medium</td>
+<td>Stack for left and stars, Template 1. Extra logic includes treating stars as both open and close.</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Trapping Rain Water</td>
+<td>Heights: [0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1] → 6: Calculates the amount of water trapped between the bars, resulting in a total of 6 units of water.</td>
+<td>Hard</td>
+<td>Monotonic Stack, Template 2. Extra logic for maintaining boundary heights and calculating trapped water.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Balanced Brackets</td>
+<td>String: &quot;[({})]&quot; → True: Each bracket is correctly matched and nested.</td>
+<td>Easy</td>
+<td>Simple Stack, Template 1. Extra logic for handling multiple types of brackets.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Maximum Width Ramp</td>
+<td>Array: [6, 0, 8, 2, 1, 5] → 4: Finds the maximum width ramp, which is between indices 1 and 5, resulting in width 4.</td>
+<td>Medium</td>
+<td>Monotonic Stack, Template 2. Extra logic for iterating through indices to find the maximum width.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Basic Calculator</td>
+<td>Expression: &quot;1 + 1&quot; → 2: Simple arithmetic addition, resulting in 2.</td>
+<td>Medium</td>
+<td>Stack for operators and numbers, Template 1. Extra logic for managing parentheses and operator precedence.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Score of Parentheses</td>
+<td>String: &quot;(()(()))&quot; → 6: Each inner &quot;()&quot; has a value of 1, and the outer layer doubles the sum, resulting in 6.</td>
+<td>Medium</td>
+<td>Stack for keeping track of scores, Template 1. Extra logic for combining scores when encountering closing brackets.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Valid Stack Sequences</td>
+<td>Pushed: [1, 2, 3, 4, 5], Popped: [4, 5, 3, 2, 1] → True: The given pop sequence is possible based on the push operations.</td>
+<td>Medium</td>
+<td>Stack for managing push/pop sequences, Template 1. Extra logic to simulate stack operations.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Flatten Nested List Iterator</td>
+<td>Nested List: [[1, 1], 2, [1, 1]] → [1, 1, 2, 1, 1]: Flattens the nested list structure into a single list.</td>
+<td>Medium</td>
+<td>Stack for storing iterators, Template 1. Extra logic for handling nested elements.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Longest Valid Parentheses</td>
+<td>String: &quot;(()&quot; → 2: Finds the length of the longest valid parentheses substring, which is &quot;()&quot;, resulting in 2.</td>
+<td>Hard</td>
+<td>Stack for indices, Template 1. Extra logic for calculating the length of valid substrings.</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Remove Duplicate Letters</td>
+<td>String: &quot;bcabc&quot; → &quot;abc&quot;: Removing duplicate letters to get the lexicographically smallest result.</td>
+<td>Hard</td>
+<td>Monotonic Stack, Template 2. Extra variables for maintaining character count and inclusion.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>Maximum Depth of Parentheses</td>
+<td>String: &quot;(1+(2*3)+((8)/4))+1&quot; → 3: The maximum depth of valid nested parentheses is 3.</td>
+<td>Easy</td>
+<td>Simple Stack, Template 1. Extra logic for maintaining the current depth during traversal.</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Cartesian Tree</td>
+<td>Inorder Traversal: [1, 2, 3, 4] → Tree: Constructs a Cartesian Tree from inorder traversal.</td>
+<td>Medium</td>
+<td>Monotonic Stack, Template 2. Extra logic for handling parent-child relationships.</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Validate Stack Push Pop Sequence</td>
+<td>Pushed: [1, 2, 3, 4, 5], Popped: [4, 5, 3, 2, 1] → True: Validates stack sequence correctness by simulating the operations.</td>
+<td>Medium</td>
+<td>Stack simulation, Template 1. Extra logic to ensure operations match the sequence.</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Next Smaller Element</td>
+<td>Array: [3, 7, 1, 7, 8, 4] → [1, 1, -1, 4, 4, -1]: For each element, finds the next smaller element. For instance, 3's next smaller element is 1.</td>
+<td>Medium</td>
+<td>Monotonic Stack, Template 2. Extra logic to maintain the elements and their corresponding smaller values.</td>
+</tr>
+<tr>
+<td>29</td>
+<td>Exclusive Time of Functions</td>
+<td>Logs: [&quot;0:start:0&quot;, &quot;1:start:2&quot;, &quot;1<img class="emoji" alt="end" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFiklEQVR42u2ZyWrkVhSGA4FeNdhVnme7PM9DeTaeZQz2KhATCASy8itoHQh006tAIOBX8LqhIUWgV1n5DZpaGLKuTUNDVsr/mZxGVOtWSeVyY1sy/JSse3Xuud895w7SN0EQpFoZgAxABiAD8KCanZ19cX5+/kcqAZydnXV7nvf+8PAwSB2A09PTdXX8dmNjI0CpAnBycvLT7u7up2KxGMzNzQUrKyvpAKC/b4+Pj3/b3t4OlpaWgpmZmWBqaorrZw+AkM8r5P/a3NwMFhYWrPPpAKCJbn5/f/92dXWVkL/r9OTk5GctLi4+XwAK+R92dnbId0bdOv/8AZDvR0dHr7a2tu5Cfnp6OpiYmIjU/Px8QL2Dg4OvKvlXF3zD+a6Qf7e+vk7nGGU66hLlpAagvqpIyWYDIORntMR9sJCng+Pj449RQGguAIXUd8r3j8zqFvI0lAoACvlfWOIIeTo+Njb22IWv9wegyeTl3t7eW/JJBxvrfHoAKN/fspUl5Amr0dHRpyIm3vsD0Ki/1GT3DqKFQuFJSb43bw7QUvYrVJ8SAA1c0wAYhO8F4WNqASBtdecF4cPIyEjwyPUgAGxeyGtO+JNGhoeHH62YuB/0LKBV4Q0QUgnAJAg/qrFPQ0NDgUPk4/N+H6A5oahIuHUBEKTnDQBpTuhQJLynw4ODg2Gxe0zNO8EXioTf6fTAwIApNQDCKfGzIuHf1AJAioR1RcI//f39KZgDHNKc0K1I+FvzQzoB2Lyg3eNV9nU4A5ABeFoA9P7Pb1Cey4a+EhdrOcOzLltWFke0c28AfM3hOJlEvIJaXl72o2zoBMlX4nItZ3gWG2FbEWVOWTtql28CZWA0DIClizU8gTiB4YAfZYPdIfsB61SUeBYbYVsRZTXFxovtuDZjAAH6jV6O5hIDwEhXV1cS4QBHUN9hw8ora2trhag2eZY6YVsRZbHU29uLDYNuEBoD0N3djUFf8mpJo+xp21twAcAO9+TMteOVm9/X13dXl1/+jypDPT09N9Xt696ldFUNQpFIWviNAsAIZ3rPUTdJFGHLRsVrFAAgBbvkaldlRYGohCOPr9ZEQSIAnZ2dyMKxEQBmw2QOkZ/lKAAAoh6//B9VBgCdNZwAENGoetamRZ4fGwCTVkdHB2I04gFw28ARfm/MIXWg2iEmTTpJPQtdP6KM5+sCQKpPe2YPoNf3AeATtprAnGL9ddhg1HCcUTGHOCZXBKHwQAA4jPmqa+2zMpRjA2A5CTlPg+RRrfWXr7Ellw2c555gXllECBDPXoc7qdwNKOe3CgBlSQDwzIUBpz3SIDYA8rS9vR1Zo3TCKdWHcMllg+v/oyInWxXu6ZfJlVTwrJM4TBm/BqCqjM7EAqAI84BmPjAgSQHElTlVD4Dd94Eays3yQwHAfsiHZADa2tqQhbFPDrvEOszbYZeN6sbVmRuLLkKTOUbRQBvUt+j4DCBUZs/UBSCwF0RAyIdKXADkqj1o+epaBWLZ4Lp6mVJHKLNlqqJ7r2MCwJ84EWD2zIdSQwAIPRlrJgBbpq4ps5C3db5ZAJQmZeyFnom/D8CZfD6PcCYmALcNriOW2oI6X6HcQOiX+oD4AgD3KKNePQAcniwFzR4pmghALpdD9wJgNrh21PFx0uqZGDHW8fCazj3KqO8CwHZX8lldrL4AsKxa/cQAbDRudB4vyXhN6dDxOgkAJPvlpACY0LQv+aJ9PoiyZ7F0UX2LmGIiACJmztg8YOdtl+w7YCnKBtc1YHu0ERcAsh1quH38s80Sox4a/UtsNAwAWZ7WkE00iQEgjdh1AgAoyodqn8sauIuG3ggx4q2trYkEJJaaKBtc1zk4FeiA1SdsqwFwL4YfTKol1b1saWnJZW+FMwAZgAxABiAD4NZ/F3UvAcHWiSYAAAAASUVORK5CYII=" />5&quot;, &quot;0<img class="emoji" alt="end" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAFiklEQVR42u2ZyWrkVhSGA4FeNdhVnme7PM9DeTaeZQz2KhATCASy8itoHQh006tAIOBX8LqhIUWgV1n5DZpaGLKuTUNDVsr/mZxGVOtWSeVyY1sy/JSse3Xuud895w7SN0EQpFoZgAxABiAD8KCanZ19cX5+/kcqAZydnXV7nvf+8PAwSB2A09PTdXX8dmNjI0CpAnBycvLT7u7up2KxGMzNzQUrKyvpAKC/b4+Pj3/b3t4OlpaWgpmZmWBqaorrZw+AkM8r5P/a3NwMFhYWrPPpAKCJbn5/f/92dXWVkL/r9OTk5GctLi4+XwAK+R92dnbId0bdOv/8AZDvR0dHr7a2tu5Cfnp6OpiYmIjU/Px8QL2Dg4OvKvlXF3zD+a6Qf7e+vk7nGGU66hLlpAagvqpIyWYDIORntMR9sJCng+Pj449RQGguAIXUd8r3j8zqFvI0lAoACvlfWOIIeTo+Njb22IWv9wegyeTl3t7eW/JJBxvrfHoAKN/fspUl5Amr0dHRpyIm3vsD0Ki/1GT3DqKFQuFJSb43bw7QUvYrVJ8SAA1c0wAYhO8F4WNqASBtdecF4cPIyEjwyPUgAGxeyGtO+JNGhoeHH62YuB/0LKBV4Q0QUgnAJAg/qrFPQ0NDgUPk4/N+H6A5oahIuHUBEKTnDQBpTuhQJLynw4ODg2Gxe0zNO8EXioTf6fTAwIApNQDCKfGzIuHf1AJAioR1RcI//f39KZgDHNKc0K1I+FvzQzoB2Lyg3eNV9nU4A5ABeFoA9P7Pb1Cey4a+EhdrOcOzLltWFke0c28AfM3hOJlEvIJaXl72o2zoBMlX4nItZ3gWG2FbEWVOWTtql28CZWA0DIClizU8gTiB4YAfZYPdIfsB61SUeBYbYVsRZTXFxovtuDZjAAH6jV6O5hIDwEhXV1cS4QBHUN9hw8ora2trhag2eZY6YVsRZbHU29uLDYNuEBoD0N3djUFf8mpJo+xp21twAcAO9+TMteOVm9/X13dXl1/+jypDPT09N9Xt696ldFUNQpFIWviNAsAIZ3rPUTdJFGHLRsVrFAAgBbvkaldlRYGohCOPr9ZEQSIAnZ2dyMKxEQBmw2QOkZ/lKAAAoh6//B9VBgCdNZwAENGoetamRZ4fGwCTVkdHB2I04gFw28ARfm/MIXWg2iEmTTpJPQtdP6KM5+sCQKpPe2YPoNf3AeATtprAnGL9ddhg1HCcUTGHOCZXBKHwQAA4jPmqa+2zMpRjA2A5CTlPg+RRrfWXr7Ellw2c555gXllECBDPXoc7qdwNKOe3CgBlSQDwzIUBpz3SIDYA8rS9vR1Zo3TCKdWHcMllg+v/oyInWxXu6ZfJlVTwrJM4TBm/BqCqjM7EAqAI84BmPjAgSQHElTlVD4Dd94Eays3yQwHAfsiHZADa2tqQhbFPDrvEOszbYZeN6sbVmRuLLkKTOUbRQBvUt+j4DCBUZs/UBSCwF0RAyIdKXADkqj1o+epaBWLZ4Lp6mVJHKLNlqqJ7r2MCwJ84EWD2zIdSQwAIPRlrJgBbpq4ps5C3db5ZAJQmZeyFnom/D8CZfD6PcCYmALcNriOW2oI6X6HcQOiX+oD4AgD3KKNePQAcniwFzR4pmghALpdD9wJgNrh21PFx0uqZGDHW8fCazj3KqO8CwHZX8lldrL4AsKxa/cQAbDRudB4vyXhN6dDxOgkAJPvlpACY0LQv+aJ9PoiyZ7F0UX2LmGIiACJmztg8YOdtl+w7YCnKBtc1YHu0ERcAsh1quH38s80Sox4a/UtsNAwAWZ7WkE00iQEgjdh1AgAoyodqn8sauIuG3ggx4q2trYkEJJaaKBtc1zk4FeiA1SdsqwFwL4YfTKol1b1saWnJZW+FMwAZgAxABiAD4NZ/F3UvAcHWiSYAAAAASUVORK5CYII=" />6&quot;] → [3, 4]: Function 0 runs exclusively for 3 units and function 1 for 4 units.</td>
+<td>Medium</td>
+<td>Stack for managing function calls, Template 1. Extra logic to track time intervals and nested calls.</td>
+</tr>
+<tr>
+<td>30</td>
+<td>Sort a Stack</td>
+<td>Stack: [34, 3, 31, 98, 92, 23] → [3, 23, 31, 34, 92, 98]: Uses an auxiliary stack to sort the original stack in ascending order.</td>
+<td>Medium</td>
+<td>Stack for sorting, Template 1. Extra logic to push and pop elements to sort them correctly.</td>
+</tr>
+</tbody>
+</table>
+<p><strong>10. Key Takeaways, Tips, and Summary:</strong></p>
+<ul>
+<li><strong>Key Takeaways:</strong> The Stack Pattern is versatile for problems with nested structures and order-based processing.</li>
+<li><strong>Tips:</strong> Look for LIFO patterns in problem descriptions. Use a stack to keep track of the elements to backtrack.</li>
+<li><strong>Summary:</strong> The Stack Pattern is extremely powerful for problems involving nested relationships, balanced expressions, or maintaining a specific sequence.</li>
+</ul>
+<p><strong>11. Common Pitfalls:</strong></p>
+<ul>
+<li><strong>Mistakes to Avoid:</strong> Forgetting to handle edge cases like an empty stack or mismatched elements when popping can lead to incorrect results.</li>
+<li><strong>Troubleshooting Tips:</strong> Use print statements to monitor stack state changes and validate intermediate results.</li>
+</ul>
+<p>Sure! Here are detailed explanations for 7 randomly selected practice problems, including numeric examples, Python code with comments, and visualizations if needed:</p>
+<h3 id="1-next-greater-element-in-array">1. Next Greater Element in Array</h3>
+<p><strong>Problem:</strong> Given an array, find the next greater element for each element in the array. If no greater element exists, output -1 for that position.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Input: <code>[2, 1, 2, 4, 3]</code></li>
+<li>Output: <code>[4, 2, 4, -1, -1]</code></li>
+</ul>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>For <code>2</code>, the next greater element is <code>4</code>.</li>
+<li>For <code>1</code>, the next greater element is <code>2</code>.</li>
+<li>For <code>2</code>, the next greater element is <code>4</code>.</li>
+<li>For <code>4</code>, there is no greater element, hence <code>-1</code>.</li>
+<li>For <code>3</code>, there is no greater element, hence <code>-1</code>.</li>
+</ul>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">next_greater_elements</span><span class="hljs-params">(arr)</span>:</span>
+    stack = []
+    result = [<span class="hljs-number">-1</span>] * len(arr)
+    
+    <span class="hljs-comment"># Traverse through the array</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(arr)):
+        <span class="hljs-comment"># Pop elements from the stack until we find a greater element</span>
+        <span class="hljs-keyword">while</span> stack <span class="hljs-keyword">and</span> arr[stack[<span class="hljs-number">-1</span>]] &lt; arr[i]:
+            index = stack.pop()
+            result[index] = arr[i]
+        <span class="hljs-comment"># Push the current index to the stack</span>
+        stack.append(i)
+    
+    <span class="hljs-keyword">return</span> result
+
+<span class="hljs-comment"># Example usage</span>
+arr = [<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>]
+print(next_greater_elements(arr))  <span class="hljs-comment"># Output: [4, 2, 4, -1, -1]</span>
+</div></code></pre>
+<h3 id="2-min-stack">2. Min Stack</h3>
+<p><strong>Problem:</strong> Implement a stack that supports <code>push</code>, <code>pop</code>, <code>top</code>, and retrieving the minimum element in constant time.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Operations: <code>push(2)</code>, <code>push(0)</code>, <code>push(3)</code>, <code>push(0)</code>, <code>pop()</code>, <code>min()</code></li>
+<li>Output: <code>[0, 0, 2]</code></li>
+</ul>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>Pushing <code>2</code>, <code>0</code>, <code>3</code>, and <code>0</code> results in the stack <code>[2, 0, 3, 0]</code>.</li>
+<li>After <code>pop()</code>, the stack becomes <code>[2, 0, 3]</code>.</li>
+<li>The minimum values during these operations are <code>0</code>, <code>0</code>, and <code>2</code>.</li>
+</ul>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MinStack</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+        self.stack = []
+        self.min_stack = []
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">push</span><span class="hljs-params">(self, x)</span>:</span>
+        self.stack.append(x)
+        <span class="hljs-comment"># Update the minimum stack with the minimum value</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> self.min_stack <span class="hljs-keyword">or</span> x &lt;= self.min_stack[<span class="hljs-number">-1</span>]:
+            self.min_stack.append(x)
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">pop</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">if</span> self.stack:
+            <span class="hljs-keyword">if</span> self.stack[<span class="hljs-number">-1</span>] == self.min_stack[<span class="hljs-number">-1</span>]:
+                self.min_stack.pop()
+            self.stack.pop()
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">top</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.stack[<span class="hljs-number">-1</span>] <span class="hljs-keyword">if</span> self.stack <span class="hljs-keyword">else</span> <span class="hljs-literal">None</span>
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_min</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-keyword">return</span> self.min_stack[<span class="hljs-number">-1</span>] <span class="hljs-keyword">if</span> self.min_stack <span class="hljs-keyword">else</span> <span class="hljs-literal">None</span>
+
+<span class="hljs-comment"># Example usage</span>
+min_stack = MinStack()
+min_stack.push(<span class="hljs-number">2</span>)
+min_stack.push(<span class="hljs-number">0</span>)
+min_stack.push(<span class="hljs-number">3</span>)
+min_stack.push(<span class="hljs-number">0</span>)
+min_stack.pop()
+print(min_stack.get_min())  <span class="hljs-comment"># Output: 0</span>
+</div></code></pre>
+<h3 id="3-simplify-path">3. Simplify Path</h3>
+<p><strong>Problem:</strong> Given a Unix-style file path, simplify it to its canonical form.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Input: <code>&quot;/a/./b/../../c/&quot;</code></li>
+<li>Output: <code>&quot;/c&quot;</code></li>
+</ul>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li><code>&quot;a&quot;</code> and <code>&quot;.&quot;</code> means the current directory.</li>
+<li><code>&quot;..&quot;</code> moves up a directory.</li>
+<li>After simplification, the resulting path is <code>&quot;/c&quot;</code>.</li>
+</ul>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">simplify_path</span><span class="hljs-params">(path)</span>:</span>
+    stack = []
+    parts = path.split(<span class="hljs-string">'/'</span>)
+    
+    <span class="hljs-keyword">for</span> part <span class="hljs-keyword">in</span> parts:
+        <span class="hljs-keyword">if</span> part == <span class="hljs-string">".."</span>:
+            <span class="hljs-keyword">if</span> stack:
+                stack.pop()
+        <span class="hljs-keyword">elif</span> part <span class="hljs-keyword">and</span> part != <span class="hljs-string">"."</span>:
+            stack.append(part)
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-string">"/"</span> + <span class="hljs-string">"/"</span>.join(stack)
+
+<span class="hljs-comment"># Example usage</span>
+path = <span class="hljs-string">"/a/./b/../../c/"</span>
+print(simplify_path(path))  <span class="hljs-comment"># Output: "/c"</span>
+</div></code></pre>
+<h3 id="4-daily-temperatures">4. Daily Temperatures</h3>
+<p><strong>Problem:</strong> Given an array of daily temperatures, return an array that answers how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put <code>0</code>.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Input: <code>[73, 74, 75, 71, 69, 72, 76, 73]</code></li>
+<li>Output: <code>[1, 1, 4, 2, 1, 1, 0, 0]</code></li>
+</ul>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>For <code>73</code>, the next warmer day is <code>74</code>, so <code>1</code>.</li>
+<li>For <code>74</code>, the next warmer day is <code>75</code>, so <code>1</code>.</li>
+<li>For <code>75</code>, the next warmer day is <code>76</code> after <code>4</code> days, etc.</li>
+</ul>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">daily_temperatures</span><span class="hljs-params">(temperatures)</span>:</span>
+    stack = []
+    result = [<span class="hljs-number">0</span>] * len(temperatures)
+
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(temperatures)):
+        <span class="hljs-keyword">while</span> stack <span class="hljs-keyword">and</span> temperatures[i] &gt; temperatures[stack[<span class="hljs-number">-1</span>]]:
+            index = stack.pop()
+            result[index] = i - index
+        stack.append(i)
+
+    <span class="hljs-keyword">return</span> result
+
+<span class="hljs-comment"># Example usage</span>
+temperatures = [<span class="hljs-number">73</span>, <span class="hljs-number">74</span>, <span class="hljs-number">75</span>, <span class="hljs-number">71</span>, <span class="hljs-number">69</span>, <span class="hljs-number">72</span>, <span class="hljs-number">76</span>, <span class="hljs-number">73</span>]
+print(daily_temperatures(temperatures))  <span class="hljs-comment"># Output: [1, 1, 4, 2, 1, 1, 0, 0]</span>
+</div></code></pre>
+<h3 id="5-decode-string">5. Decode String</h3>
+<p><strong>Problem:</strong> Given an encoded string, return its decoded version. The encoding rule is: <code>k[encoded_string]</code>, where <code>k</code> is the number of times the <code>encoded_string</code> is repeated.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Input: <code>&quot;3[a]2[bc]&quot;</code></li>
+<li>Output: <code>&quot;aaabcbc&quot;</code></li>
+</ul>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>Repeat <code>&quot;a&quot;</code> three times to get <code>&quot;aaa&quot;</code>.</li>
+<li>Repeat <code>&quot;bc&quot;</code> twice to get <code>&quot;bcbc&quot;</code>.</li>
+<li>Combine them to get <code>&quot;aaabcbc&quot;</code>.</li>
+</ul>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">decode_string</span><span class="hljs-params">(s)</span>:</span>
+    stack = []
+    current_string = <span class="hljs-string">""</span>
+    current_num = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">for</span> char <span class="hljs-keyword">in</span> s:
+        <span class="hljs-keyword">if</span> char.isdigit():
+            current_num = current_num * <span class="hljs-number">10</span> + int(char)
+        <span class="hljs-keyword">elif</span> char == <span class="hljs-string">"["</span>:
+            stack.append((current_string, current_num))
+            current_string = <span class="hljs-string">""</span>
+            current_num = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">elif</span> char == <span class="hljs-string">"]"</span>:
+            prev_string, num = stack.pop()
+            current_string = prev_string + current_string * num
+        <span class="hljs-keyword">else</span>:
+            current_string += char
+
+    <span class="hljs-keyword">return</span> current_string
+
+<span class="hljs-comment"># Example usage</span>
+s = <span class="hljs-string">"3[a]2[bc]"</span>
+print(decode_string(s))  <span class="hljs-comment"># Output: "aaabcbc"</span>
+</div></code></pre>
+<h3 id="6-asteroid-collision">6. Asteroid Collision</h3>
+<p><strong>Problem:</strong> We have a list of asteroids, and each asteroid moves either left or right. The absolute value represents the size, and the sign represents direction. Positive values move right, and negative values move left. Return the state of the asteroids after all collisions.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Input: <code>[5, 10, -5]</code></li>
+<li>Output: <code>[5, 10]</code></li>
+</ul>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>Asteroid <code>-5</code> collides with <code>5</code> but is destroyed, as <code>5 &gt; |-5|</code>.</li>
+<li>Asteroid <code>10</code> remains unaffected.</li>
+</ul>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">asteroid_collision</span><span class="hljs-params">(asteroids)</span>:</span>
+    stack = []
+
+    <span class="hljs-keyword">for</span> asteroid <span class="hljs-keyword">in</span> asteroids:
+        <span class="hljs-keyword">while</span> stack <span class="hljs-keyword">and</span> asteroid &lt; <span class="hljs-number">0</span> &lt; stack[<span class="hljs-number">-1</span>]:
+            <span class="hljs-keyword">if</span> stack[<span class="hljs-number">-1</span>] &lt; -asteroid:
+                stack.pop()
+                <span class="hljs-keyword">continue</span>
+            <span class="hljs-keyword">elif</span> stack[<span class="hljs-number">-1</span>] == -asteroid:
+                stack.pop()
+            <span class="hljs-keyword">break</span>
+        <span class="hljs-keyword">else</span>:
+            stack.append(asteroid)
+
+    <span class="hljs-keyword">return</span> stack
+
+<span class="hljs-comment"># Example usage</span>
+asteroids = [<span class="hljs-number">5</span>, <span class="hljs-number">10</span>, <span class="hljs-number">-5</span>]
+print(asteroid_collision(asteroids))  <span class="hljs-comment"># Output: [5, 10]</span>
+</div></code></pre>
+<h3 id="7-longest-valid-parentheses">7. Longest Valid Parentheses</h3>
+<p><strong>Problem:</strong> Given a string containing just the characters <code>'('</code> and <code>')'</code>, find the length of the longest valid (well-formed) parentheses substring.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li>Input: <code>&quot;(()&quot;</code></li>
+<li>Output: <code>2</code></li>
+</ul>
+<p><strong>Explanation:</strong></p>
+<ul>
+<li>The longest valid substring is <code>&quot;()&quot;</code>, with length <code>2</code>.</li>
+</ul>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">longest_valid_parentheses</span><span class="hljs-params">(s)</span>:</span>
+    stack = [<span class="hljs-number">-1</span>]
+    max_len = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">for</span> i, char <span class="hljs-keyword">in</span> enumerate(s):
+        <span class="hljs-keyword">if</span> char == <span class="hljs-string">"("</span>:
+            stack.append(i)
+        <span class="hljs-keyword">else</span>:
+            stack.pop()
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> stack:
+                stack.append(i)
+            <span class="hljs-keyword">else</span>:
+                max_len = max(max_len, i - stack[<span class="hljs-number">-1</span>])
+
+    <span class="hljs-keyword">return</span> max_len
+
+<span class="hljs-comment"># Example usage</span>
+s = <span class="hljs-string">"(()"</span>
+print(longest_valid_parentheses(s))  <span class="hljs-comment"># Output: 2</span>
+</div></code></pre>
+
+</body>
+</html>

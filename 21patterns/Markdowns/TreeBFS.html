@@ -1,0 +1,1411 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TreeBFS.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="comprehensive-guide-to-tree-bfs-coding-pattern">Comprehensive Guide to Tree BFS Coding Pattern</h1>
+<h2 id="1-core-concepts-and-coding-patterns">1. Core Concepts and Coding Patterns</h2>
+<p><strong>Breadth-First Search (BFS)</strong> for a tree is an algorithm used to traverse or search data structures like trees and graphs. The fundamental idea is to explore nodes level by level, moving from the root level to deeper levels sequentially. Typically, BFS utilizes a queue to ensure that nodes are visited in the correct order.</p>
+<p><strong>Typical Use Cases:</strong> BFS is ideal when you need to explore nodes level-wise, such as finding the shortest path in an unweighted tree or determining the minimum depth of a binary tree. Other practical applications include finding all possible paths in a tree or solving puzzles represented as trees.</p>
+<ul>
+<li><strong>Working Principle:</strong> Starting from the root, BFS explores all nodes at the present level before moving on to nodes at the next depth level. This traversal can be easily achieved using a queue, as it ensures that the nodes are visited in a first-in-first-out (FIFO) manner.</li>
+</ul>
+<h2 id="2-numeric-examples">2. Numeric Examples</h2>
+<p>Consider the following binary tree:</p>
+<pre class="hljs"><code><div>       1
+      / \
+     2   3
+    / \   \
+   4   5   6
+</div></code></pre>
+<p><strong>BFS Traversal Output:</strong> 1, 2, 3, 4, 5, 6</p>
+<ul>
+<li>The traversal starts from the root (1), explores nodes 2 and 3, then moves on to nodes 4, 5, and 6.</li>
+</ul>
+<h2 id="3-problem-identification-checklist">3. Problem Identification Checklist</h2>
+<p><strong>When to Use Tree BFS:</strong></p>
+<table>
+<thead>
+<tr>
+<th>Problem Identified</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Explore a tree level by level</td>
+<td>Level-order traversal of nodes in a tree</td>
+</tr>
+<tr>
+<td>Shortest path in an unweighted tree</td>
+<td>Find the minimum depth of a binary tree</td>
+</tr>
+<tr>
+<td>Calculate minimum/maximum depth of a tree</td>
+<td>Calculate the depth of a tree from root</td>
+</tr>
+<tr>
+<td>Group nodes at each level</td>
+<td>Level-by-level grouping of nodes in a tree</td>
+</tr>
+<tr>
+<td>Connect nodes at the same level</td>
+<td>Connect all nodes at the same level with pointers</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-general-templates-with-comments">4. General Templates with Comments</h2>
+<p>To understand the purpose of each template, it helps to start with a high-level overview before diving into the code. The first template focuses on basic BFS for level-order traversal, which is useful for visiting all nodes. The second template groups nodes by their levels, which is beneficial for problems requiring level-wise analysis.</p>
+<p><strong>Template 1: Basic BFS Traversal</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bfs_traversal</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
+        <span class="hljs-keyword">return</span> []
+    
+    result = []
+    queue = deque([root])
+    
+    <span class="hljs-keyword">while</span> queue:
+        current_node = queue.popleft()  <span class="hljs-comment"># Pop the front element</span>
+        result.append(current_node.val)  <span class="hljs-comment"># Process the current node</span>
+        
+        <span class="hljs-keyword">if</span> current_node.left:
+            queue.append(current_node.left)  <span class="hljs-comment"># Add left child to the queue</span>
+        <span class="hljs-keyword">if</span> current_node.right:
+            queue.append(current_node.right)  <span class="hljs-comment"># Add right child to the queue</span>
+    
+    <span class="hljs-keyword">return</span> result
+</div></code></pre>
+<ul>
+<li><strong>Use Case:</strong> This template is used for basic level-order traversal of a binary tree.</li>
+<li><strong>Explanation:</strong> Nodes are appended to a queue and visited one by one in FIFO order.</li>
+</ul>
+<p><strong>Template 2: Level-by-Level Traversal</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">level_order_traversal</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
+        <span class="hljs-keyword">return</span> []
+    
+    result = []
+    queue = deque([root])
+    
+    <span class="hljs-keyword">while</span> queue:
+        level_size = len(queue)  <span class="hljs-comment"># Number of elements at the current level</span>
+        current_level = []
+        
+        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(level_size):
+            current_node = queue.popleft()  <span class="hljs-comment"># Pop the front element</span>
+            current_level.append(current_node.val)  <span class="hljs-comment"># Process the current node</span>
+            
+            <span class="hljs-keyword">if</span> current_node.left:
+                queue.append(current_node.left)  <span class="hljs-comment"># Add left child to the queue</span>
+            <span class="hljs-keyword">if</span> current_node.right:
+                queue.append(current_node.right)  <span class="hljs-comment"># Add right child to the queue</span>
+        
+        result.append(current_level)
+    
+    <span class="hljs-keyword">return</span> result
+</div></code></pre>
+<ul>
+<li><strong>Use Case:</strong> This template is used when the problem requires nodes at each level to be grouped together.</li>
+</ul>
+<h2 id="5-complexity-analysis">5. Complexity Analysis</h2>
+<ul>
+<li>
+<p><strong>Time Complexity:</strong> Both templates have a time complexity of <strong>O(N)</strong>, where <strong>N</strong> is the number of nodes in the tree, as each node is visited exactly once. In the worst case, such as a perfectly balanced binary tree, all nodes are traversed level by level, leading to a linear time complexity. However, in cases where the tree is highly unbalanced, BFS may end up exploring many levels, resulting in a similar time complexity but potentially more operations if the tree depth is significant.</p>
+</li>
+<li>
+<p><strong>Space Complexity:</strong> The space complexity is <strong>O(N)</strong> in the worst case, which occurs when the tree is a complete binary tree, requiring space to store all nodes at the current level in the queue. In a balanced binary tree, the maximum number of nodes at the last level can be around <strong>N/2</strong>, leading to <strong>O(N)</strong> space. For a skewed tree, the space complexity could be <strong>O(1)</strong> if there are no sibling nodes, but in general, the worst-case scenario requires storing a significant number of nodes, especially if the tree is wide.</p>
+</li>
+</ul>
+<h2 id="6-discussion-on-templates-and-patterns">6. Discussion on Templates and Patterns</h2>
+<p>These BFS templates can be adjusted based on the problem requirements, such as including conditional checks to calculate specific metrics (e.g., minimum depth). The key idea is to identify when a level-by-level exploration is required and modify the traversal accordingly.</p>
+<h2 id="7-multiple-approaches-and-implementations">7. Multiple Approaches and Implementations</h2>
+<p><strong>Iterative vs. Recursive BFS:</strong></p>
+<ul>
+<li><strong>Iterative BFS:</strong> Uses a queue to traverse the tree. This is the standard approach and is more commonly used.</li>
+<li><strong>Recursive BFS:</strong> BFS is generally implemented iteratively, as the queue-based approach naturally fits the level-order traversal mechanism. Implementing BFS recursively would require additional helper functions and stack management, which can make it more complex.</li>
+</ul>
+<h2 id="9-practice-problems">9. Practice Problems</h2>
+<table>
+<thead>
+<tr>
+<th>S.No</th>
+<th>Question</th>
+<th>Detailed Example</th>
+<th>Difficulty Level</th>
+<th>Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Level Order Traversal of Binary Tree</td>
+<td><strong>Example:</strong> Given the tree: <code>1 -&gt; [2, 3] -&gt; [4, 5, 6]</code>, perform level order traversal. <strong>Output:</strong> <code>[1], [2, 3], [4, 5, 6]</code>. Traverse the tree level-wise and print the nodes at each level.</td>
+<td>Easy</td>
+<td>Basic BFS</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Minimum Depth of Binary Tree</td>
+<td><strong>Example:</strong> Given the tree: <code>1 -&gt; [2, 3] -&gt; [4]</code>, the shortest path to a leaf is from <code>1 -&gt; 3</code>. <strong>Output:</strong> Minimum depth = 2. Calculate the minimum level required to reach a leaf node.</td>
+<td>Medium</td>
+<td>Level-by-Level BFS</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Zigzag Level Order Traversal</td>
+<td><strong>Example:</strong> Given the tree: <code>1 -&gt; [2, 3] -&gt; [4, 5, 6, 7]</code>, the zigzag order is <code>[1], [3, 2], [4, 5, 6, 7]</code>. Traverse the levels alternating left to right and right to left.</td>
+<td>Medium</td>
+<td>Modified BFS</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Average of Levels in Binary Tree</td>
+<td><strong>Example:</strong> Given nodes with values <code>[3 -&gt; 9, 20 -&gt; 15, 7]</code>, calculate the averages: <code>[3], [14.5], [11]</code>. For each level, find the average value of the nodes.</td>
+<td>Easy</td>
+<td>Level-by-Level BFS, Calculate average at each level</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Find Largest Value in Each Tree Row</td>
+<td><strong>Example:</strong> Given the tree: <code>1 -&gt; [3, 2] -&gt; [5, 3, 9]</code>, the largest values are <code>[1], [3], [9]</code>. Find the maximum value at each level of the tree.</td>
+<td>Medium</td>
+<td>Level-by-Level BFS, Track max at each level</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Connect All Nodes at the Same Level</td>
+<td><strong>Example:</strong> Given tree <code>1 -&gt; [2, 3] -&gt; [4, 5, 7]</code>, connect nodes at the same level: <code>2 -&gt; 3</code>, <code>4 -&gt; 5 -&gt; 7</code>. Set the <code>next</code> pointers for all nodes at the same level.</td>
+<td>Hard</td>
+<td>Level-by-Level BFS with pointers</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Binary Tree Right Side View</td>
+<td><strong>Example:</strong> Given the tree: <code>1 -&gt; [2, 3] -&gt; [5, 4]</code>, the right side view is <code>[1, 3, 4]</code>. Print the rightmost node at each level.</td>
+<td>Medium</td>
+<td>Modified BFS, Track last element of each level</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Cousins in Binary Tree</td>
+<td><strong>Example:</strong> Given the tree: <code>1 -&gt; [2, 3] -&gt; [4, 5]</code>, determine if <code>4</code> and <code>5</code> are cousins. <strong>Output:</strong> <code>True</code>. They are at the same level with different parents.</td>
+<td>Medium</td>
+<td>BFS, Track level and parent for both nodes</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Binary Tree Level Order Traversal II</td>
+<td><strong>Example:</strong> Given tree <code>1 -&gt; [2, 3] -&gt; [4, 5, 6]</code>, the bottom-up level order is <code>[4, 5, 6], [2, 3], [1]</code>. Traverse the tree from bottom to top.</td>
+<td>Medium</td>
+<td>BFS with stack for reversing levels</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Binary Tree Vertical Order Traversal</td>
+<td><strong>Example:</strong> Given tree <code>1 -&gt; [2, 3] -&gt; [4, 5, 6, 7]</code>, group nodes by vertical levels: <code>[4], [2], [1, 5, 6], [3], [7]</code>. Nodes are printed according to their vertical order.</td>
+<td>Hard</td>
+<td>BFS with column index tracking</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Binary Tree Diagonal Traversal</td>
+<td><strong>Example:</strong> Given tree <code>1 -&gt; [2, 3] -&gt; [4, 5, 6, 7]</code>, diagonal traversal yields <code>[1, 3, 7], [2, 5, 6], [4]</code>. Traverse the tree diagonally from top right to bottom left.</td>
+<td>Medium</td>
+<td>BFS with diagonal grouping</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Serialize and Deserialize Binary Tree</td>
+<td><strong>Example:</strong> Given tree <code>1 -&gt; [2, 3] -&gt; [4, 5]</code>, serialize it to <code>1,2,3,4,5,null,null</code>. Deserialize back to form the original tree structure.</td>
+<td>Hard</td>
+<td>BFS for level order serialization</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Maximum Width of Binary Tree</td>
+<td><strong>Example:</strong> For the tree <code>1 -&gt; [3, 2] -&gt; [5, 3, 9]</code>, the maximum width is <code>4</code> at the third level. Calculate the number of nodes between the leftmost and rightmost non-null nodes.</td>
+<td>Medium</td>
+<td>BFS with position indexing</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Sum of Nodes at Kth Level</td>
+<td><strong>Example:</strong> Given tree <code>1 -&gt; [2, 3] -&gt; [4, 5, 6]</code>, sum of nodes at level <code>2</code> is <code>4 + 5 + 6 = 15</code>. Calculate the sum of nodes at the given level <code>K</code>.</td>
+<td>Easy</td>
+<td>Level-by-Level BFS, Sum nodes at specific level</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Count Complete Tree Nodes</td>
+<td><strong>Example:</strong> For a complete binary tree with nodes <code>1 -&gt; [2, 3] -&gt; [4, 5, 6, 7]</code>, count the nodes. <strong>Output:</strong> <code>7</code>. Count all nodes in a complete tree.</td>
+<td>Medium</td>
+<td>Modified BFS with count logic</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Find Leaves of Binary Tree</td>
+<td><strong>Example:</strong> Given the tree <code>1 -&gt; [2, 3] -&gt; [4, 5, 6]</code>, leaves are <code>[4, 5, 6]</code>. Collect all nodes that have no children.</td>
+<td>Medium</td>
+<td>BFS to identify and collect leaf nodes</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Boundary Traversal of Binary Tree</td>
+<td><strong>Example:</strong> Given the tree <code>1 -&gt; [2, 3] -&gt; [4, 5, 6, 7]</code>, boundary traversal gives <code>[1, 2, 4, 5, 6, 7, 3]</code>. Traverse the boundary nodes in a specified order.</td>
+<td>Hard</td>
+<td>BFS for boundary nodes</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Check Completeness of a Binary Tree</td>
+<td><strong>Example:</strong> Given the tree <code>1 -&gt; [2, 3] -&gt; [4, 5]</code>, verify if it’s complete. <strong>Output:</strong> <code>True</code>. Check level-wise if the nodes are filled from left to right.</td>
+<td>Medium</td>
+<td>Level-by-Level BFS, Validate complete property</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Deepest Leaves Sum</td>
+<td><strong>Example:</strong> Given the tree <code>1 -&gt; [2, 3] -&gt; [4, 5, 6, 7]</code>, the sum of the deepest leaves (<code>4, 5, 6, 7</code>) is <code>22</code>.</td>
+<td>Medium</td>
+<td>Level-by-Level BFS to track and sum nodes at the deepest level</td>
+</tr>
+<tr>
+<td>20</td>
+<td>All Nodes Distance K in Binary Tree</td>
+<td><strong>Example:</strong> Given the tree <code>1 -&gt; [2, 3] -&gt; [4, 5]</code> and target node <code>2</code> with <code>K=1</code>, nodes at distance <code>1</code> are <code>[1, 4, 5]</code>.</td>
+<td>Hard</td>
+<td>BFS from the target node, using a distance counter to find nodes at distance <code>K</code></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Detailed Approach for Selected Problems:</strong></p>
+<p>Consider breaking down each approach into smaller steps or adding diagrams to visually represent how BFS is applied to solve each problem for better comprehension.</p>
+<ul>
+<li>
+<p><strong>Average of Levels in Binary Tree:</strong> Use level-by-level BFS to traverse the tree. For each level, calculate the sum of the node values and divide by the number of nodes at that level to obtain the average.</p>
+</li>
+<li>
+<p><strong>Find Largest Value in Each Tree Row:</strong> Use a similar level-by-level BFS approach. For each level, track the maximum value and store it.</p>
+</li>
+<li>
+<p><strong>Connect All Nodes at the Same Level:</strong> This problem involves adding pointers between nodes at the same level. During level-wise traversal, keep track of the previous node and connect it to the current node.</p>
+</li>
+<li>
+<p><strong>Binary Tree Right Side View:</strong> Perform a BFS, and for each level, capture the last node in that level to get the right side view of the binary tree.</p>
+</li>
+</ul>
+<h2 id="10-key-takeaways-tips-and-summary">10. Key Takeaways, Tips, and Summary</h2>
+<ul>
+<li><strong>Key Takeaways:</strong> BFS is a powerful technique for level-wise exploration of a tree. It is often implemented using a queue.</li>
+<li><strong>Practical Tips:</strong> Use BFS when you need to explore nodes level by level or determine the shortest path in an unweighted graph/tree.</li>
+<li><strong>Summary:</strong> BFS involves visiting nodes level by level using a queue, which is particularly useful for problems requiring complete level exploration.</li>
+</ul>
+<h2 id="11-common-pitfalls">11. Common Pitfalls</h2>
+<ul>
+<li><strong>Handling Edge Cases:</strong> For trees with only one node or highly unbalanced trees, ensure that your implementation can correctly handle these scenarios. For example, if the tree has only one node, the traversal should simply return that single node without any errors.</li>
+<li><strong>Mistakes to Avoid:</strong> Forgetting to check if the root is <code>None</code> before starting traversal can lead to runtime errors (e.g., attempting to access properties of a <code>None</code> object, resulting in an <code>AttributeError</code>).</li>
+<li><strong>Troubleshooting Tips:</strong> Ensure that all child nodes are added to the queue correctly, and double-check the termination conditions to avoid infinite loops.</li>
+</ul>
+<h3 id="explanation-of-level-order-traversal-of-binary-tree">Explanation of Level Order Traversal of Binary Tree</h3>
+<p><strong>Level Order Traversal</strong> is a fundamental tree traversal method where the nodes are visited level by level from top to bottom, starting with the root, and moving left to right at each level. This is often used to understand the structure of a tree, make modifications, or solve problems involving level-wise operations.</p>
+<h4 id="example">Example:</h4>
+<p>Consider the following binary tree:</p>
+<pre class="hljs"><code><div>       1
+      / \
+     2   3
+    / \   \
+   4   5   6
+</div></code></pre>
+<p>The <strong>level order traversal</strong> of this tree is: <code>[1], [2, 3], [4, 5, 6]</code>. This means we first visit the root (<code>1</code>), then all its children (<code>2</code> and <code>3</code>), and finally all the children of nodes at the previous level (<code>4, 5, 6</code>).</p>
+<h3 id="python-code-explanation">Python Code Explanation</h3>
+<p>Here is a Python implementation for level order traversal using Breadth-First Search (BFS) with detailed comments.</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeNode</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, val=<span class="hljs-number">0</span>, left=None, right=None)</span>:</span>
+        self.val = val
+        self.left = left
+        self.right = right
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">level_order_traversal</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-comment"># Edge case: if the tree is empty</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
+        <span class="hljs-keyword">return</span> []
+
+    <span class="hljs-comment"># Result list to store level order traversal</span>
+    result = []
+
+    <span class="hljs-comment"># Initialize a queue and enqueue the root node</span>
+    queue = deque([root])
+
+    <span class="hljs-comment"># Continue until all nodes are processed</span>
+    <span class="hljs-keyword">while</span> queue:
+        <span class="hljs-comment"># Number of nodes at the current level</span>
+        level_size = len(queue)
+        <span class="hljs-comment"># List to store current level's nodes</span>
+        current_level = []
+
+        <span class="hljs-comment"># Iterate over all nodes at the current level</span>
+        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(level_size):
+            <span class="hljs-comment"># Pop the front element from the queue</span>
+            current_node = queue.popleft()
+            <span class="hljs-comment"># Add the current node's value to the current level list</span>
+            current_level.append(current_node.val)
+
+            <span class="hljs-comment"># Add left child to queue if it exists</span>
+            <span class="hljs-keyword">if</span> current_node.left:
+                queue.append(current_node.left)
+            <span class="hljs-comment"># Add right child to queue if it exists</span>
+            <span class="hljs-keyword">if</span> current_node.right:
+                queue.append(current_node.right)
+
+        <span class="hljs-comment"># Add the current level to the result</span>
+        result.append(current_level)
+
+    <span class="hljs-keyword">return</span> result
+
+<span class="hljs-comment"># Example usage</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    <span class="hljs-comment"># Construct the tree: </span>
+    <span class="hljs-comment">#        1</span>
+    <span class="hljs-comment">#       / \</span>
+    <span class="hljs-comment">#      2   3</span>
+    <span class="hljs-comment">#     / \   \</span>
+    <span class="hljs-comment">#    4   5   6</span>
+    root = TreeNode(<span class="hljs-number">1</span>)
+    root.left = TreeNode(<span class="hljs-number">2</span>)
+    root.right = TreeNode(<span class="hljs-number">3</span>)
+    root.left.left = TreeNode(<span class="hljs-number">4</span>)
+    root.left.right = TreeNode(<span class="hljs-number">5</span>)
+    root.right.right = TreeNode(<span class="hljs-number">6</span>)
+
+    <span class="hljs-comment"># Print level order traversal</span>
+    print(level_order_traversal(root))
+</div></code></pre>
+<h3 id="key-points">Key Points:</h3>
+<ul>
+<li>The <code>deque</code> data structure is used because it allows efficient appending and popping from both ends, which is useful for BFS.</li>
+<li>The outer while loop ensures we continue processing until all nodes are visited.</li>
+<li>The inner for loop processes all nodes at a given level and prepares for the next level.</li>
+</ul>
+<p>The approach uses a queue to ensure each level of nodes is processed in order before moving to the next level, making it efficient for level-order exploration tasks in trees. The <strong>time complexity</strong> is <strong>O(N)</strong>, where <strong>N</strong> is the number of nodes, and the <strong>space complexity</strong> is <strong>O(N)</strong> in the worst case, due to the queue.</p>
+<h3 id="zigzag-level-order-traversal-explanation-and-python-solution">Zigzag Level Order Traversal: Explanation and Python Solution</h3>
+<h4 id="problem-explanation">Problem Explanation</h4>
+<p>In a Zigzag Level Order Traversal, nodes of a binary tree are traversed level by level, but the direction alternates at each level. This means:</p>
+<ul>
+<li>At level 1, nodes are visited left to right.</li>
+<li>At level 2, nodes are visited right to left.</li>
+<li>At level 3, nodes are visited left to right again, and so on.</li>
+</ul>
+<p>This traversal pattern gives a zigzag effect, hence the name &quot;Zigzag Level Order Traversal.&quot;</p>
+<h4 id="numeric-example">Numeric Example:</h4>
+<p>Consider the following binary tree:</p>
+<pre class="hljs"><code><div>       1
+      / \
+     2   3
+    / \   \
+   4   5   6
+</div></code></pre>
+<p>The <strong>zigzag level order traversal</strong> of this tree would be:</p>
+<ul>
+<li>Level 1: <code>[1]</code> (left to right)</li>
+<li>Level 2: <code>[3, 2]</code> (right to left)</li>
+<li>Level 3: <code>[4, 5, 6]</code> (left to right)</li>
+</ul>
+<p><strong>Final Output:</strong> <code>[[1], [3, 2], [4, 5, 6]]</code></p>
+<h4 id="python-solution-with-explanation">Python Solution with Explanation</h4>
+<p>To solve the problem, we use a Breadth-First Search (BFS) approach with a slight modification to alternate the direction of traversal at each level.</p>
+<p>Here is the Python implementation:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeNode</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, val=<span class="hljs-number">0</span>, left=None, right=None)</span>:</span>
+        self.val = val
+        self.left = left
+        self.right = right
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">zigzag_level_order_traversal</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-comment"># Edge case: if the tree is empty</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
+        <span class="hljs-keyword">return</span> []
+
+    <span class="hljs-comment"># Result list to store zigzag level order traversal</span>
+    result = []
+
+    <span class="hljs-comment"># Initialize a queue and enqueue the root node</span>
+    queue = deque([root])
+
+    <span class="hljs-comment"># Flag to indicate the direction of traversal (left to right or right to left)</span>
+    left_to_right = <span class="hljs-literal">True</span>
+
+    <span class="hljs-comment"># Continue until all nodes are processed</span>
+    <span class="hljs-keyword">while</span> queue:
+        <span class="hljs-comment"># Number of nodes at the current level</span>
+        level_size = len(queue)
+        <span class="hljs-comment"># List to store current level's nodes</span>
+        current_level = []
+
+        <span class="hljs-comment"># Iterate over all nodes at the current level</span>
+        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(level_size):
+            <span class="hljs-comment"># Pop the front element from the queue</span>
+            current_node = queue.popleft()
+
+            <span class="hljs-comment"># Add the current node's value to the current level list</span>
+            <span class="hljs-comment"># If traversing left to right, append to the end; if right to left, append to the beginning</span>
+            <span class="hljs-keyword">if</span> left_to_right:
+                current_level.append(current_node.val)
+            <span class="hljs-keyword">else</span>:
+                current_level.insert(<span class="hljs-number">0</span>, current_node.val)
+
+            <span class="hljs-comment"># Add left and right children to queue if they exist</span>
+            <span class="hljs-keyword">if</span> current_node.left:
+                queue.append(current_node.left)
+            <span class="hljs-keyword">if</span> current_node.right:
+                queue.append(current_node.right)
+
+        <span class="hljs-comment"># Add the current level to the result</span>
+        result.append(current_level)
+        <span class="hljs-comment"># Toggle the direction for the next level</span>
+        left_to_right = <span class="hljs-keyword">not</span> left_to_right
+
+    <span class="hljs-keyword">return</span> result
+
+<span class="hljs-comment"># Example usage</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    <span class="hljs-comment"># Construct the tree: </span>
+    <span class="hljs-comment">#        1</span>
+    <span class="hljs-comment">#       / \</span>
+    <span class="hljs-comment">#      2   3</span>
+    <span class="hljs-comment">#     / \   \</span>
+    <span class="hljs-comment">#    4   5   6</span>
+    root = TreeNode(<span class="hljs-number">1</span>)
+    root.left = TreeNode(<span class="hljs-number">2</span>)
+    root.right = TreeNode(<span class="hljs-number">3</span>)
+    root.left.left = TreeNode(<span class="hljs-number">4</span>)
+    root.left.right = TreeNode(<span class="hljs-number">5</span>)
+    root.right.right = TreeNode(<span class="hljs-number">6</span>)
+
+    <span class="hljs-comment"># Print zigzag level order traversal</span>
+    print(zigzag_level_order_traversal(root))
+</div></code></pre>
+<h3 id="key-points">Key Points:</h3>
+<ul>
+<li>The <code>deque</code> data structure is used because it allows efficient popping from the front, which is required for level-wise traversal.</li>
+<li>The flag <code>left_to_right</code> toggles after each level to ensure the traversal direction is reversed at every alternate level.</li>
+<li>The <strong>time complexity</strong> is <strong>O(N)</strong>, where <strong>N</strong> is the number of nodes, since each node is processed once.</li>
+<li>The <strong>space complexity</strong> is <strong>O(N)</strong>, primarily due to storing nodes in the queue.</li>
+</ul>
+<p>This approach ensures that the nodes are visited in the desired zigzag pattern efficiently, making it ideal for problems where a level-wise yet alternating traversal is required.</p>
+<h3 id="explanation-%22connect-all-nodes-at-the-same-level%22">Explanation: &quot;Connect All Nodes at the Same Level&quot;</h3>
+<p>The problem <strong>&quot;Connect All Nodes at the Same Level&quot;</strong> is about connecting nodes horizontally at each level of a binary tree. Specifically, we need to add pointers between all nodes at the same level such that nodes at each level are linked from left to right.</p>
+<h4 id="numeric-example">Numeric Example:</h4>
+<p>Consider the following binary tree:</p>
+<pre class="hljs"><code><div>       1
+      / \
+     2   3
+    / \   \
+   4   5   7
+</div></code></pre>
+<p>The goal is to connect nodes at the same level, resulting in the following connections:</p>
+<ul>
+<li>At level 1: <code>1</code> (no connection needed).</li>
+<li>At level 2: Connect <code>2 -&gt; 3</code>.</li>
+<li>At level 3: Connect <code>4 -&gt; 5 -&gt; 7</code>.</li>
+</ul>
+<p>The final connections can be visualized like this:</p>
+<pre class="hljs"><code><div>       1
+      / \
+     2 -&gt; 3
+    / \    \
+   4 -&gt; 5 -&gt; 7
+</div></code></pre>
+<p>All nodes at the same level are connected from left to right.</p>
+<h3 id="python-solution">Python Solution:</h3>
+<p>We can solve this problem using a level-order traversal (BFS) approach. During traversal, we use a queue to keep track of nodes at each level and set up pointers between nodes.</p>
+<p>Here is the Python implementation:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeNode</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, val=<span class="hljs-number">0</span>, left=None, right=None)</span>:</span>
+        self.val = val
+        self.left = left
+        self.right = right
+        self.next = <span class="hljs-literal">None</span>  <span class="hljs-comment"># Pointer to the next node at the same level</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">connect_nodes_at_same_level</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-comment"># Edge case: if the tree is empty</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+    <span class="hljs-comment"># Initialize a queue and enqueue the root node</span>
+    queue = deque([root])
+
+    <span class="hljs-comment"># Continue until all nodes are processed</span>
+    <span class="hljs-keyword">while</span> queue:
+        <span class="hljs-comment"># Number of nodes at the current level</span>
+        level_size = len(queue)
+        <span class="hljs-comment"># Previous node in the current level (used for connecting nodes)</span>
+        previous_node = <span class="hljs-literal">None</span>
+
+        <span class="hljs-comment"># Iterate over all nodes at the current level</span>
+        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(level_size):
+            <span class="hljs-comment"># Pop the front element from the queue</span>
+            current_node = queue.popleft()
+
+            <span class="hljs-comment"># Connect the previous node to the current node</span>
+            <span class="hljs-keyword">if</span> previous_node:
+                previous_node.next = current_node
+
+            <span class="hljs-comment"># Update the previous node to be the current one</span>
+            previous_node = current_node
+
+            <span class="hljs-comment"># Add left and right children to the queue if they exist</span>
+            <span class="hljs-keyword">if</span> current_node.left:
+                queue.append(current_node.left)
+            <span class="hljs-keyword">if</span> current_node.right:
+                queue.append(current_node.right)
+
+    <span class="hljs-keyword">return</span> root
+
+<span class="hljs-comment"># Example usage</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">print_connections</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-comment"># Helper function to print connections at each level</span>
+    <span class="hljs-keyword">while</span> root:
+        current = root
+        <span class="hljs-keyword">while</span> current:
+            print(current.val, end=<span class="hljs-string">" -&gt; "</span> <span class="hljs-keyword">if</span> current.next <span class="hljs-keyword">else</span> <span class="hljs-string">" -&gt; None\n"</span>)
+            current = current.next
+        <span class="hljs-comment"># Move to the next level (first child of the current level)</span>
+        <span class="hljs-keyword">if</span> root.left:
+            root = root.left
+        <span class="hljs-keyword">else</span>:
+            root = root.right
+
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    <span class="hljs-comment"># Construct the tree: </span>
+    <span class="hljs-comment">#        1</span>
+    <span class="hljs-comment">#       / \</span>
+    <span class="hljs-comment">#      2   3</span>
+    <span class="hljs-comment">#     / \   \</span>
+    <span class="hljs-comment">#    4   5   7</span>
+    root = TreeNode(<span class="hljs-number">1</span>)
+    root.left = TreeNode(<span class="hljs-number">2</span>)
+    root.right = TreeNode(<span class="hljs-number">3</span>)
+    root.left.left = TreeNode(<span class="hljs-number">4</span>)
+    root.left.right = TreeNode(<span class="hljs-number">5</span>)
+    root.right.right = TreeNode(<span class="hljs-number">7</span>)
+
+    <span class="hljs-comment"># Connect nodes at the same level and print the connections</span>
+    connect_nodes_at_same_level(root)
+    print_connections(root)
+</div></code></pre>
+<p><strong>Output</strong> for the provided example would be:</p>
+<pre class="hljs"><code><div>1 -&gt; None
+2 -&gt; 3 -&gt; None
+4 -&gt; 5 -&gt; 7 -&gt; None
+</div></code></pre>
+<h3 id="key-points">Key Points:</h3>
+<ul>
+<li>The queue ensures that we process all nodes at each level before moving to the next.</li>
+<li>The <code>previous_node</code> variable helps establish connections between nodes at the same level.</li>
+<li><strong>Time Complexity</strong> is <strong>O(N)</strong>, where <strong>N</strong> is the number of nodes, since each node is visited exactly once.</li>
+<li><strong>Space Complexity</strong> is <strong>O(N)</strong> due to the use of the queue for storing nodes at each level.</li>
+</ul>
+<p>This approach allows us to efficiently connect nodes at the same level, ensuring that each node has a <code>next</code> pointer set to its neighboring node in the level, or <code>None</code> if it is the last node in that level.</p>
+<ul>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+<li></li>
+</ul>
+<h3 id="explanation-cousins-in-binary-tree">Explanation: Cousins in Binary Tree</h3>
+<p>The problem <strong>&quot;Cousins in Binary Tree&quot;</strong> involves determining if two nodes in a binary tree are cousins. Two nodes are considered cousins if they meet the following criteria:</p>
+<ol>
+<li>They are at the same level of the tree.</li>
+<li>They have different parents.</li>
+</ol>
+<p>In other words, cousins are nodes that are at the same depth but are not siblings.</p>
+<h4 id="numeric-example">Numeric Example:</h4>
+<p>Consider the following binary tree:</p>
+<pre class="hljs"><code><div>       1
+      / \
+     2   3
+    /     \
+   4       5
+</div></code></pre>
+<p>In this tree:</p>
+<ul>
+<li>Nodes <code>4</code> and <code>5</code> are <strong>cousins</strong> because they are both at level 3, and their parents (<code>2</code> and <code>3</code>) are different.</li>
+<li>Nodes <code>2</code> and <code>3</code> are <strong>not cousins</strong> because they are at level 2 but have the same parent (<code>1</code>).</li>
+</ul>
+<p><strong>Example Question</strong>: Given the tree above, determine if nodes <code>4</code> and <code>5</code> are cousins.</p>
+<p><strong>Answer</strong>: <code>True</code>. Nodes <code>4</code> and <code>5</code> are cousins.</p>
+<h3 id="python-solution-with-explanation">Python Solution with Explanation</h3>
+<p>To solve this problem, we can use a <strong>Breadth-First Search (BFS)</strong> approach to traverse the tree level by level, keeping track of the parent of each node and the level of the target nodes. If both target nodes are found at the same level and have different parents, then they are cousins.</p>
+<p>Here's the Python implementation:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeNode</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, val=<span class="hljs-number">0</span>, left=None, right=None)</span>:</span>
+        self.val = val
+        self.left = left
+        self.right = right
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">are_cousins</span><span class="hljs-params">(root, x, y)</span>:</span>
+    <span class="hljs-comment"># Edge case: if the tree is empty</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+
+    <span class="hljs-comment"># Initialize a queue to perform level-order traversal</span>
+    queue = deque([(root, <span class="hljs-literal">None</span>)])  <span class="hljs-comment"># Each element is a tuple (node, parent)</span>
+
+    <span class="hljs-keyword">while</span> queue:
+        level_size = len(queue)
+        x_parent = <span class="hljs-literal">None</span>
+        y_parent = <span class="hljs-literal">None</span>
+
+        <span class="hljs-comment"># Iterate over all nodes at the current level</span>
+        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(level_size):
+            current_node, parent = queue.popleft()
+
+            <span class="hljs-comment"># Check if the current node is either x or y</span>
+            <span class="hljs-keyword">if</span> current_node.val == x:
+                x_parent = parent
+            <span class="hljs-keyword">if</span> current_node.val == y:
+                y_parent = parent
+
+            <span class="hljs-comment"># Add children to the queue along with their parent</span>
+            <span class="hljs-keyword">if</span> current_node.left:
+                queue.append((current_node.left, current_node))
+            <span class="hljs-keyword">if</span> current_node.right:
+                queue.append((current_node.right, current_node))
+
+        <span class="hljs-comment"># After traversing the current level, check if x and y are cousins</span>
+        <span class="hljs-keyword">if</span> x_parent <span class="hljs-keyword">and</span> y_parent:
+            <span class="hljs-comment"># x and y are cousins if they have different parents</span>
+            <span class="hljs-keyword">return</span> x_parent != y_parent
+        <span class="hljs-keyword">if</span> (x_parent <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> y_parent) <span class="hljs-keyword">or</span> (y_parent <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> x_parent):
+            <span class="hljs-comment"># If only one of them is found at this level, they are not cousins</span>
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+
+<span class="hljs-comment"># Example usage</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    <span class="hljs-comment"># Construct the tree:</span>
+    <span class="hljs-comment">#        1</span>
+    <span class="hljs-comment">#       / \</span>
+    <span class="hljs-comment">#      2   3</span>
+    <span class="hljs-comment">#     /     \</span>
+    <span class="hljs-comment">#    4       5</span>
+    root = TreeNode(<span class="hljs-number">1</span>)
+    root.left = TreeNode(<span class="hljs-number">2</span>)
+    root.right = TreeNode(<span class="hljs-number">3</span>)
+    root.left.left = TreeNode(<span class="hljs-number">4</span>)
+    root.right.right = TreeNode(<span class="hljs-number">5</span>)
+
+    <span class="hljs-comment"># Check if nodes 4 and 5 are cousins</span>
+    print(are_cousins(root, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>))  <span class="hljs-comment"># Output: True</span>
+</div></code></pre>
+<h3 id="key-points">Key Points:</h3>
+<ul>
+<li>The <strong>BFS approach</strong> ensures that we traverse the tree level by level, allowing us to efficiently determine if two nodes are at the same level.</li>
+<li>By keeping track of each node's parent, we can determine if nodes have different parents, which is crucial for determining if they are cousins.</li>
+<li><strong>Time Complexity</strong>: <strong>O(N)</strong>, where <strong>N</strong> is the number of nodes in the tree, as each node is visited once.</li>
+<li><strong>Space Complexity</strong>: <strong>O(N)</strong>, due to the use of the queue to store nodes for level-order traversal.</li>
+</ul>
+<p>This approach provides a clear way to determine if two nodes are cousins by leveraging level-order traversal and tracking parent nodes.</p>
+<h3 id="binary-tree-level-order-traversal-ii-explanation-and-python-solution">Binary Tree Level Order Traversal II: Explanation and Python Solution</h3>
+<p>The problem <strong>&quot;Binary Tree Level Order Traversal II&quot;</strong> is a variation of level order traversal where the nodes of a binary tree are traversed level by level, but the result should be returned in reverse order, starting from the bottom-most level to the root.</p>
+<p>In other words, you need to do a bottom-up level order traversal.</p>
+<h4 id="numeric-example">Numeric Example:</h4>
+<p>Consider the following binary tree:</p>
+<pre class="hljs"><code><div>       1
+      / \
+     2   3
+    / \   \
+   4   5   6
+</div></code></pre>
+<p>The <strong>level order traversal</strong> from top to bottom would be: <code>[1], [2, 3], [4, 5, 6]</code>.</p>
+<p>The <strong>bottom-up level order traversal</strong> would be: <code>[[4, 5, 6], [2, 3], [1]]</code>.</p>
+<h3 id="python-solution-with-explanation">Python Solution with Explanation</h3>
+<p>Here is a Python implementation for bottom-up level order traversal using Breadth-First Search (BFS) with detailed comments:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeNode</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, val=<span class="hljs-number">0</span>, left=None, right=None)</span>:</span>
+        self.val = val
+        self.left = left
+        self.right = right
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">level_order_traversal_ii</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-comment"># Edge case: if the tree is empty</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
+        <span class="hljs-keyword">return</span> []
+
+    <span class="hljs-comment"># Result list to store the level order traversal in reverse order</span>
+    result = []
+
+    <span class="hljs-comment"># Initialize a queue and enqueue the root node</span>
+    queue = deque([root])
+
+    <span class="hljs-comment"># Continue until all nodes are processed</span>
+    <span class="hljs-keyword">while</span> queue:
+        <span class="hljs-comment"># Number of nodes at the current level</span>
+        level_size = len(queue)
+        <span class="hljs-comment"># List to store current level's nodes</span>
+        current_level = []
+
+        <span class="hljs-comment"># Iterate over all nodes at the current level</span>
+        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(level_size):
+            current_node = queue.popleft()  <span class="hljs-comment"># Pop the front element</span>
+            current_level.append(current_node.val)  <span class="hljs-comment"># Process the current node</span>
+
+            <span class="hljs-comment"># Add left child to queue if it exists</span>
+            <span class="hljs-keyword">if</span> current_node.left:
+                queue.append(current_node.left)
+            <span class="hljs-comment"># Add right child to queue if it exists</span>
+            <span class="hljs-keyword">if</span> current_node.right:
+                queue.append(current_node.right)
+
+        <span class="hljs-comment"># Insert the current level at the beginning of the result list</span>
+        result.insert(<span class="hljs-number">0</span>, current_level)
+
+    <span class="hljs-keyword">return</span> result
+
+<span class="hljs-comment"># Example usage</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    <span class="hljs-comment"># Construct the tree: </span>
+    <span class="hljs-comment">#        1</span>
+    <span class="hljs-comment">#       / \</span>
+    <span class="hljs-comment">#      2   3</span>
+    <span class="hljs-comment">#     / \   \</span>
+    <span class="hljs-comment">#    4   5   6</span>
+    root = TreeNode(<span class="hljs-number">1</span>)
+    root.left = TreeNode(<span class="hljs-number">2</span>)
+    root.right = TreeNode(<span class="hljs-number">3</span>)
+    root.left.left = TreeNode(<span class="hljs-number">4</span>)
+    root.left.right = TreeNode(<span class="hljs-number">5</span>)
+    root.right.right = TreeNode(<span class="hljs-number">6</span>)
+
+    <span class="hljs-comment"># Print bottom-up level order traversal</span>
+    print(level_order_traversal_ii(root))
+</div></code></pre>
+<h3 id="key-points">Key Points:</h3>
+<ul>
+<li>The <strong>BFS approach</strong> is used here to traverse the tree level by level.</li>
+<li>Instead of appending the level at the end of the result list, each level is <strong>inserted at the beginning</strong> of the result list (<code>result.insert(0, current_level)</code>) to create the bottom-up order.</li>
+<li><strong>Time Complexity</strong>: <strong>O(N)</strong>, where <strong>N</strong> is the number of nodes in the tree, as each node is processed exactly once.</li>
+<li><strong>Space Complexity</strong>: <strong>O(N)</strong>, primarily due to storing nodes in the queue and the final result list.</li>
+</ul>
+<p>This approach effectively allows us to get the desired order of levels in reverse, providing a solution for the bottom-up level order traversal problem.</p>
+<h3 id="problem-maximum-width-of-binary-tree">Problem: Maximum Width of Binary Tree</h3>
+<p>The problem <strong>&quot;Maximum Width of Binary Tree&quot;</strong> requires finding the maximum width of a binary tree. The width of a level is defined as the number of nodes between the leftmost and rightmost nodes, including any <code>null</code> nodes in between.</p>
+<h4 id="numeric-example">Numeric Example:</h4>
+<p>Consider the following binary tree:</p>
+<pre class="hljs"><code><div>       1
+      / \
+     3   2
+    /     \
+   5       9
+  / \     / \
+ 6   7   8  10
+</div></code></pre>
+<p>The <strong>width of each level</strong> in the tree is as follows:</p>
+<ul>
+<li>Level 1: <code>[1]</code> has a width of <code>1</code>.</li>
+<li>Level 2: <code>[3, 2]</code> has a width of <code>2</code>.</li>
+<li>Level 3: <code>[5, null, null, 9]</code> has a width of <code>4</code>.</li>
+<li>Level 4: <code>[6, 7, 8, 10]</code> has a width of <code>4</code>.</li>
+</ul>
+<p>Thus, the <strong>maximum width</strong> of this binary tree is <code>4</code>.</p>
+<h3 id="python-solution-with-explanation">Python Solution with Explanation</h3>
+<p>To solve this problem, we use a Breadth-First Search (BFS) approach to traverse the tree level by level. While traversing, we track the position (or index) of each node to calculate the width of each level.</p>
+<p>Here's the Python implementation:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeNode</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, val=<span class="hljs-number">0</span>, left=None, right=None)</span>:</span>
+        self.val = val
+        self.left = left
+        self.right = right
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">max_width_of_binary_tree</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-comment"># Edge case: if the tree is empty</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+
+    <span class="hljs-comment"># Initialize a queue to perform level-order traversal</span>
+    <span class="hljs-comment"># Each element is a tuple (node, index)</span>
+    queue = deque([(root, <span class="hljs-number">0</span>)])
+    max_width = <span class="hljs-number">0</span>
+
+    <span class="hljs-comment"># Perform BFS to traverse nodes level by level</span>
+    <span class="hljs-keyword">while</span> queue:
+        level_length = len(queue)
+        <span class="hljs-comment"># Record the indices of the first and last nodes at the current level</span>
+        _, first_index = queue[<span class="hljs-number">0</span>]
+        _, last_index = queue[<span class="hljs-number">-1</span>]
+        
+        <span class="hljs-comment"># Calculate the width of the current level</span>
+        current_width = last_index - first_index + <span class="hljs-number">1</span>
+        <span class="hljs-comment"># Update the maximum width</span>
+        max_width = max(max_width, current_width)
+
+        <span class="hljs-comment"># Iterate through all nodes at the current level</span>
+        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(level_length):
+            current_node, index = queue.popleft()
+
+            <span class="hljs-comment"># Add left child to the queue if it exists with its index</span>
+            <span class="hljs-keyword">if</span> current_node.left:
+                queue.append((current_node.left, <span class="hljs-number">2</span> * index))
+            <span class="hljs-comment"># Add right child to the queue if it exists with its index</span>
+            <span class="hljs-keyword">if</span> current_node.right:
+                queue.append((current_node.right, <span class="hljs-number">2</span> * index + <span class="hljs-number">1</span>))
+
+    <span class="hljs-keyword">return</span> max_width
+
+<span class="hljs-comment"># Example usage</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    <span class="hljs-comment"># Construct the tree:</span>
+    <span class="hljs-comment">#        1</span>
+    <span class="hljs-comment">#       / \</span>
+    <span class="hljs-comment">#      3   2</span>
+    <span class="hljs-comment">#     /     \</span>
+    <span class="hljs-comment">#    5       9</span>
+    <span class="hljs-comment">#   / \     / \</span>
+    <span class="hljs-comment">#  6   7   8  10</span>
+    root = TreeNode(<span class="hljs-number">1</span>)
+    root.left = TreeNode(<span class="hljs-number">3</span>)
+    root.right = TreeNode(<span class="hljs-number">2</span>)
+    root.left.left = TreeNode(<span class="hljs-number">5</span>)
+    root.right.right = TreeNode(<span class="hljs-number">9</span>)
+    root.left.left.left = TreeNode(<span class="hljs-number">6</span>)
+    root.left.left.right = TreeNode(<span class="hljs-number">7</span>)
+    root.right.right.left = TreeNode(<span class="hljs-number">8</span>)
+    root.right.right.right = TreeNode(<span class="hljs-number">10</span>)
+
+    <span class="hljs-comment"># Print the maximum width of the binary tree</span>
+    print(max_width_of_binary_tree(root))  <span class="hljs-comment"># Output: 4</span>
+</div></code></pre>
+<h3 id="key-points">Key Points:</h3>
+<ul>
+<li><strong>Indexing Strategy</strong>:
+<ul>
+<li>We use an indexing strategy where the root starts at index <code>0</code>.</li>
+<li>For each node with index <code>i</code>:
+<ul>
+<li>The left child gets index <code>2 * i</code>.</li>
+<li>The right child gets index <code>2 * i + 1</code>.</li>
+</ul>
+</li>
+<li>This allows us to calculate the width of each level as the difference between the first and last node indices plus one.</li>
+</ul>
+</li>
+<li><strong>BFS Approach</strong>:
+<ul>
+<li>BFS ensures that nodes are processed level by level, which is essential for calculating the width of each level.</li>
+</ul>
+</li>
+<li><strong>Time Complexity</strong>: <strong>O(N)</strong>, where <strong>N</strong> is the number of nodes in the tree, as each node is visited exactly once.</li>
+<li><strong>Space Complexity</strong>: <strong>O(N)</strong>, due to the use of the queue for storing nodes for level-order traversal.</li>
+</ul>
+<p>This approach effectively allows us to determine the maximum width of a binary tree, even in cases where nodes are missing, by leveraging level-wise traversal and keeping track of the position indices.</p>
+<h3 id="explanation-of-%22binary-tree-vertical-order-traversal%22">Explanation of &quot;Binary Tree Vertical Order Traversal&quot;</h3>
+<p><strong>Binary Tree Vertical Order Traversal</strong> is a method used to traverse a binary tree by grouping nodes based on their vertical levels when viewed from top to bottom. Each vertical level is a line that runs vertically from the top of the tree to the bottom, passing through nodes that are aligned in the same direction.</p>
+<p>In vertical order traversal, nodes are grouped and printed level-wise from the leftmost vertical line to the rightmost vertical line.</p>
+<h4 id="how-vertical-order-is-determined">How Vertical Order is Determined:</h4>
+<ul>
+<li>We assign a <strong>vertical index</strong> to each node in the tree.
+<ul>
+<li>The <strong>root</strong> node starts with a vertical index of <code>0</code>.</li>
+<li>For each <strong>left child</strong>, the vertical index is decreased by <code>1</code>.</li>
+<li>For each <strong>right child</strong>, the vertical index is increased by <code>1</code>.</li>
+</ul>
+</li>
+<li>Nodes with the same vertical index are part of the same vertical level.</li>
+</ul>
+<h4 id="example">Example:</h4>
+<p>Consider the following binary tree:</p>
+<pre class="hljs"><code><div>       1
+      / \
+     2   3
+    / \   \
+   4   5   6
+</div></code></pre>
+<p>The <strong>vertical order traversal</strong> for this tree would be:</p>
+<ul>
+<li>Vertical level -2: <code>[4]</code></li>
+<li>Vertical level -1: <code>[2]</code></li>
+<li>Vertical level 0: <code>[1, 5]</code></li>
+<li>Vertical level 1: <code>[3]</code></li>
+<li>Vertical level 2: <code>[6]</code></li>
+</ul>
+<p><strong>Output:</strong> <code>[[4], [2], [1, 5], [3], [6]]</code></p>
+<p>This traversal helps to group nodes that are aligned vertically and is often used in graphical representations or when solving problems that require nodes to be grouped by their relative positions.</p>
+<p>Here is the Python code for &quot;Binary Tree Vertical Order Traversal&quot; explained in comments:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Import the necessary modules</span>
+<span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque, defaultdict
+
+<span class="hljs-comment"># Define the TreeNode class to represent a node of the binary tree</span>
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeNode</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, val=<span class="hljs-number">0</span>, left=None, right=None)</span>:</span>
+        self.val = val        <span class="hljs-comment"># Value of the node</span>
+        self.left = left      <span class="hljs-comment"># Reference to the left child node</span>
+        self.right = right    <span class="hljs-comment"># Reference to the right child node</span>
+
+<span class="hljs-comment"># Define the function to perform vertical order traversal</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">vertical_order_traversal</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-comment"># If the tree is empty, return an empty list</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> root:
+        <span class="hljs-keyword">return</span> []
+
+    <span class="hljs-comment"># Dictionary to store nodes at each vertical level</span>
+    <span class="hljs-comment"># Keys are vertical levels, and values are lists of node values</span>
+    vertical_map = defaultdict(list)
+
+    <span class="hljs-comment"># Initialize a queue for level-order traversal</span>
+    <span class="hljs-comment"># Each element is a tuple (node, vertical_level)</span>
+    queue = deque([(root, <span class="hljs-number">0</span>)])
+
+    <span class="hljs-comment"># Perform BFS to traverse nodes and group them by vertical levels</span>
+    <span class="hljs-keyword">while</span> queue:
+        <span class="hljs-comment"># Pop the front element from the queue (node and its vertical level)</span>
+        current_node, vertical_level = queue.popleft()
+
+        <span class="hljs-comment"># Add the current node's value to the list corresponding to its vertical level</span>
+        vertical_map[vertical_level].append(current_node.val)
+
+        <span class="hljs-comment"># If the current node has a left child, add it to the queue with vertical_level - 1</span>
+        <span class="hljs-keyword">if</span> current_node.left:
+            queue.append((current_node.left, vertical_level - <span class="hljs-number">1</span>))
+
+        <span class="hljs-comment"># If the current node has a right child, add it to the queue with vertical_level + 1</span>
+        <span class="hljs-keyword">if</span> current_node.right:
+            queue.append((current_node.right, vertical_level + <span class="hljs-number">1</span>))
+
+    <span class="hljs-comment"># Sort the vertical levels and prepare the final result list</span>
+    <span class="hljs-comment"># Sort the keys of vertical_map and gather all nodes for each vertical level</span>
+    sorted_vertical_levels = sorted(vertical_map.keys())
+    result = [vertical_map[level] <span class="hljs-keyword">for</span> level <span class="hljs-keyword">in</span> sorted_vertical_levels]
+
+    <span class="hljs-comment"># Return the result list</span>
+    <span class="hljs-keyword">return</span> result
+
+<span class="hljs-comment"># Example usage of the vertical order traversal function</span>
+<span class="hljs-keyword">if</span> __name__ == <span class="hljs-string">"__main__"</span>:
+    <span class="hljs-comment"># Construct the binary tree:</span>
+    <span class="hljs-comment">#        1</span>
+    <span class="hljs-comment">#       / \</span>
+    <span class="hljs-comment">#      2   3</span>
+    <span class="hljs-comment">#     / \   \</span>
+    <span class="hljs-comment">#    4   5   6</span>
+    root = TreeNode(<span class="hljs-number">1</span>)                      <span class="hljs-comment"># Root node with value 1</span>
+    root.left = TreeNode(<span class="hljs-number">2</span>)                 <span class="hljs-comment"># Left child of root with value 2</span>
+    root.right = TreeNode(<span class="hljs-number">3</span>)                <span class="hljs-comment"># Right child of root with value 3</span>
+    root.left.left = TreeNode(<span class="hljs-number">4</span>)            <span class="hljs-comment"># Left child of node 2 with value 4</span>
+    root.left.right = TreeNode(<span class="hljs-number">5</span>)           <span class="hljs-comment"># Right child of node 2 with value 5</span>
+    root.right.right = TreeNode(<span class="hljs-number">6</span>)          <span class="hljs-comment"># Right child of node 3 with value 6</span>
+
+    <span class="hljs-comment"># Perform vertical order traversal and print the result</span>
+    print(vertical_order_traversal(root))   <span class="hljs-comment"># Output: [[4], [2], [1, 5], [3], [6]]</span>
+</div></code></pre>
+<h3 id="summary-of-code">Summary of Code:</h3>
+<ul>
+<li><strong>TreeNode Class</strong>: Represents each node in the binary tree, having a value (<code>val</code>), a left child (<code>left</code>), and a right child (<code>right</code>).</li>
+<li><strong>vertical_order_traversal Function</strong>:
+<ul>
+<li>If the tree is empty, returns an empty list.</li>
+<li>Uses a <code>defaultdict</code> to store nodes at each vertical level.</li>
+<li>Uses a <code>deque</code> for BFS traversal, storing nodes along with their vertical levels.</li>
+<li>Populates the <code>vertical_map</code> dictionary with nodes grouped by their vertical levels.</li>
+<li>Finally, sorts the dictionary keys (i.e., vertical levels) to produce the result list.</li>
+</ul>
+</li>
+<li><strong>Example Usage</strong>:
+<ul>
+<li>Constructs the binary tree as shown.</li>
+<li>Calls <code>vertical_order_traversal()</code> to perform the traversal and prints the vertical order.</li>
+</ul>
+</li>
+</ul>
+<p>This code effectively demonstrates how to perform a vertical order traversal of a binary tree using a BFS approach with a <code>deque</code> and a <code>defaultdict</code> to group nodes according to their vertical levels.</p>
+
+</body>
+</html>

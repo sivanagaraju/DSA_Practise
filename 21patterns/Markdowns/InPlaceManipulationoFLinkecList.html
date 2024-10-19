@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>InPlaceManipulationoFLinkecList.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h3 id="in-place-manipulation-of-linked-list">In-Place Manipulation of Linked List</h3>
+<h4 id="1-core-concepts-and-coding-patterns">1. Core Concepts and Coding Patterns</h4>
+<p><strong>In-Place Manipulation</strong> refers to modifying a linked list without using additional space, often requiring only constant extra space. These modifications can include operations like reversing a segment of a linked list, finding specific nodes, or merging parts. The core advantage of in-place manipulation is its memory efficiency.</p>
+<h5 id="key-use-cases">Key Use Cases:</h5>
+<ul>
+<li><strong>Reversing a Linked List</strong>: Reversing the entire list or a segment in-place.</li>
+<li><strong>Reordering a Linked List</strong>: Merging two halves of a linked list in alternating order.</li>
+<li><strong>Cycle Detection</strong>: Modifying pointers in place to find or remove cycles.</li>
+</ul>
+<p>These operations typically involve manipulating the node pointers (<code>next</code>) rather than copying nodes into another data structure, resulting in more efficient algorithms.</p>
+<h4 id="2-examples">2. Examples</h4>
+<ul>
+<li><strong>Reversing a Linked List</strong>: Given a linked list <code>1 → 2 → 3 → 4 → 5</code>, an in-place reversal yields <code>5 → 4 → 3 → 2 → 1</code>.</li>
+<li><strong>Reordering a Linked List</strong>: Given a linked list <code>1 → 2 → 3 → 4 → 5</code>, an in-place reorder to alternate between the ends yields <code>1 → 5 → 2 → 4 → 3</code>.</li>
+</ul>
+<h4 id="3-problem-identification-checklist">3. Problem Identification Checklist</h4>
+<table>
+<thead>
+<tr>
+<th>Problem Type</th>
+<th>Identifying Characteristics</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Reversing Segments of Linked List</td>
+<td>Requires reordering nodes without extra space; e.g., reversing in pairs or groups of <code>k</code></td>
+<td>Reverse nodes in groups of 3: <code>1 → 2 → 3 → 4 → 5</code> to <code>3 → 2 → 1 → 5 → 4</code></td>
+</tr>
+<tr>
+<td>Merge or Rearrange Nodes</td>
+<td>Requires alternate merging or splitting nodes, maintaining constant memory</td>
+<td>Rearrange <code>1 → 2 → 3 → 4</code> to <code>1 → 4 → 2 → 3</code></td>
+</tr>
+<tr>
+<td>Cycle Detection and Removal</td>
+<td>Problems involving identifying or removing cycles using pointer manipulation in-place</td>
+<td>Detect cycle in a linked list</td>
+</tr>
+</tbody>
+</table>
+<h4 id="4-general-templates-with-comments">4. General Templates with Comments</h4>
+<p><strong>Template 1: Reverse a Linked List in Place</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reverse_linked_list</span><span class="hljs-params">(head)</span>:</span>
+    prev = <span class="hljs-literal">None</span>
+    current = head
+    <span class="hljs-keyword">while</span> current:
+        next_node = current.next  <span class="hljs-comment"># Store the next node</span>
+        current.next = prev       <span class="hljs-comment"># Reverse the link</span>
+        prev = current            <span class="hljs-comment"># Move prev and current one step forward</span>
+        current = next_node
+    <span class="hljs-keyword">return</span> prev  <span class="hljs-comment"># New head of the reversed list</span>
+</div></code></pre>
+<p><strong>Use Case</strong>: This template is most applicable when you need to reverse the entire list or a specific segment.</p>
+<p><strong>Template 2: Reorder a Linked List</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reorder_linked_list</span><span class="hljs-params">(head)</span>:</span>
+    <span class="hljs-comment"># Step 1: Find the middle of the linked list</span>
+    slow, fast = head, head
+    <span class="hljs-keyword">while</span> fast <span class="hljs-keyword">and</span> fast.next:
+        slow = slow.next
+        fast = fast.next.next
+    
+    <span class="hljs-comment"># Step 2: Reverse the second half of the list</span>
+    prev, current = <span class="hljs-literal">None</span>, slow.next
+    <span class="hljs-keyword">while</span> current:
+        next_node = current.next
+        current.next = prev
+        prev = current
+        current = next_node
+    slow.next = <span class="hljs-literal">None</span>  <span class="hljs-comment"># Split the list into two halves</span>
+    
+    <span class="hljs-comment"># Step 3: Merge the two halves</span>
+    first, second = head, prev
+    <span class="hljs-keyword">while</span> second:
+        temp1, temp2 = first.next, second.next
+        first.next = second
+        second.next = temp1
+        first, second = temp1, temp2
+</div></code></pre>
+<p><strong>Use Case</strong>: Reordering a linked list to alternate between the beginning and end nodes.</p>
+<h4 id="5-complexity-analysis">5. Complexity Analysis</h4>
+<ul>
+<li><strong>Time Complexity</strong>: Both templates run in <code>O(n)</code> time, where <code>n</code> is the number of nodes in the list, since each node is visited a constant number of times.</li>
+<li><strong>Space Complexity</strong>: The space complexity is <code>O(1)</code> because no additional data structures are used.</li>
+<li><strong>Optimization Opportunities</strong>: Efficient traversal and minimizing pointer reassignment are key to optimizing in-place manipulation.</li>
+</ul>
+<h4 id="6-discussion-on-templates-and-patterns">6. Discussion on Templates and Patterns</h4>
+<p>The above templates can be adapted to a variety of problems involving linked lists. For example, reversing every <code>k</code> nodes requires only minor modifications to the reversal template. Understanding the basics of pointer manipulation is critical for tailoring these templates to different scenarios.</p>
+<h4 id="7-multiple-approaches-and-implementations">7. Multiple Approaches and Implementations</h4>
+<ul>
+<li><strong>Iterative vs. Recursive</strong>: Reversing a linked list can also be implemented recursively, which can make the code cleaner but will have <code>O(n)</code> space complexity due to recursion depth.</li>
+<li><strong>Comparative Analysis</strong>: Iterative solutions are generally preferred for in-place manipulation as they use constant space, whereas recursive solutions may face stack overflow for large lists.</li>
+</ul>
+<h4 id="8-practice-problems">8. Practice Problems</h4>
+<table>
+<thead>
+<tr>
+<th>S.No</th>
+<th>Question</th>
+<th>Example &amp; Output</th>
+<th>Difficulty Level</th>
+<th>Approach &amp; Template</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Reverse a Linked List</td>
+<td>Input: <code>1 → 2 → 3</code><br>Explanation: Start with <code>1 → 2 → 3</code>. Reverse pointers to get <code>3 → 2 → 1</code>.<br>Output: <code>3 → 2 → 1</code></td>
+<td>Easy</td>
+<td>Reverse Template (Iterative). Uses <code>prev</code> and <code>current</code> pointers to reverse the links in a single pass.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Reorder List</td>
+<td>Input: <code>1 → 2 → 3 → 4</code><br>Explanation: Split list into two halves (<code>1 → 2</code> and <code>3 → 4</code>), reverse the second half (<code>4 → 3</code>), and merge alternately to get <code>1 → 4 → 2 → 3</code>.<br>Output: <code>1 → 4 → 2 → 3</code></td>
+<td>Medium</td>
+<td>Reorder Template. Uses <code>slow</code> and <code>fast</code> pointers to find the middle, then uses <code>prev</code> and <code>current</code> to reverse the second half, followed by merging.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Reverse Nodes in k-Group</td>
+<td>Input: <code>1 → 2 → 3 → 4 → 5</code>, <code>k=2</code><br>Explanation: Reverse every 2 nodes. First group: <code>2 → 1</code>, Second group: <code>4 → 3</code>, Remaining node: <code>5</code>.<br>Output: <code>2 → 1 → 4 → 3 → 5</code></td>
+<td>Medium</td>
+<td>Modify Reverse Template for Groups of k. Uses <code>count</code> to keep track of nodes and reverse in chunks of <code>k</code> size.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Detect a Cycle in a Linked List</td>
+<td>Input: <code>1 → 2 → 3 → 4 → 2</code> (cycle)<br>Explanation: Detect the cycle using two pointers (slow and fast).<br>Output: <code>True</code> (cycle exists)</td>
+<td>Easy</td>
+<td>Floyd's Cycle Detection Algorithm. Uses <code>slow</code> and <code>fast</code> pointers to detect the cycle.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Remove a Cycle in a Linked List</td>
+<td>Input: <code>1 → 2 → 3 → 4 → 2</code> (cycle)<br>Explanation: Detect the cycle and remove it to form <code>1 → 2 → 3 → 4</code>.<br>Output: <code>1 → 2 → 3 → 4</code></td>
+<td>Medium</td>
+<td>Floyd's Algorithm with cycle removal logic. Uses two pointers to detect and remove the cycle.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Find the Middle of a Linked List</td>
+<td>Input: <code>1 → 2 → 3 → 4 → 5</code><br>Explanation: Use two pointers to find the middle (<code>3</code>).<br>Output: <code>3</code></td>
+<td>Easy</td>
+<td>Uses <code>slow</code> and <code>fast</code> pointers to find the middle node.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Merge Two Sorted Linked Lists</td>
+<td>Input: <code>1 → 3 → 5</code>, <code>2 → 4 → 6</code><br>Explanation: Merge nodes to form a sorted list <code>1 → 2 → 3 → 4 → 5 → 6</code>.<br>Output: <code>1 → 2 → 3 → 4 → 5 → 6</code></td>
+<td>Easy</td>
+<td>Iterative merge using two pointers (<code>l1</code> and <code>l2</code>).</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Partition List Around a Value</td>
+<td>Input: <code>1 → 4 → 3 → 2 → 5 → 2</code>, <code>x=3</code><br>Explanation: Partition nodes to form <code>1 → 2 → 2 → 4 → 3 → 5</code>.<br>Output: <code>1 → 2 → 2 → 4 → 3 → 5</code></td>
+<td>Medium</td>
+<td>Use two pointers to create less than and greater than partitions.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Remove N-th Node from End</td>
+<td>Input: <code>1 → 2 → 3 → 4 → 5</code>, <code>n=2</code><br>Explanation: Remove the 2nd node from the end (<code>4</code>).<br>Output: <code>1 → 2 → 3 → 5</code></td>
+<td>Medium</td>
+<td>Two pointer technique to find and remove the node.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Rotate List</td>
+<td>Input: <code>1 → 2 → 3 → 4 → 5</code>, <code>k=2</code><br>Explanation: Rotate list right by 2 to form <code>4 → 5 → 1 → 2 → 3</code>.<br>Output: <code>4 → 5 → 1 → 2 → 3</code></td>
+<td>Medium</td>
+<td>Calculate length, adjust pointers to rotate the list.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Copy List with Random Pointer</td>
+<td>Input: List with random pointers<br>Explanation: Create a deep copy maintaining random pointers.<br>Output: Deep copied list</td>
+<td>Hard</td>
+<td>Hashmap to store original and copied node references.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Swap Nodes in Pairs</td>
+<td>Input: <code>1 → 2 → 3 → 4</code><br>Explanation: Swap every two nodes to get <code>2 → 1 → 4 → 3</code>.<br>Output: <code>2 → 1 → 4 → 3</code></td>
+<td>Easy</td>
+<td>Iteratively swap nodes using a loop.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Add Two Numbers (Linked List)</td>
+<td>Input: <code>2 → 4 → 3</code>, <code>5 → 6 → 4</code><br>Explanation: Add numbers to form <code>7 → 0 → 8</code>.<br>Output: <code>7 → 0 → 8</code></td>
+<td>Medium</td>
+<td>Use carry to add numbers node by node.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Flatten a Multilevel Doubly Linked List</td>
+<td>Input: Multilevel list<br>Explanation: Flatten to a single-level list.<br>Output: Flattened list</td>
+<td>Medium</td>
+<td>DFS approach to handle child pointers.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Reverse Alternating K Nodes</td>
+<td>Input: <code>1 → 2 → 3 → 4 → 5 → 6 → 7 → 8</code>, <code>k=2</code><br>Explanation: Reverse every alternating 2 nodes.<br>Output: <code>2 → 1 → 3 → 4 → 6 → 5 → 7 → 8</code></td>
+<td>Hard</td>
+<td>Modify Reverse Template for alternating groups of <code>k</code>.</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Split Linked List in Parts</td>
+<td>Input: <code>1 → 2 → 3 → 4 → 5 → 6 → 7</code>, <code>k=3</code><br>Explanation: Split into 3 parts (<code>1 → 2</code>, <code>3 → 4</code>, <code>5 → 6 → 7</code>).<br>Output: <code>[1 → 2], [3 → 4], [5 → 6 → 7]</code></td>
+<td>Medium</td>
+<td>Calculate length and divide nodes accordingly.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Remove Duplicates from Sorted List</td>
+<td>Input: <code>1 → 1 → 2 → 3 → 3</code><br>Explanation: Remove duplicates to get <code>1 → 2 → 3</code>.<br>Output: <code>1 → 2 → 3</code></td>
+<td>Easy</td>
+<td>Iterate through the list and remove duplicate nodes.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Odd Even Linked List</td>
+<td>Input: <code>1 → 2 → 3 → 4 → 5</code><br>Explanation: Group all odd nodes followed by even nodes to get <code>1 → 3 → 5 → 2 → 4</code>.<br>Output: <code>1 → 3 → 5 → 2 → 4</code></td>
+<td>Medium</td>
+<td>Separate odd and even indexed nodes and merge.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Intersection of Two Linked Lists</td>
+<td>Input: <code>1 → 9 → 1 → 2 → 4</code>, <code>3 → 2 → 4</code><br>Explanation: Find intersection node (<code>2</code>).<br>Output: <code>2</code></td>
+<td>Easy</td>
+<td>Use two pointers to find the intersection point.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Sort Linked List</td>
+<td>Input: <code>4 → 2 → 1 → 3</code><br>Explanation: Sort to get <code>1 → 2 → 3 → 4</code>.<br>Output: <code>1 → 2 → 3 → 4</code></td>
+<td>Medium</td>
+<td>Merge sort algorithm for linked list.</td>
+</tr>
+</tbody>
+</table>
+<h4 id="9-key-takeaways-tips-and-summary">9. Key Takeaways, Tips, and Summary</h4>
+<ul>
+<li><strong>Key Takeaways</strong>: In-place manipulation focuses on modifying pointers directly, making it memory efficient.</li>
+<li><strong>Practical Tips</strong>: Always be mindful of edge cases like empty lists or lists with only one node.</li>
+<li><strong>Summary</strong>: In-place manipulation techniques are powerful tools for linked list problems, particularly those involving reordering or reversing nodes.</li>
+</ul>
+<h4 id="10-common-pitfalls">10. Common Pitfalls</h4>
+<ul>
+<li><strong>Mistakes to Avoid</strong>: Forgetting to handle the <code>None</code> case or accidentally creating cycles by incorrect pointer assignments.</li>
+<li><strong>Troubleshooting Tips</strong>: Use a pen-and-paper trace to verify pointer manipulations step-by-step.</li>
+</ul>
+<p>Here are the detailed explanations for 5 random practice problems from the list, along with numeric examples and Python code snippets:</p>
+<h3 id="1-reverse-nodes-in-k-group">1. Reverse Nodes in k-Group</h3>
+<p><strong>Problem</strong>: Given a linked list and an integer <code>k</code>, reverse every <code>k</code> nodes in the linked list.
+<strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5</code>, <code>k=2</code></li>
+<li><strong>Explanation</strong>: Reverse every 2 nodes:
+<ul>
+<li>First group: <code>2 → 1</code></li>
+<li>Second group: <code>4 → 3</code></li>
+<li>Remaining node: <code>5</code> (not enough nodes for reversal)</li>
+</ul>
+</li>
+<li><strong>Output</strong>: <code>2 → 1 → 4 → 3 → 5</code></li>
+</ul>
+<p><strong>Python Code (Comments Included)</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reverse_k_group</span><span class="hljs-params">(head, k)</span>:</span>
+    <span class="hljs-comment"># Function to reverse k nodes</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reverse_k_nodes</span><span class="hljs-params">(start, k)</span>:</span>
+        prev, current = <span class="hljs-literal">None</span>, start
+        count = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">while</span> current <span class="hljs-keyword">and</span> count &lt; k:
+            next_node = current.next
+            current.next = prev
+            prev = current
+            current = next_node
+            count += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">return</span> prev, current  <span class="hljs-comment"># New head of reversed section and the next node after k nodes</span>
+
+    <span class="hljs-comment"># Count total nodes to see how many complete k-groups are available</span>
+    count = <span class="hljs-number">0</span>
+    node = head
+    <span class="hljs-keyword">while</span> node:
+        count += <span class="hljs-number">1</span>
+        node = node.next
+
+    dummy = ListNode(<span class="hljs-number">0</span>)
+    dummy.next = head
+    prev_group_end = dummy
+
+    <span class="hljs-keyword">while</span> count &gt;= k:
+        group_start = prev_group_end.next
+        new_head, next_group_start = reverse_k_nodes(group_start, k)
+        prev_group_end.next = new_head
+        group_start.next = next_group_start
+        prev_group_end = group_start
+        count -= k
+
+    <span class="hljs-keyword">return</span> dummy.next
+</div></code></pre>
+<h3 id="2-remove-n-th-node-from-end">2. Remove N-th Node from End</h3>
+<p><strong>Problem</strong>: Remove the <code>n</code>-th node from the end of a linked list.
+<strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5</code>, <code>n=2</code></li>
+<li><strong>Explanation</strong>: Remove the 2nd node from the end (<code>4</code>).</li>
+<li><strong>Output</strong>: <code>1 → 2 → 3 → 5</code></li>
+</ul>
+<p><strong>Python Code (Comments Included)</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">remove_nth_from_end</span><span class="hljs-params">(head, n)</span>:</span>
+    <span class="hljs-comment"># Step 1: Set two pointers with a gap of n nodes</span>
+    dummy = ListNode(<span class="hljs-number">0</span>)
+    dummy.next = head
+    first = dummy
+    second = dummy
+
+    <span class="hljs-comment"># Step 2: Move first pointer n+1 steps ahead</span>
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(n + <span class="hljs-number">1</span>):
+        first = first.next
+
+    <span class="hljs-comment"># Step 3: Move both pointers until the first reaches the end</span>
+    <span class="hljs-keyword">while</span> first:
+        first = first.next
+        second = second.next
+
+    <span class="hljs-comment"># Step 4: Remove the nth node</span>
+    second.next = second.next.next
+
+    <span class="hljs-keyword">return</span> dummy.next
+</div></code></pre>
+<h3 id="3-detect-a-cycle-in-a-linked-list">3. Detect a Cycle in a Linked List</h3>
+<p><strong>Problem</strong>: Detect if a cycle exists in a linked list.
+<strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 2</code> (cycle from <code>4</code> back to <code>2</code>)</li>
+<li><strong>Explanation</strong>: Use two pointers (<code>slow</code> and <code>fast</code>). If they meet, a cycle exists.</li>
+<li><strong>Output</strong>: <code>True</code> (cycle exists)</li>
+</ul>
+<p><strong>Python Code (Comments Included)</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">has_cycle</span><span class="hljs-params">(head)</span>:</span>
+    slow, fast = head, head
+    <span class="hljs-keyword">while</span> fast <span class="hljs-keyword">and</span> fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        <span class="hljs-keyword">if</span> slow == fast:
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>  <span class="hljs-comment"># Cycle detected</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>  <span class="hljs-comment"># No cycle</span>
+</div></code></pre>
+<h3 id="4-merge-two-sorted-linked-lists">4. Merge Two Sorted Linked Lists</h3>
+<p><strong>Problem</strong>: Given two sorted linked lists, merge them into one sorted linked list.
+<strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: <code>1 → 3 → 5</code>, <code>2 → 4 → 6</code></li>
+<li><strong>Explanation</strong>: Merge nodes:
+<ul>
+<li>Resulting list: <code>1 → 2 → 3 → 4 → 5 → 6</code></li>
+</ul>
+</li>
+<li><strong>Output</strong>: <code>1 → 2 → 3 → 4 → 5 → 6</code></li>
+</ul>
+<p><strong>Python Code (Comments Included)</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">merge_two_sorted_lists</span><span class="hljs-params">(l1, l2)</span>:</span>
+    dummy = ListNode(<span class="hljs-number">0</span>)
+    current = dummy
+
+    <span class="hljs-comment"># Merge the nodes while both lists are non-empty</span>
+    <span class="hljs-keyword">while</span> l1 <span class="hljs-keyword">and</span> l2:
+        <span class="hljs-keyword">if</span> l1.val &lt; l2.val:
+            current.next = l1
+            l1 = l1.next
+        <span class="hljs-keyword">else</span>:
+            current.next = l2
+            l2 = l2.next
+        current = current.next
+
+    <span class="hljs-comment"># Append the remaining nodes from l1 or l2</span>
+    <span class="hljs-keyword">if</span> l1:
+        current.next = l1
+    <span class="hljs-keyword">if</span> l2:
+        current.next = l2
+
+    <span class="hljs-keyword">return</span> dummy.next
+</div></code></pre>
+<h3 id="5-reverse-alternating-k-nodes">5. Reverse Alternating K Nodes</h3>
+<p><strong>Problem</strong>: Reverse every alternating <code>k</code> nodes in a linked list.
+<strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5 → 6 → 7 → 8</code>, <code>k=2</code></li>
+<li><strong>Explanation</strong>: Reverse every alternate 2 nodes:
+<ul>
+<li>First reversal: <code>2 → 1</code></li>
+<li>No reversal: <code>3 → 4</code></li>
+<li>Next reversal: <code>6 → 5</code></li>
+<li>No reversal: <code>7 → 8</code></li>
+</ul>
+</li>
+<li><strong>Output</strong>: <code>2 → 1 → 3 → 4 → 6 → 5 → 7 → 8</code></li>
+</ul>
+<p><strong>Python Code (Comments Included)</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reverse_alternating_k_nodes</span><span class="hljs-params">(head, k)</span>:</span>
+    dummy = ListNode(<span class="hljs-number">0</span>)
+    dummy.next = head
+    prev = dummy
+    current = head
+    should_reverse = <span class="hljs-literal">True</span>
+
+    <span class="hljs-keyword">while</span> current:
+        start = current
+        <span class="hljs-comment"># Move forward k nodes</span>
+        count = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">while</span> current <span class="hljs-keyword">and</span> count &lt; k:
+            current = current.next
+            count += <span class="hljs-number">1</span>
+        
+        <span class="hljs-keyword">if</span> count == k:
+            <span class="hljs-keyword">if</span> should_reverse:
+                <span class="hljs-comment"># Reverse k nodes</span>
+                prev.next, current = reverse_segment(start, k)
+            <span class="hljs-keyword">else</span>:
+                <span class="hljs-comment"># Move prev to the end of the k nodes without reversing</span>
+                prev = start
+            should_reverse = <span class="hljs-keyword">not</span> should_reverse
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-comment"># Not enough nodes left to reverse</span>
+            <span class="hljs-keyword">break</span>
+
+    <span class="hljs-keyword">return</span> dummy.next
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reverse_segment</span><span class="hljs-params">(head, k)</span>:</span>
+    prev, current = <span class="hljs-literal">None</span>, head
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(k):
+        next_node = current.next
+        current.next = prev
+        prev = current
+        current = next_node
+    <span class="hljs-keyword">return</span> prev, current
+</div></code></pre>
+
+</body>
+</html>

@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>matrices.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h3 id="comprehensive-guide-for-matrices-coding-patterns-in-interviews">Comprehensive Guide for Matrices Coding Patterns in Interviews</h3>
+<h4 id="1-core-concepts-and-coding-patterns">1. <strong>Core Concepts and Coding Patterns</strong></h4>
+<p>Matrices are two-dimensional arrays, often used to represent grids, graphs, or tables of data. They serve as a fundamental data structure for solving problems involving pathfinding, image processing, or geometric manipulations. Core coding patterns for matrices include:</p>
+<ul>
+<li><strong>Traversal</strong>: Moving through all or selected elements in the matrix.</li>
+<li><strong>Search and Modification</strong>: Finding a particular value or performing updates.</li>
+<li><strong>Dynamic Programming on Matrices</strong>: Solving problems such as pathfinding with optimal substructure properties.</li>
+<li><strong>Backtracking</strong>: For problems like finding all paths or combinations.</li>
+</ul>
+<p>Typical use cases involve grid-based games, connectivity problems (like number of islands), or minimal path cost problems.</p>
+<h4 id="2-examples">2. <strong>Examples</strong></h4>
+<ul>
+<li><strong>Traversal Example</strong>: Given a 3x3 matrix, traverse all elements in row-major order.<pre class="hljs"><code><div>Matrix:  
+[1, 2, 3]  
+[4, 5, 6]  
+[7, 8, 9]  
+Output: 1, 2, 3, 4, 5, 6, 7, 8, 9
+</div></code></pre>
+</li>
+<li><strong>Pathfinding Example</strong>: Minimum path sum from top-left to bottom-right of a matrix where movement is restricted to right and down.<pre class="hljs"><code><div>Matrix:  
+[1, 3, 1]  
+[1, 5, 1]  
+[4, 2, 1]  
+Output: 7 (Path: 1 → 3 → 1 → 1 → 1)
+</div></code></pre>
+</li>
+</ul>
+<h4 id="3-problem-identification-checklist">3. <strong>Problem Identification Checklist</strong></h4>
+<p>To determine if a problem can be solved using matrices, ask:</p>
+<ol>
+<li>Is the data organized in a grid or 2D form?</li>
+<li>Are you required to find a path from one cell to another?</li>
+<li>Is there a need to modify values based on neighboring cells?</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Problem Type</th>
+<th>Example Problem</th>
+<th>Matrix Representation Indicator</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Pathfinding</td>
+<td>Find the shortest path in a 2D grid</td>
+<td>Data is represented in a matrix, movement constrained by neighbors</td>
+</tr>
+<tr>
+<td>Dynamic Programming</td>
+<td>Calculate the minimal path sum</td>
+<td>Optimal substructure with grid-based decisions</td>
+</tr>
+</tbody>
+</table>
+<h4 id="4-general-templates-with-comments">4. <strong>General Templates with Comments</strong></h4>
+<h5 id="template-1-matrix-traversal"><strong>Template 1: Matrix Traversal</strong></h5>
+<pre class="hljs"><code><div><span class="hljs-comment"># Traverse a matrix row-wise and column-wise</span>
+matrix = [[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], [<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>], [<span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>]]
+rows = len(matrix)
+cols = len(matrix[<span class="hljs-number">0</span>])
+
+<span class="hljs-comment"># Row-wise traversal</span>
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(rows):
+    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(cols):
+        print(matrix[i][j])
+</div></code></pre>
+<p><strong>Use Case</strong>: Useful when you need to look at all cells in the matrix, such as calculating the sum of all elements.</p>
+<h5 id="template-2-backtracking-in-matrix"><strong>Template 2: Backtracking in Matrix</strong></h5>
+<pre class="hljs"><code><div><span class="hljs-comment"># Backtracking example: finding all paths from top-left to bottom-right</span>
+<span class="hljs-comment"># Restrictions: Only move right or down</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_paths</span><span class="hljs-params">(matrix, row, col, path)</span>:</span>
+    <span class="hljs-keyword">if</span> row == len(matrix) - <span class="hljs-number">1</span> <span class="hljs-keyword">and</span> col == len(matrix[<span class="hljs-number">0</span>]) - <span class="hljs-number">1</span>:
+        print(path)
+        <span class="hljs-keyword">return</span>
+    <span class="hljs-keyword">if</span> row + <span class="hljs-number">1</span> &lt; len(matrix):
+        find_paths(matrix, row + <span class="hljs-number">1</span>, col, path + [(row + <span class="hljs-number">1</span>, col)])
+    <span class="hljs-keyword">if</span> col + <span class="hljs-number">1</span> &lt; len(matrix[<span class="hljs-number">0</span>]):
+        find_paths(matrix, row, col + <span class="hljs-number">1</span>, path + [(row, col + <span class="hljs-number">1</span>)])
+
+find_paths([[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>], [<span class="hljs-number">3</span>, <span class="hljs-number">4</span>]], <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, [(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>)])
+</div></code></pre>
+<p><strong>Use Case</strong>: Typically used in problems involving exploration of all possible paths, such as &quot;find all paths from source to destination&quot;.</p>
+<h4 id="5-complexity-analysis">5. <strong>Complexity Analysis</strong></h4>
+<ul>
+<li><strong>Time Complexity</strong>:
+<ul>
+<li>For traversal: , where m and n are the dimensions of the matrix.</li>
+<li>For backtracking:  in the worst case as we explore all possible paths.</li>
+</ul>
+</li>
+<li><strong>Space Complexity</strong>:
+<ul>
+<li>For traversal:  (excluding input matrix).</li>
+<li>For backtracking:  due to the recursion stack.</li>
+</ul>
+</li>
+<li><strong>Optimization Opportunities</strong>: Dynamic programming can be applied to avoid recalculating overlapping subproblems, reducing time complexity.</li>
+</ul>
+<h4 id="6-discussion-on-templates-and-patterns">6. <strong>Discussion on Templates and Patterns</strong></h4>
+<p>Different problems require different matrix patterns. For example, pathfinding problems may need dynamic programming, while problems with obstacles may require BFS/DFS. Adjustments like memoization or pruning unneeded paths can be applied depending on the specific problem constraints.</p>
+<h4 id="7-multiple-approaches-and-implementations">7. <strong>Multiple Approaches and Implementations</strong></h4>
+<ul>
+<li><strong>Iterative vs Recursive</strong>: Traversing a matrix can be done iteratively with loops or recursively using DFS.</li>
+<li><strong>Comparative Analysis</strong>: Iterative solutions often use less space than recursive ones due to avoiding stack overhead, while recursive solutions can be more elegant for backtracking.</li>
+</ul>
+<h4 id="9-practice-problems">9. <strong>Practice Problems</strong></h4>
+<table>
+<thead>
+<tr>
+<th>S.No</th>
+<th>Question</th>
+<th>Example Explanation</th>
+<th>Difficulty Level</th>
+<th>Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Find the minimum path sum in a matrix</td>
+<td>Given Matrix: [ [1, 3, 1], [1, 5, 1], [4, 2, 1] ]Example Path: Start at (0,0) with value 1 → move right to (0,1) with value 3 → move right to (0,2) with value 1 → move down to (1,2) with value 1 → move down to (2,2) with value 1.Total Path Sum = 1 + 3 + 1 + 1 + 1 = 7Output: 7</td>
+<td>Medium</td>
+<td>Dynamic Programming (using a 2D DP array to store minimal path sums for each cell)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Find all paths from top-left to bottom-right</td>
+<td>Given Matrix: [ [1, 2], [3, 4] ]Example Paths: Path 1: Start at (0,0) → move down to (1,0) → move right to (1,1). Path 2: Start at (0,0) → move right to (0,1) → move down to (1,1).Output: [(0,0)→(1,0)→(1,1)], [(0,0)→(0,1)→(1,1)]</td>
+<td>Medium</td>
+<td>Backtracking (using recursion to explore all paths with an extra list to store current path)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Count number of islands</td>
+<td>Given Binary Matrix: [ [1, 1, 0, 0], [1, 0, 0, 1], [0, 0, 1, 1], [1, 0, 1, 1] ]Explanation: Island 1: Cells (0,0), (0,1), (1,0). Island 2: Cell (1,3). Island 3: Cells (2,2), (2,3), (3,2), (3,3). Island 4: Cell (3,0).Total Number of Islands: 4Output: 4</td>
+<td>Hard</td>
+<td>DFS/BFS traversal (using a visited set to keep track of visited cells)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Find the longest increasing path in a matrix</td>
+<td>Given Matrix: [ [9, 9, 4], [6, 6, 8], [2, 1, 1] ]Explanation: One of the longest increasing paths is 1 → 2 → 6 → 9.Output: Length = 4</td>
+<td>Hard</td>
+<td>DFS with memoization (using a cache to store results of previously computed paths)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Rotting Oranges</td>
+<td>Given Matrix: [ [2, 1, 1], [1, 1, 0], [0, 1, 1] ]Explanation: Use BFS to find the time taken for all fresh oranges to rot.Output: 4</td>
+<td>Medium</td>
+<td>BFS (using a queue to track rotting process level by level)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Word Search in Matrix</td>
+<td>Given Matrix: [ [&quot;A&quot;, &quot;B&quot;, &quot;C&quot;, &quot;E&quot;], [&quot;S&quot;, &quot;F&quot;, &quot;C&quot;, &quot;S&quot;], [&quot;A&quot;, &quot;D&quot;, &quot;E&quot;, &quot;E&quot;] ], Word: &quot;ABCCED&quot;Explanation: Use backtracking to find the word in the matrix.Output: True</td>
+<td>Medium</td>
+<td>Backtracking (recursively exploring all paths to match the word)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Unique Paths in a Grid</td>
+<td>Grid Size: 3x7Explanation: Calculate the number of unique paths from top-left to bottom-right.Output: 28</td>
+<td>Easy</td>
+<td>Dynamic Programming (using a 2D array to count paths)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Search a 2D Matrix</td>
+<td>Given Matrix: [ [1, 3, 5, 7], [10, 11, 16, 20], [23, 30, 34, 60] ], Target: 3Explanation: Search for the target in the matrix.Output: True</td>
+<td>Medium</td>
+<td>Binary Search (treat the matrix as a sorted 1D array)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Flood Fill Algorithm</td>
+<td>Given Image: [ [1, 1, 1], [1, 1, 0], [1, 0, 1] ], Starting Pixel: (1,1), New Color: 2Explanation: Replace all connected 1s starting from (1,1) with 2.Output: [ [2, 2, 2], [2, 2, 0], [2, 0, 1] ]</td>
+<td>Easy</td>
+<td>DFS/BFS (to explore all connected pixels)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Maximum Size Square Sub-matrix of 1s</td>
+<td>Given Binary Matrix: [ [1, 1, 1, 0], [1, 1, 1, 1], [1, 1, 1, 1], [0, 1, 1, 1] ]Explanation: Find the largest square containing only 1s.Output: 3 (size of the square)</td>
+<td>Medium</td>
+<td>Dynamic Programming (using a 2D DP array to track the size of the largest square ending at each cell)</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Spiral Order of Matrix</td>
+<td>Given Matrix: [ [1, 2, 3], [4, 5, 6], [7, 8, 9] ]Explanation: Traverse the matrix in a spiral order.Output: [1, 2, 3, 6, 9, 8, 7, 4, 5]</td>
+<td>Easy</td>
+<td>Iterative Traversal (using boundaries to keep track of the spiral)</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Kth Smallest Element in a Sorted Matrix</td>
+<td>Given Matrix: [ [1, 5, 9], [10, 11, 13], [12, 13, 15] ], k = 8Explanation: Find the kth smallest element in the sorted matrix.Output: 13</td>
+<td>Medium</td>
+<td>Min-Heap (pushing elements row-wise into the heap)</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Set Matrix Zeroes</td>
+<td>Given Matrix: [ [1, 1, 1], [1, 0, 1], [1, 1, 1] ]Explanation: Set entire row and column to 0 if an element is 0.Output: [ [1, 0, 1], [0, 0, 0], [1, 0, 1] ]</td>
+<td>Medium</td>
+<td>Constant Space Approach (using first row and column as markers)</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Matrix Rotation (90 Degrees)</td>
+<td>Given Matrix: [ [1, 2, 3], [4, 5, 6], [7, 8, 9] ]Explanation: Rotate the matrix by 90 degrees clockwise.Output: [ [7, 4, 1], [8, 5, 2], [9, 6, 3] ]</td>
+<td>Medium</td>
+<td>Transpose and Reverse Approach</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Search in a Row-wise and Column-wise Sorted Matrix</td>
+<td>Given Matrix: [ [1, 4, 7, 11], [2, 5, 8, 12], [3, 6, 9, 16], [10, 13, 14, 17] ], Target: 5Explanation: Search for the target in the sorted matrix.Output: True</td>
+<td>Medium</td>
+<td>Start from Top-Right (eliminating rows or columns based on comparison)</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Find Peak Element in a 2D Matrix</td>
+<td>Given Matrix: [ [10, 20, 15], [21, 30, 14], [7, 16, 32] ]Explanation: Find a peak element (greater than its neighbors).Output: 30</td>
+<td>Hard</td>
+<td>Divide and Conquer (similar to binary search approach)</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Minimum Cost Path in a Grid</td>
+<td>Given Grid: [ [1, 2, 3], [4, 8, 2], [1, 5, 3] ]Explanation: Find the minimum cost to reach the bottom-right from top-left.Output: 8</td>
+<td>Medium</td>
+<td>Dynamic Programming (using a 2D DP array to store minimal costs)</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Sudoku Solver</td>
+<td>Given Partially Filled 9x9 GridExplanation: Fill the grid such that every row, column, and 3x3 box contains the numbers 1 to 9.Output: Completed Sudoku Grid</td>
+<td>Hard</td>
+<td>Backtracking (trying all possibilities and reverting if a conflict occurs)</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Maximum Gold Path</td>
+<td>Given Grid: [ [1, 0, 7], [2, 0, 6], [3, 4, 5], [0, 3, 0], [9, 0, 20] ]Explanation: Find the maximum amount of gold that can be collected starting from any cell.Output: 28</td>
+<td>Medium</td>
+<td>DFS (exploring all paths and keeping track of collected gold)</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Shortest Bridge</td>
+<td>Given Binary Matrix: [ [0, 1], [1, 0] ]Explanation: Connect two islands by flipping the minimum number of 0s to 1s.Output: 1</td>
+<td>Hard</td>
+<td>BFS (to expand one island and find the shortest path to the other)</td>
+</tr>
+</tbody>
+</table>
+<h4 id="10-key-takeaways-tips-and-summary">10. <strong>Key Takeaways, Tips, and Summary</strong></h4>
+<ul>
+<li><strong>Key Takeaways</strong>: Matrices are versatile and can represent a variety of problems involving grids.</li>
+<li><strong>Practical Tips</strong>: Always start by identifying if a problem involves a 2D grid, then choose the right pattern such as traversal, backtracking, or dynamic programming.</li>
+<li><strong>Summary</strong>: Matrices are a powerful tool for grid-based problems, and applying the correct template requires identifying the problem's structure and constraints.</li>
+</ul>
+<h4 id="11-common-pitfalls">11. <strong>Common Pitfalls</strong></h4>
+<ul>
+<li><strong>Mistakes to Avoid</strong>: Not considering boundary conditions (e.g., going out of the matrix bounds).</li>
+<li><strong>Troubleshooting Tips</strong>: Use print statements to check traversal paths or track recursive calls to identify incorrect movement or conditions.</li>
+</ul>
+<p>Here are detailed explanations of 7 randomly selected questions from the practice problems:</p>
+<h3 id="1-find-the-minimum-path-sum-in-a-matrix">1. <strong>Find the Minimum Path Sum in a Matrix</strong></h3>
+<p><strong>Problem</strong>: Given a matrix, find the minimum path sum from the top-left to the bottom-right, where you can only move right or down.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li>Given Matrix:<pre class="hljs"><code><div>[1, 3, 1]
+[1, 5, 1]
+[4, 2, 1]
+</div></code></pre>
+</li>
+<li>Start at (0,0) with value <code>1</code>, move right to (0,1) with value <code>3</code>, move right to (0,2) with value <code>1</code>, move down to (1,2) with value <code>1</code>, and finally move down to (2,2) with value <code>1</code>.</li>
+<li><strong>Total Path Sum</strong>: 1 + 3 + 1 + 1 + 1 = <strong>7</strong></li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">min_path_sum</span><span class="hljs-params">(matrix)</span>:</span>
+    rows, cols = len(matrix), len(matrix[<span class="hljs-number">0</span>])
+    dp = [[<span class="hljs-number">0</span>] * cols <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(rows)]
+    dp[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = matrix[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>]
+
+    <span class="hljs-comment"># Initialize the first row and first column</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, rows):
+        dp[i][<span class="hljs-number">0</span>] = dp[i - <span class="hljs-number">1</span>][<span class="hljs-number">0</span>] + matrix[i][<span class="hljs-number">0</span>]
+    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, cols):
+        dp[<span class="hljs-number">0</span>][j] = dp[<span class="hljs-number">0</span>][j - <span class="hljs-number">1</span>] + matrix[<span class="hljs-number">0</span>][j]
+
+    <span class="hljs-comment"># Fill the rest of dp array</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, rows):
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, cols):
+            dp[i][j] = matrix[i][j] + min(dp[i - <span class="hljs-number">1</span>][j], dp[i][j - <span class="hljs-number">1</span>])
+
+    <span class="hljs-keyword">return</span> dp[<span class="hljs-number">-1</span>][<span class="hljs-number">-1</span>]
+
+matrix = [[<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">4</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>]]
+print(min_path_sum(matrix))  <span class="hljs-comment"># Output: 7</span>
+</div></code></pre>
+<h3 id="2-count-number-of-islands">2. <strong>Count Number of Islands</strong></h3>
+<p><strong>Problem</strong>: Given a binary matrix representing a grid of water (<code>0</code>) and land (<code>1</code>), find the number of distinct islands.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li>Given Matrix:<pre class="hljs"><code><div>[1, 1, 0, 0]
+[1, 0, 0, 1]
+[0, 0, 1, 1]
+[1, 0, 1, 1]
+</div></code></pre>
+</li>
+<li><strong>Number of Islands</strong>: 4
+<ul>
+<li>Island 1: (0,0), (0,1), (1,0)</li>
+<li>Island 2: (1,3)</li>
+<li>Island 3: (2,2), (2,3), (3,2), (3,3)</li>
+<li>Island 4: (3,0)</li>
+</ul>
+</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">num_islands</span><span class="hljs-params">(grid)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs</span><span class="hljs-params">(i, j)</span>:</span>
+        <span class="hljs-keyword">if</span> i &lt; <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> i &gt;= len(grid) <span class="hljs-keyword">or</span> j &lt; <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> j &gt;= len(grid[<span class="hljs-number">0</span>]) <span class="hljs-keyword">or</span> grid[i][j] == <span class="hljs-number">0</span>:
+            <span class="hljs-keyword">return</span>
+        grid[i][j] = <span class="hljs-number">0</span>
+        dfs(i + <span class="hljs-number">1</span>, j)
+        dfs(i - <span class="hljs-number">1</span>, j)
+        dfs(i, j + <span class="hljs-number">1</span>)
+        dfs(i, j - <span class="hljs-number">1</span>)
+
+    count = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(grid)):
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(len(grid[<span class="hljs-number">0</span>])):
+            <span class="hljs-keyword">if</span> grid[i][j] == <span class="hljs-number">1</span>:
+                dfs(i, j)
+                count += <span class="hljs-number">1</span>
+
+    <span class="hljs-keyword">return</span> count
+
+grid = [[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]]
+print(num_islands(grid))  <span class="hljs-comment"># Output: 4</span>
+</div></code></pre>
+<h3 id="3-rotting-oranges">3. <strong>Rotting Oranges</strong></h3>
+<p><strong>Problem</strong>: Given a 2D grid where <code>2</code> represents a rotten orange, <code>1</code> represents a fresh orange, and <code>0</code> is an empty cell. Each minute, rotten oranges rot their adjacent fresh oranges. Determine how many minutes until no fresh oranges are left.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li>Given Matrix:<pre class="hljs"><code><div>[2, 1, 1]
+[1, 1, 0]
+[0, 1, 1]
+</div></code></pre>
+</li>
+<li><strong>Output</strong>: 4 (all fresh oranges will be rotten after 4 minutes)</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">oranges_rotting</span><span class="hljs-params">(grid)</span>:</span>
+    rows, cols = len(grid), len(grid[<span class="hljs-number">0</span>])
+    queue = deque()
+    fresh_oranges = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">for</span> r <span class="hljs-keyword">in</span> range(rows):
+        <span class="hljs-keyword">for</span> c <span class="hljs-keyword">in</span> range(cols):
+            <span class="hljs-keyword">if</span> grid[r][c] == <span class="hljs-number">2</span>:
+                queue.append((r, c, <span class="hljs-number">0</span>))
+            <span class="hljs-keyword">elif</span> grid[r][c] == <span class="hljs-number">1</span>:
+                fresh_oranges += <span class="hljs-number">1</span>
+
+    minutes_passed = <span class="hljs-number">0</span>
+    directions = [(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>), (<span class="hljs-number">-1</span>, <span class="hljs-number">0</span>), (<span class="hljs-number">0</span>, <span class="hljs-number">1</span>), (<span class="hljs-number">0</span>, <span class="hljs-number">-1</span>)]
+    
+    <span class="hljs-keyword">while</span> queue:
+        r, c, minutes = queue.popleft()
+        minutes_passed = max(minutes_passed, minutes)
+        <span class="hljs-keyword">for</span> dr, dc <span class="hljs-keyword">in</span> directions:
+            nr, nc = r + dr, c + dc
+            <span class="hljs-keyword">if</span> <span class="hljs-number">0</span> &lt;= nr &lt; rows <span class="hljs-keyword">and</span> <span class="hljs-number">0</span> &lt;= nc &lt; cols <span class="hljs-keyword">and</span> grid[nr][nc] == <span class="hljs-number">1</span>:
+                grid[nr][nc] = <span class="hljs-number">2</span>
+                fresh_oranges -= <span class="hljs-number">1</span>
+                queue.append((nr, nc, minutes + <span class="hljs-number">1</span>))
+
+    <span class="hljs-keyword">return</span> minutes_passed <span class="hljs-keyword">if</span> fresh_oranges == <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> <span class="hljs-number">-1</span>
+
+grid = [[<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]]
+print(oranges_rotting(grid))  <span class="hljs-comment"># Output: 4</span>
+</div></code></pre>
+<h3 id="4-flood-fill-algorithm">4. <strong>Flood Fill Algorithm</strong></h3>
+<p><strong>Problem</strong>: Given a 2D grid, replace all connected cells of a given color starting from a given pixel with a new color.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li>Given Image:<pre class="hljs"><code><div>[1, 1, 1]
+[1, 1, 0]
+[1, 0, 1]
+</div></code></pre>
+</li>
+<li>Starting Pixel: <code>(1,1)</code>, New Color: <code>2</code></li>
+<li><strong>Output</strong>:<pre class="hljs"><code><div>[2, 2, 2]
+[2, 2, 0]
+[2, 0, 1]
+</div></code></pre>
+</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">flood_fill</span><span class="hljs-params">(image, sr, sc, new_color)</span>:</span>
+    original_color = image[sr][sc]
+    <span class="hljs-keyword">if</span> original_color == new_color:
+        <span class="hljs-keyword">return</span> image
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs</span><span class="hljs-params">(r, c)</span>:</span>
+        <span class="hljs-keyword">if</span> r &lt; <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> r &gt;= len(image) <span class="hljs-keyword">or</span> c &lt; <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> c &gt;= len(image[<span class="hljs-number">0</span>]) <span class="hljs-keyword">or</span> image[r][c] != original_color:
+            <span class="hljs-keyword">return</span>
+        image[r][c] = new_color
+        dfs(r + <span class="hljs-number">1</span>, c)
+        dfs(r - <span class="hljs-number">1</span>, c)
+        dfs(r, c + <span class="hljs-number">1</span>)
+        dfs(r, c - <span class="hljs-number">1</span>)
+
+    dfs(sr, sc)
+    <span class="hljs-keyword">return</span> image
+
+image = [[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>]]
+print(flood_fill(image, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>))  <span class="hljs-comment"># Output: [[2, 2, 2], [2, 2, 0], [2, 0, 1]]</span>
+</div></code></pre>
+<h3 id="5-unique-paths-in-a-grid">5. <strong>Unique Paths in a Grid</strong></h3>
+<p><strong>Problem</strong>: Given a grid of size <code>m x n</code>, find the number of unique paths from the top-left to the bottom-right corner, only moving down or right.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li>Grid Size: <code>3x7</code></li>
+<li><strong>Output</strong>: <code>28</code></li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">unique_paths</span><span class="hljs-params">(m, n)</span>:</span>
+    dp = [[<span class="hljs-number">1</span>] * n <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(m)]
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, m):
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, n):
+            dp[i][j] = dp[i - <span class="hljs-number">1</span>][j] + dp[i][j - <span class="hljs-number">1</span>]
+    <span class="hljs-keyword">return</span> dp[<span class="hljs-number">-1</span>][<span class="hljs-number">-1</span>]
+
+print(unique_paths(<span class="hljs-number">3</span>, <span class="hljs-number">7</span>))  <span class="hljs-comment"># Output: 28</span>
+</div></code></pre>
+<h3 id="6-set-matrix-zeroes">6. <strong>Set Matrix Zeroes</strong></h3>
+<p><strong>Problem</strong>: Given an <code>m x n</code> matrix, if an element is <code>0</code>, set its entire row and column to <code>0</code>.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li>Given Matrix:<pre class="hljs"><code><div>[1, 1, 1]
+[1, 0, 1]
+[1, 1, 1]
+</div></code></pre>
+</li>
+<li><strong>Output</strong>:<pre class="hljs"><code><div>[1, 0, 1]
+[0, 0, 0]
+[1, 0, 1]
+</div></code></pre>
+</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">set_zeroes</span><span class="hljs-params">(matrix)</span>:</span>
+    rows, cols = len(matrix), len(matrix[<span class="hljs-number">0</span>])
+    first_row = any(matrix[<span class="hljs-number">0</span>][j] == <span class="hljs-number">0</span> <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(cols))
+    first_col = any(matrix[i][<span class="hljs-number">0</span>] == <span class="hljs-number">0</span> <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(rows))
+
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, rows):
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, cols):
+            <span class="hljs-keyword">if</span> matrix[i][j] == <span class="hljs-number">0</span>:
+                matrix[i][<span class="hljs-number">0</span>] = matrix[<span class="hljs-number">0</span>][j] = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, rows):
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, cols):
+            <span class="hljs-keyword">if</span> matrix[i][<span class="hljs-number">0</span>] == <span class="hljs-number">0</span> <span class="hljs-keyword">or</span> matrix[<span class="hljs-number">0</span>][j] == <span class="hljs-number">0</span>:
+                matrix[i][j] = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">if</span> first_row:
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(cols):
+            matrix[<span class="hljs-number">0</span>][j] = <span class="hljs-number">0</span>
+    <span class="hljs-keyword">if</span> first_col:
+        <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(rows):
+            matrix[i][<span class="hljs-number">0</span>] = <span class="hljs-number">0</span>
+
+matrix = [[<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>], [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]]
+set_zeroes(matrix)
+print(matrix)  <span class="hljs-comment"># Output: [[1, 0, 1], [0, 0, 0], [1, 0, 1]]</span>
+</div></code></pre>
+<h3 id="7-matrix-rotation-90-degrees">7. <strong>Matrix Rotation (90 Degrees)</strong></h3>
+<p><strong>Problem</strong>: Rotate the given <code>n x n</code> matrix by <code>90 degrees</code> clockwise.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li>Given Matrix:<pre class="hljs"><code><div>[1, 2, 3]
+[4, 5, 6]
+[7, 8, 9]
+</div></code></pre>
+</li>
+<li><strong>Output</strong>:<pre class="hljs"><code><div>[7, 4, 1]
+[8, 5, 2]
+[9, 6, 3]
+</div></code></pre>
+</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">rotate</span><span class="hljs-params">(matrix)</span>:</span>
+    n = len(matrix)
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(n):
+        <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(i, n):
+            matrix[i][j], matrix[j][i] = matrix[j][i], matrix[i][j]
+
+    <span class="hljs-keyword">for</span> row <span class="hljs-keyword">in</span> matrix:
+        row.reverse()
+
+matrix = [[<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>], [<span class="hljs-number">4</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>], [<span class="hljs-number">7</span>, <span class="hljs-number">8</span>, <span class="hljs-number">9</span>]]
+rotate(matrix)
+print(matrix)  <span class="hljs-comment"># Output: [[7, 4, 1], [8, 5, 2], [9, 6, 3]]</span>
+</div></code></pre>
+
+</body>
+</html>

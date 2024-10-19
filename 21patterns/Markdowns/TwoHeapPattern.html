@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TwoHeapPattern.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p><strong>Two Heap Coding Pattern - A Comprehensive Guide</strong></p>
+<h2 id="1-core-concepts-and-coding-patterns">1. Core Concepts and Coding Patterns</h2>
+<p>The <strong>Two Heap pattern</strong> is a commonly used approach for solving problems related to finding the <strong>median</strong> or <strong>balancing priorities</strong> dynamically within a dataset, especially when the data changes over time. It involves the use of two <strong>heaps</strong>:</p>
+<ul>
+<li><strong>Max-Heap</strong>: Maintains the <strong>lower half</strong> of the numbers.</li>
+<li><strong>Min-Heap</strong>: Maintains the <strong>upper half</strong> of the numbers.</li>
+</ul>
+<p>The idea is to keep the two heaps balanced, with the <strong>Max-Heap</strong> containing elements smaller or equal to the median and the <strong>Min-Heap</strong> containing elements larger than the median. This enables efficient access to the <strong>median</strong> element in logarithmic time.</p>
+<h3 id="typical-use-cases">Typical Use Cases</h3>
+<ul>
+<li><strong>Finding the median</strong> of a stream of numbers.</li>
+<li><strong>Balancing priorities</strong>, such as in scheduling and load balancing.</li>
+<li><strong>Financial applications</strong>, such as maintaining dynamic data for stock prices or calculating running medians for financial data streams.</li>
+</ul>
+<h2 id="2-what-is-a-heap">2. What is a Heap?</h2>
+<p>A <strong>heap</strong> is a specialized binary tree-based data structure that satisfies the <strong>heap property</strong>. There are two main types of heaps:</p>
+<ul>
+<li><strong>Max-Heap</strong>: In a max-heap, for any given node, the value of the node is greater than or equal to the values of its children. The largest element is always at the root.</li>
+<li><strong>Min-Heap</strong>: In a min-heap, for any given node, the value of the node is less than or equal to the values of its children. The smallest element is always at the root.</li>
+</ul>
+<p>Heaps are typically implemented using <strong>arrays</strong> rather than pointers. The root element is stored at index 0, and for any element at index <strong>i</strong>:</p>
+<ul>
+<li>The <strong>left child</strong> is at index <strong>2i + 1</strong>.</li>
+<li>The <strong>right child</strong> is at index <strong>2i + 2</strong>.</li>
+<li>The <strong>parent</strong> is at index <strong>(i - 1) // 2</strong>.</li>
+</ul>
+<p>Heaps are most commonly used to implement <strong>priority queues</strong> due to their efficient insertion and extraction properties.</p>
+<h3 id="heap-operations">Heap Operations</h3>
+<ul>
+<li><strong>Insertion</strong>: Adding an element to the heap while maintaining the heap property. This takes <strong>O(log N)</strong> time.</li>
+<li><strong>Deletion</strong> (usually of the root): Removing the root element (max or min) while maintaining the heap property. This also takes <strong>O(log N)</strong> time.</li>
+<li><strong>Peek</strong>: Retrieving the root element without removing it. This takes <strong>O(1)</strong> time.</li>
+</ul>
+<h2 id="3-example">3. Example</h2>
+<p>Consider the following sequence of numbers:</p>
+<p><strong>Input</strong>: [5, 2, 10, 1, 7, 6]</p>
+<ul>
+<li><strong>Step 1</strong>: Insert 5 into the Max-Heap.</li>
+<li><strong>Step 2</strong>: Insert 2 into the Max-Heap. Now, balance the heaps: Max-Heap = [2], Min-Heap = [5].</li>
+</ul>
+<p>To better understand how the heaps change during each step, refer to the following diagram:</p>
+<pre class="hljs"><code><div>Step 1: Max-Heap = [5], Min-Heap = []
+Step 2: Max-Heap = [2], Min-Heap = [5]
+Step 3: Max-Heap = [2], Min-Heap = [5, 10]
+Step 4: Max-Heap = [2, 1], Min-Heap = [5, 10]
+Step 5: Max-Heap = [2, 1], Min-Heap = [5, 7, 10]
+Step 6: Max-Heap = [2, 1], Min-Heap = [5, 6, 7, 10]
+</div></code></pre>
+<p>This visual representation illustrates how elements are moved between heaps to maintain balance.</p>
+<ul>
+<li><strong>Step 3</strong>: Insert 10 into the Min-Heap.</li>
+<li><strong>Step 4</strong>: Insert 1 into the Max-Heap, then balance: Max-Heap = [2, 1], Min-Heap = [5, 10].</li>
+<li><strong>Step 5</strong>: Insert 7 into the Min-Heap, then balance.</li>
+<li><strong>Step 6</strong>: Insert 6 into the Min-Heap, balance accordingly.</li>
+</ul>
+<p>After balancing, the median is always efficiently available by looking at the roots of the heaps.</p>
+<h2 id="4-problem-identification-checklist">4. Problem Identification Checklist</h2>
+<table>
+<thead>
+<tr>
+<th>Criteria</th>
+<th>Example Problem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Continuous Median</strong></td>
+<td>Find the median of a continuously growing list of numbers.</td>
+</tr>
+<tr>
+<td><strong>Priority Balancing</strong></td>
+<td>Dynamically manage a workload in two parts (high/low priority).</td>
+</tr>
+<tr>
+<td><strong>Balanced Partitioning</strong></td>
+<td>Divide elements such that their sum is balanced.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="5-general-templates-with-comments">5. General Templates with Comments</h2>
+<h3 id="template-1-finding-the-median-of-a-stream-of-numbers">Template 1: Finding the Median of a Stream of Numbers</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> heapq
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MedianFinder</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-comment"># Max-heap for the lower half</span>
+        self.max_heap = []
+        <span class="hljs-comment"># Min-heap for the upper half</span>
+        self.min_heap = []
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_num</span><span class="hljs-params">(self, num: int)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+        <span class="hljs-comment"># Add to max-heap (Python has only min-heap, so insert negative for max-heap)</span>
+        heapq.heappush(self.max_heap, -num)
+
+        <span class="hljs-comment"># Balance the heaps</span>
+        heapq.heappush(self.min_heap, -heapq.heappop(self.max_heap))
+
+        <span class="hljs-comment"># Ensure max-heap has more elements or equal to min-heap</span>
+        <span class="hljs-keyword">if</span> len(self.min_heap) &gt; len(self.max_heap):
+            heapq.heappush(self.max_heap, -heapq.heappop(self.min_heap))
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_median</span><span class="hljs-params">(self)</span> -&gt; float:</span>
+        <span class="hljs-keyword">if</span> len(self.max_heap) &gt; len(self.min_heap):
+            <span class="hljs-keyword">return</span> -self.max_heap[<span class="hljs-number">0</span>]
+        <span class="hljs-keyword">return</span> (-self.max_heap[<span class="hljs-number">0</span>] + self.min_heap[<span class="hljs-number">0</span>]) / <span class="hljs-number">2</span>
+</div></code></pre>
+<p><strong>Use Cases</strong>: Best used for problems that require real-time median calculation, such as sensor data analysis.</p>
+<p><strong>Time Complexity</strong>: Each add operation takes <strong>O(log N)</strong>, and finding the median takes <strong>O(1)</strong>.</p>
+<p><strong>Space Complexity</strong>: <strong>O(N)</strong>, where <strong>N</strong> is the number of elements.</p>
+<h2 id="6-complexity-analysis">6. Complexity Analysis</h2>
+<ul>
+<li><strong>Time Complexity</strong>: Insertions and deletions from the heap take <strong>O(log N)</strong> time.</li>
+<li><strong>Space Complexity</strong>: Maintaining the heaps takes <strong>O(N)</strong> space.</li>
+<li><strong>Optimization Opportunities</strong>: The balancing of heaps could be optimized by performing fewer comparisons based on the sequence properties. For example, if the incoming element is smaller than the maximum element in the max-heap, it can be directly added without comparing with the min-heap. Additionally, in scenarios where the data distribution is known to be skewed, fewer balancing operations may be required, which can help reduce overall balancing overhead.</li>
+</ul>
+<h2 id="7-discussion-on-templates-and-patterns">7. Discussion on Templates and Patterns</h2>
+<p>The Two Heap pattern can be extended to solve problems beyond median finding, such as <strong>partitioning tasks</strong> or <strong>maintaining sliding window statistics</strong>. Depending on the problem, you may need to adjust how you balance the heaps or even combine this pattern with others like <strong>Sliding Window</strong>. For example, in the 'Sliding Window Median' problem, you can use the Sliding Window pattern to maintain a window of k elements and then use the Two Heap pattern to quickly find the median of the current window. This combination allows efficient median calculation as the window slides through the data, providing a practical use case of combining these two patterns.</p>
+<h2 id="8-practice-problems">8. Practice Problems</h2>
+<table>
+<thead>
+<tr>
+<th>S.No</th>
+<th>Question</th>
+<th>Example</th>
+<th>Difficulty Level</th>
+<th>Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Find the median of a data stream</td>
+<td>Input: [5, 15, 1, 3] - Output: Median after each insertion: [5, 10, 5, 4]. Explanation: Insert elements one by one and track median.</td>
+<td>Medium</td>
+<td>Two Heap Pattern (maintain two heaps: max-heap for lower half and min-heap for upper half)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Sliding window median</td>
+<td>Input: [1, 3, -1, -3, 5, 3, 6, 7] - Output: [1, -1, -1, 3, 5, 6]. Explanation: Calculate the median for each window of size k.</td>
+<td>Hard</td>
+<td>Two Heap + Sliding Win (use two heaps and a deque to maintain window elements efficiently)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Task scheduling with priority balancing</td>
+<td>Tasks: A, B, C - Output: Balanced task allocation between two workers. Explanation: Distribute tasks based on priority to balance workload.</td>
+<td>Medium</td>
+<td>Two Heap Pattern (use max-heap for high priority tasks and min-heap for low priority tasks)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Find the kth largest element in a stream</td>
+<td>Input: [4, 5, 8, 2], k=3 - Output: 4. Explanation: Maintain a heap of k largest elements and return the kth largest.</td>
+<td>Medium</td>
+<td>Two Heap, maintain k (use a min-heap of size k to efficiently find the kth largest element)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Median of two sorted arrays</td>
+<td>Input: [1, 3], [2] - Output: 2.0. Explanation: Merge two sorted arrays and find the median.</td>
+<td>Hard</td>
+<td>Two Heap + Merge (use two heaps to maintain merged state, extra space for merged data)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Top k frequent elements</td>
+<td>Input: [1,1,1,2,2,3], k=2 - Output: [1, 2]. Explanation: Use a heap to maintain k most frequent elements.</td>
+<td>Medium</td>
+<td>Min-Heap, k elements (use frequency dictionary and min-heap of size k to find top k elements)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Minimize deviation in an array</td>
+<td>Input: [1, 2, 3, 4] - Output: 1. Explanation: Minimize the difference between the largest and smallest elements after modifying elements.</td>
+<td>Hard</td>
+<td>Two Heap + Priority (use max-heap to track maximums and minimize deviation)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Connect ropes to minimize cost</td>
+<td>Input: [4, 3, 2, 6] - Output: 29. Explanation: Connect ropes in such a way that the total cost is minimized.</td>
+<td>Medium</td>
+<td>Min-Heap Pattern (use a min-heap to repeatedly connect the smallest ropes)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>K closest points to origin</td>
+<td>Input: Points = [[1,3],[-2,2]], k=1 - Output: [[-2,2]]. Explanation: Find the k points closest to the origin.</td>
+<td>Medium</td>
+<td>Max-Heap, distance (use max-heap of size k to maintain the closest points)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>IPO - Maximize capital</td>
+<td>Projects with profits and capital - Output: Max profit. Explanation: Choose projects with highest profit within available capital.</td>
+<td>Hard</td>
+<td>Two Heap, priorities (use max-heap for profit and min-heap for capital constraints)</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Kth smallest element in a matrix</td>
+<td>Input: Matrix = [[1,5,9],[10,11,13],[12,13,15]], k=8 - Output: 13. Explanation: Find the kth smallest element in the matrix.</td>
+<td>Medium</td>
+<td>Min-Heap, matrix iter (use min-heap to extract elements in sorted order, track indices)</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Find the running median</td>
+<td>Input: Stream: [2, 1, 5, 7, 2, 0, 5] - Output: [2, 1.5, 2, 3.5, 2, 2, 2]. Explanation: Insert each element and calculate the median.</td>
+<td>Medium</td>
+<td>Two Heap Pattern (maintain two heaps for dynamic median calculation)</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Smallest range from k lists</td>
+<td>Input: Lists: [[4,10,15],[1,3,5],[6,9,12]] - Output: [4, 6]. Explanation: Find the smallest range that includes at least one element from each list.</td>
+<td>Hard</td>
+<td>Min-Heap, multi-list (use min-heap to track the smallest elements across all lists)</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Kth largest element in an array</td>
+<td>Input: [3, 2, 1, 5, 6, 4], k=2 - Output: 5. Explanation: Maintain a heap of k largest elements and return the kth largest.</td>
+<td>Medium</td>
+<td>Min-Heap, k elements (use a min-heap of size k to track the largest elements)</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Reorganize string</td>
+<td>Input: &quot;aaabbc&quot; - Output: &quot;ababac&quot;. Explanation: Reorganize the string so that no adjacent characters are the same.</td>
+<td>Medium</td>
+<td>Max-Heap, frequency (use max-heap to track character frequency and reorganize the string)</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Frequency sort</td>
+<td>Input: [1,1,1,2,2,3] - Output: [1,1,1,2,2,3]. Explanation: Sort elements by frequency in descending order.</td>
+<td>Easy</td>
+<td>Max-Heap, frequency (use frequency dictionary and max-heap to sort elements by frequency)</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Kth largest element in a stream (variant)</td>
+<td>Input: [5, 7, 2, 3], k=2 - Output: 5. Explanation: Maintain a heap of k largest elements in the stream.</td>
+<td>Medium</td>
+<td>Two Heap Pattern (use a min-heap of size k to efficiently track the kth largest element)</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Kth smallest element in a BST</td>
+<td>Input: BST elements, k=3 - Output: k-th smallest value. Explanation: Perform an in-order traversal and find the kth element.</td>
+<td>Hard</td>
+<td>Min-Heap, in-order (use min-heap to track elements during in-order traversal)</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Minimize sum of product of two arrays</td>
+<td>Input: A = [3, 1, 1], B = [6, 5, 4] - Output: 23. Explanation: Pair elements to minimize the sum of products.</td>
+<td>Medium</td>
+<td>Max-Heap, pairing (use max-heap to pair elements in descending order to minimize product sum)</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Furthest building you can reach</td>
+<td>Input: Heights, bricks, ladders - Output: Index of furthest building. Explanation: Use heaps to allocate resources efficiently and reach the furthest point.</td>
+<td>Hard</td>
+<td>Two Heap + Greedy (use two heaps to track ladder usage and bricks efficiently)</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Maximize score after performing k operations</td>
+<td>Input: [1, 10, 3, 3, 3], k=3 - Output: Maximum score. Explanation: Use heaps to maximize score by selecting elements k times.</td>
+<td>Medium</td>
+<td>Max-Heap, k operations (use max-heap to select the highest elements multiple times)</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Find the median of merged data from two sources</td>
+<td>Input: [1, 2], [3, 4] - Output: 2.5. Explanation: Merge two data sources and find the median.</td>
+<td>Medium</td>
+<td>Two Heap, merge data (use two heaps to maintain merged state and track median)</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Shortest path with alternating colors</td>
+<td>Input: Graph with red/blue edges - Output: Shortest distance. Explanation: Find the shortest path considering alternating edge colors.</td>
+<td>Medium</td>
+<td>Two Heap + Graph BFS (use two heaps to track paths with alternating edge colors)</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Split array into k subarrays with largest sum</td>
+<td>Input: [7, 2, 5, 10, 8], k=2 - Output: Split into [7, 2] and [5, 10, 8] to maximize the minimum largest sum, which is 18. Explanation: Split the array optimally to balance the subarrays and maximize the smallest possible largest sum.</td>
+<td>Hard</td>
+<td>Max-Heap, split points, find optimal partitioning to maximize the smallest possible largest sum (use extra tracking variables to evaluate partitions)</td>
+</tr>
+</tbody>
+</table>
+<h2 id="09-key-takeaways-tips-and-summary">09. Key Takeaways, Tips, and Summary</h2>
+<ul>
+<li><strong>Key Takeaways</strong>: The Two Heap pattern helps in efficiently balancing elements and provides quick access to the median.</li>
+<li><strong>Practical Tips</strong>: Always ensure <strong>Max-Heap</strong> and <strong>Min-Heap</strong> are balanced, especially when dealing with insertion and deletion.</li>
+<li><strong>Summary</strong>: The Two Heap pattern is efficient for problems involving <strong>median</strong> and <strong>balancing elements dynamically</strong>.</li>
+</ul>
+<h2 id="10-common-pitfalls">10. Common Pitfalls</h2>
+<ul>
+<li><strong>Mistakes to Avoid</strong>: Forgetting to balance the heaps after every insertion can lead to incorrect median calculations.</li>
+<li><strong>Troubleshooting Tips</strong>: If the median value seems off, check the balancing condition of the heaps; they should either be of equal size or the max-heap should have one extra element.</li>
+</ul>
+<p>TSure, here are detailed explanations for five random practice problems, including numeric examples and Python code as comments.</p>
+<h3 id="problem-1-find-the-median-of-a-data-stream">Problem 1: Find the Median of a Data Stream</h3>
+<p><strong>Problem</strong>: You need to find the median of a stream of numbers as they are added one by one.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: [5, 15, 1, 3]</li>
+<li><strong>Output</strong>: [5, 10, 5, 4]</li>
+<li><strong>Explanation</strong>: After inserting each number, the median changes:
+<ul>
+<li>Insert 5: Median is 5.</li>
+<li>Insert 15: Median is (5 + 15) / 2 = 10.</li>
+<li>Insert 1: Median is 5.</li>
+<li>Insert 3: Median is (3 + 5) / 2 = 4.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Python code for finding the median of a data stream</span>
+<span class="hljs-keyword">import</span> heapq
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">MedianFinder</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self)</span>:</span>
+        <span class="hljs-comment"># Max-heap for the lower half of the numbers</span>
+        self.max_heap = []
+        <span class="hljs-comment"># Min-heap for the upper half of the numbers</span>
+        self.min_heap = []
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">add_num</span><span class="hljs-params">(self, num: int)</span> -&gt; <span class="hljs-keyword">None</span>:</span>
+        heapq.heappush(self.max_heap, -num)
+        heapq.heappush(self.min_heap, -heapq.heappop(self.max_heap))
+        <span class="hljs-keyword">if</span> len(self.min_heap) &gt; len(self.max_heap):
+            heapq.heappush(self.max_heap, -heapq.heappop(self.min_heap))
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_median</span><span class="hljs-params">(self)</span> -&gt; float:</span>
+        <span class="hljs-keyword">if</span> len(self.max_heap) &gt; len(self.min_heap):
+            <span class="hljs-keyword">return</span> -self.max_heap[<span class="hljs-number">0</span>]
+        <span class="hljs-keyword">return</span> (-self.max_heap[<span class="hljs-number">0</span>] + self.min_heap[<span class="hljs-number">0</span>]) / <span class="hljs-number">2</span>
+
+<span class="hljs-comment"># Test the implementation</span>
+median_finder = MedianFinder()
+stream = [<span class="hljs-number">5</span>, <span class="hljs-number">15</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>]
+<span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> stream:
+    median_finder.add_num(num)
+    print(<span class="hljs-string">f"Median after inserting <span class="hljs-subst">{num}</span>: <span class="hljs-subst">{median_finder.find_median()}</span>"</span>)
+</div></code></pre>
+<h3 id="problem-2-sliding-window-median">Problem 2: Sliding Window Median</h3>
+<p><strong>Problem</strong>: Given an array of numbers and a window size <code>k</code>, find the median of all sliding windows of size <code>k</code>.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: nums = [1, 3, -1, -3, 5, 3, 6, 7], k = 3</li>
+<li><strong>Output</strong>: [1, -1, -1, 3, 5, 6]</li>
+<li><strong>Explanation</strong>: The medians of each sliding window are:
+<ul>
+<li>Window [1, 3, -1]: Median is 1.</li>
+<li>Window [3, -1, -3]: Median is -1.</li>
+<li>Window [-1, -3, 5]: Median is -1.</li>
+<li>Window [-3, 5, 3]: Median is 3.</li>
+<li>Window [5, 3, 6]: Median is 5.</li>
+<li>Window [3, 6, 7]: Median is 6.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Python code for finding the sliding window median</span>
+<span class="hljs-keyword">import</span> heapq
+<span class="hljs-keyword">from</span> sortedcontainers <span class="hljs-keyword">import</span> SortedList
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sliding_window_median</span><span class="hljs-params">(nums, k)</span>:</span>
+    result = []
+    window = SortedList()
+
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(nums)):
+        window.add(nums[i])
+        <span class="hljs-keyword">if</span> len(window) &gt; k:
+            window.remove(nums[i - k])
+        <span class="hljs-keyword">if</span> len(window) == k:
+            median = (window[k // <span class="hljs-number">2</span>] + window[(k - <span class="hljs-number">1</span>) // <span class="hljs-number">2</span>]) / <span class="hljs-number">2</span>
+            result.append(median)
+
+    <span class="hljs-keyword">return</span> result
+
+<span class="hljs-comment"># Test the implementation</span>
+nums = [<span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">-3</span>, <span class="hljs-number">5</span>, <span class="hljs-number">3</span>, <span class="hljs-number">6</span>, <span class="hljs-number">7</span>]
+k = <span class="hljs-number">3</span>
+print(sliding_window_median(nums, k))
+</div></code></pre>
+<h3 id="problem-3-k-closest-points-to-origin">Problem 3: K Closest Points to Origin</h3>
+<p><strong>Problem</strong>: Given an array of points, find the <code>k</code> points closest to the origin.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: points = [[1, 3], [-2, 2]], k = 1</li>
+<li><strong>Output</strong>: [[-2, 2]]</li>
+<li><strong>Explanation</strong>: The point [-2, 2] is closer to the origin than [1, 3].</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Python code to find the k closest points to the origin</span>
+<span class="hljs-keyword">import</span> heapq
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">k_closest</span><span class="hljs-params">(points, k)</span>:</span>
+    max_heap = []
+    <span class="hljs-keyword">for</span> (x, y) <span class="hljs-keyword">in</span> points:
+        distance = -(x * x + y * y)  <span class="hljs-comment"># Using negative for max-heap</span>
+        heapq.heappush(max_heap, (distance, x, y))
+        <span class="hljs-keyword">if</span> len(max_heap) &gt; k:
+            heapq.heappop(max_heap)
+
+    <span class="hljs-keyword">return</span> [[x, y] <span class="hljs-keyword">for</span> (dist, x, y) <span class="hljs-keyword">in</span> max_heap]
+
+<span class="hljs-comment"># Test the implementation</span>
+points = [[<span class="hljs-number">1</span>, <span class="hljs-number">3</span>], [<span class="hljs-number">-2</span>, <span class="hljs-number">2</span>]]
+k = <span class="hljs-number">1</span>
+print(k_closest(points, k))
+</div></code></pre>
+<h3 id="problem-4-top-k-frequent-elements">Problem 4: Top K Frequent Elements</h3>
+<p><strong>Problem</strong>: Given a non-empty array of integers, return the <code>k</code> most frequent elements.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: nums = [1, 1, 1, 2, 2, 3], k = 2</li>
+<li><strong>Output</strong>: [1, 2]</li>
+<li><strong>Explanation</strong>: The numbers 1 and 2 are the two most frequent elements.</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Python code to find the top k frequent elements</span>
+<span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> Counter
+<span class="hljs-keyword">import</span> heapq
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">top_k_frequent</span><span class="hljs-params">(nums, k)</span>:</span>
+    count = Counter(nums)
+    <span class="hljs-keyword">return</span> heapq.nlargest(k, count.keys(), key=count.get)
+
+<span class="hljs-comment"># Test the implementation</span>
+nums = [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+k = <span class="hljs-number">2</span>
+print(top_k_frequent(nums, k))
+</div></code></pre>
+<h3 id="problem-5-minimize-deviation-in-array">Problem 5: Minimize Deviation in Array</h3>
+<p><strong>Problem</strong>: You are given an array <code>nums</code> of <code>n</code> positive integers. You can perform two types of operations on any element of the array: if the element is even, divide it by 2; if the element is odd, multiply it by 2. Return the minimum possible difference between the maximum and minimum values in <code>nums</code>.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: nums = [1, 2, 3, 4]</li>
+<li><strong>Output</strong>: 1</li>
+<li><strong>Explanation</strong>: Convert the array to [2, 2, 3, 4], then [2, 2, 3, 2], the difference is 1.</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Python code to minimize deviation in an array</span>
+<span class="hljs-keyword">import</span> heapq
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">minimum_deviation</span><span class="hljs-params">(nums)</span>:</span>
+    max_heap = []
+    <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> nums:
+        <span class="hljs-keyword">if</span> num % <span class="hljs-number">2</span> == <span class="hljs-number">1</span>:
+            num *= <span class="hljs-number">2</span>
+        heapq.heappush(max_heap, -num)
+
+    min_value = -max(max_heap)
+    min_deviation = float(<span class="hljs-string">'inf'</span>)
+
+    <span class="hljs-keyword">while</span> max_heap:
+        max_value = -heapq.heappop(max_heap)
+        min_deviation = min(min_deviation, max_value - min_value)
+        <span class="hljs-keyword">if</span> max_value % <span class="hljs-number">2</span> == <span class="hljs-number">1</span>:
+            <span class="hljs-keyword">break</span>
+        max_value //= <span class="hljs-number">2</span>
+        min_value = min(min_value, max_value)
+        heapq.heappush(max_heap, -max_value)
+
+    <span class="hljs-keyword">return</span> min_deviation
+
+<span class="hljs-comment"># Test the implementation</span>
+nums = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>]
+print(minimum_deviation(nums))
+</div></code></pre>
+<p>These explanations provide detailed steps for understanding the problem along with Python code to implement the solution. Let me know if you'd like any more examples or further assistance!</p>
+
+</body>
+</html>

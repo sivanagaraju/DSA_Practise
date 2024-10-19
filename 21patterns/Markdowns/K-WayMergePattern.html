@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>K-WayMergePattern.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="k-way-merge-comprehensive-guide"><strong>K-Way Merge: Comprehensive Guide</strong></h1>
+<h2 id="1-core-concepts-and-coding-patterns">1. Core Concepts and Coding Patterns</h2>
+<p>The K-Way Merge is a fundamental coding pattern used to merge multiple sorted arrays or lists into a single sorted list. The core idea is to use a Min-Heap (or Max-Heap) to keep track of the smallest (or largest) elements among the arrays during the merge process.</p>
+<ul>
+<li><strong>How It Works</strong>: The pattern involves pushing the first element of each sorted array into a Min-Heap, extracting the minimum value, and then adding the next element from the corresponding array to the heap. This process continues until all elements are merged.</li>
+<li><strong>Typical Use Cases</strong>: This pattern is commonly used in scenarios like merging k sorted arrays or lists, merging k sorted linked lists, or finding the smallest range that includes at least one number from each of the k lists.</li>
+</ul>
+<h3 id="2-examples">2. Examples</h3>
+<p><strong>Example 1</strong>: Merging Three Sorted Arrays</p>
+<p>Given three sorted arrays:</p>
+<ul>
+<li>Array 1: [1, 4, 7]</li>
+<li>Array 2: [2, 5, 8]</li>
+<li>Array 3: [3, 6, 9]</li>
+</ul>
+<p>To merge these arrays using a K-Way Merge:</p>
+<ol>
+<li>Insert the first element from each array into the Min-Heap: [1, 2, 3].</li>
+<li>Extract the smallest (1) and add the next element from Array 1 to the heap: [2, 3, 4].</li>
+<li>Continue extracting and adding until all elements are merged.</li>
+</ol>
+<p><strong>Result</strong>: [1, 2, 3, 4, 5, 6, 7, 8, 9]</p>
+<h3 id="3-problem-identification-checklist">3. Problem Identification Checklist</h3>
+<table>
+<thead>
+<tr>
+<th>Problem Type</th>
+<th>Example Problem</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Merging Sorted Lists</td>
+<td>Merge k sorted linked lists into one sorted list</td>
+</tr>
+<tr>
+<td>Finding Smallest Range</td>
+<td>Find the smallest range that includes at least one number from each of the k lists</td>
+</tr>
+<tr>
+<td>Sorting Elements from Multiple Streams</td>
+<td>Given k sorted arrays, return a sorted output of all elements</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-general-templates-with-comments">4. General Templates with Comments</h3>
+<h4 id="template-1-merging-k-sorted-arrays-using-a-min-heap">Template 1: Merging k Sorted Arrays Using a Min-Heap</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> heapq <span class="hljs-keyword">import</span> heappush, heappop
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">merge_k_sorted_arrays</span><span class="hljs-params">(arrays)</span>:</span>
+    min_heap = []
+    result = []
+
+    <span class="hljs-comment"># Insert the first element of each array into the heap</span>
+    <span class="hljs-keyword">for</span> i, array <span class="hljs-keyword">in</span> enumerate(arrays):
+        <span class="hljs-keyword">if</span> array:
+            heappush(min_heap, (array[<span class="hljs-number">0</span>], i, <span class="hljs-number">0</span>))  <span class="hljs-comment"># (value, array_index, element_index)</span>
+
+    <span class="hljs-comment"># Extract elements from the heap and add the next element from the same array</span>
+    <span class="hljs-keyword">while</span> min_heap:
+        value, array_index, element_index = heappop(min_heap)
+        result.append(value)
+        
+        <span class="hljs-comment"># If there is another element in the same array, add it to the heap</span>
+        <span class="hljs-keyword">if</span> element_index + <span class="hljs-number">1</span> &lt; len(arrays[array_index]):
+            next_value = arrays[array_index][element_index + <span class="hljs-number">1</span>]
+            heappush(min_heap, (next_value, array_index, element_index + <span class="hljs-number">1</span>))
+
+    <span class="hljs-keyword">return</span> result
+</div></code></pre>
+<p><strong>Use Case</strong>: This template is most applicable for merging k sorted arrays where each array is independently sorted.</p>
+<h4 id="template-2-merging-k-sorted-linked-lists">Template 2: Merging k Sorted Linked Lists</h4>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> heapq <span class="hljs-keyword">import</span> heappush, heappop
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ListNode</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, value=<span class="hljs-number">0</span>, next=None)</span>:</span>
+        self.value = value
+        self.next = next
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">merge_k_sorted_linked_lists</span><span class="hljs-params">(lists)</span>:</span>
+    min_heap = []
+
+    <span class="hljs-comment"># Insert the head of each linked list into the heap</span>
+    <span class="hljs-keyword">for</span> i, root <span class="hljs-keyword">in</span> enumerate(lists):
+        <span class="hljs-keyword">if</span> root:
+            heappush(min_heap, (root.value, i, root))
+
+    result_head, result_tail = <span class="hljs-literal">None</span>, <span class="hljs-literal">None</span>
+
+    <span class="hljs-comment"># Extract the smallest element from the heap and add the next node from the same list</span>
+    <span class="hljs-keyword">while</span> min_heap:
+        value, i, node = heappop(min_heap)
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> result_head:
+            result_head = result_tail = node
+        <span class="hljs-keyword">else</span>:
+            result_tail.next = node
+            result_tail = result_tail.next
+
+        <span class="hljs-keyword">if</span> node.next:
+            heappush(min_heap, (node.next.value, i, node.next))
+
+    <span class="hljs-keyword">return</span> result_head
+</div></code></pre>
+<p><strong>Use Case</strong>: This template is ideal for merging k sorted linked lists, where each list is independently sorted.</p>
+<h3 id="5-complexity-analysis">5. Complexity Analysis</h3>
+<ul>
+<li><strong>Time Complexity</strong>: Inserting and extracting from the Min-Heap takes O(log k), and since we process all elements, the time complexity is O(N log k), where N is the total number of elements.</li>
+<li><strong>Space Complexity</strong>: The space complexity is O(k) for storing elements in the heap.</li>
+<li><strong>Optimization Opportunities</strong>: One possible optimization is to use a balanced binary search tree instead of a heap if frequent reordering is required.</li>
+</ul>
+<h3 id="6-discussion-on-templates-and-patterns">6. Discussion on Templates and Patterns</h3>
+<p>These templates can be adjusted depending on the specific question. For instance, if the input size is extremely large, consider using a generator to reduce memory usage.</p>
+<h3 id="7-multiple-approaches-and-implementations">7. Multiple Approaches and Implementations</h3>
+<ul>
+<li><strong>Iterative vs. Recursive</strong>: The K-Way Merge is generally implemented iteratively to avoid the overhead of recursion, especially when dealing with a large number of lists.</li>
+<li><strong>Comparative Analysis</strong>: Iterative approaches are more memory-efficient, while recursive approaches may offer more elegant code but come with stack overflow risks.</li>
+</ul>
+<h3 id="9-practice-problems">9. Practice Problems</h3>
+<table>
+<thead>
+<tr>
+<th>S.No</th>
+<th>Question</th>
+<th>Example</th>
+<th>Difficulty Level</th>
+<th>Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Merge k Sorted Lists</td>
+<td>Input: [[1, 4, 5], [1, 3, 4], [2, 6]] - Start by adding the first elements of all arrays into the Min-Heap: [1, 1, 2]. Extract the smallest element (1), and add the next element from the corresponding list to the heap. Continue until all elements are merged. Output: [1, 1, 2, 3, 4, 4, 5, 6]</td>
+<td>Medium</td>
+<td>Use Min-Heap to keep track of smallest elements</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Smallest Range Covering Elements from k Lists</td>
+<td>Input: [[4, 10, 15], [1, 10, 20], [5, 8, 12]] - Start by adding the first elements from all lists into the Min-Heap: [1, 4, 5]. Track the range using the minimum and maximum elements. Expand the range by including the next element from the corresponding list until the smallest range covering all lists is found. Output: [5, 10]</td>
+<td>Hard</td>
+<td>Use Min-Heap to track min and max range</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Merge k Sorted Arrays</td>
+<td>Input: [[1, 3, 5], [2, 4, 6], [0, 9, 10]] - Add the first elements from all arrays into the Min-Heap: [0, 1, 2]. Extract the minimum element and add the next element from the corresponding array. Repeat until all arrays are merged. Output: [0, 1, 2, 3, 4, 5, 6, 9, 10]</td>
+<td>Medium</td>
+<td>Use Min-Heap to merge sorted arrays</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Find k Smallest Elements in k Sorted Arrays</td>
+<td>Input: [[2, 6, 8], [3, 6, 7], [1, 3, 4]] - Start by adding the first elements from each array into the Min-Heap: [1, 2, 3]. Extract the smallest element and add the next element from the same array to the heap. Continue until all elements are processed. Output: [1, 2, 3, 3, 4, 6, 6, 7, 8]</td>
+<td>Medium</td>
+<td>Use Min-Heap to keep track of smallest elements</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Kth Smallest Number in M Sorted Lists</td>
+<td>Input: [[2, 6, 8], [3, 6, 7], [1, 3, 4]], k=5 - Add the first elements from each list into the Min-Heap: [1, 2, 3]. Extract the smallest element and add the next element from the corresponding list. Continue extracting until the kth smallest element is found. Output: 4</td>
+<td>Medium</td>
+<td>Use Min-Heap to find kth smallest element</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Merge k Sorted Linked Lists</td>
+<td>Input: [LinkedList1: 1-&gt;4-&gt;5, LinkedList2: 1-&gt;3-&gt;4, LinkedList3: 2-&gt;6] - Add the heads of all linked lists to the Min-Heap: [1, 1, 2]. Extract the smallest element, add it to the result, and push the next node from the corresponding list to the heap. Continue until all lists are merged. Output: 1-&gt;1-&gt;2-&gt;3-&gt;4-&gt;4-&gt;5-&gt;6</td>
+<td>Medium</td>
+<td>Use Min-Heap to merge linked lists</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Find Smallest Common Number from k Sorted Arrays</td>
+<td>Input: [[1, 2, 3, 4], [2, 3, 5], [2, 4, 6]] - Add the first elements from each list into the Min-Heap: [1, 2, 2]. Continue extracting and adding the next element from the corresponding list until a common number is found in all arrays. Output: 2</td>
+<td>Hard</td>
+<td>Use Min-Heap to track common elements</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Find the Largest Range Covering k Lists</td>
+<td>Input: [[1, 5, 8], [4, 12], [7, 8, 10]] - Add the first elements from each list into the Min-Heap: [1, 4, 7]. Track the minimum and maximum elements to determine the range. Expand by adding the next element from the corresponding list until the largest range covering all lists is found. Output: [4, 8]</td>
+<td>Hard</td>
+<td>Use Min-Heap and Max-Heap to track ranges</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Sort k Increasing-Decreasing Arrays</td>
+<td>Input: [[1, 5, 7], [8, 6, 4], [3, 2, 9]] - Split each array into increasing and decreasing parts, reverse the decreasing parts, and add the first elements to the Min-Heap. Extract and add elements to form the sorted output. Output: [1, 2, 3, 4, 5, 6, 7, 8, 9]</td>
+<td>Medium</td>
+<td>Split, merge, and use Min-Heap</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Find Median of k Sorted Arrays</td>
+<td>Input: [[1, 3], [2], [4, 6]] - Add the first elements from each array into the Min-Heap: [1, 2, 4]. Extract the smallest elements while tracking the count until the median is found. Output: 3</td>
+<td>Hard</td>
+<td>Use Min-Heap and Max-Heap to find median</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Kth Largest Element in k Sorted Arrays</td>
+<td>Input: [[1, 5, 7], [3, 6, 8], [4, 10]], k=4 - Add the last elements from each array into a Max-Heap: [10, 8, 7]. Extract elements until the kth largest is found. Output: 7 (for k=4)</td>
+<td>Medium</td>
+<td>Use Max-Heap to keep track of largest elements</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Smallest Number Range Covering Elements</td>
+<td>Input: [[1, 3, 5], [4, 8], [6, 10]] - Add the first elements from each list into the Min-Heap: [1, 4, 6]. Track the range using the minimum and maximum elements. Expand until the smallest range covering all lists is found. Output: [4, 6]</td>
+<td>Hard</td>
+<td>Use Min-Heap to track range</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Merge k Sorted Stacks</td>
+<td>Input: [Stack1: [1, 3, 5], Stack2: [2, 4], Stack3: [6, 7]] - Convert stacks into lists, add the first elements to the Min-Heap, extract the minimum, and push the next element from the corresponding stack. Continue until all stacks are merged. Output: [1, 2, 3, 4, 5, 6, 7]</td>
+<td>Medium</td>
+<td>Use Min-Heap to merge stacks</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Merge k Lists with Custom Comparator</td>
+<td>Input: [[1, 3, 5], [2, 4], [7, 8, 9]] - Add the first elements from each list into the Min-Heap using a custom comparator. Extract the smallest element and push the next element from the corresponding list until all lists are merged. Output: [1, 2, 3, 4, 5, 7, 8, 9]</td>
+<td>Medium</td>
+<td>Use Min-Heap with custom comparator</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Kth Largest Number in k Arrays</td>
+<td>Input: [[1, 2, 3], [4, 5], [6, 7, 8]], k=3 - Add the last elements from each array into a Max-Heap: [8, 5, 3]. Extract the largest elements until the kth largest is found. Output: 6</td>
+<td>Medium</td>
+<td>Use Min-Heap for kth largest calculation</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Merge k Binary Search Trees</td>
+<td>Input: [BST1: [2, 4, 6], BST2: [1, 3, 5], BST3: [0, 7, 8]] - Perform in-order traversal on each BST, add the elements to a Min-Heap, and extract to merge into a sorted tree. Output: [0, 1, 2, 3, 4, 5, 6, 7, 8]</td>
+<td>Hard</td>
+<td>Use Min-Heap to merge BST nodes</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Find kth Largest Element in Sorted Streams</td>
+<td>Input: [Stream1: [1, 3, 5], Stream2: [2, 4, 6], Stream3: [0, 9, 10]], k=4 - Add elements from each stream into a Min-Heap and extract until the kth largest element is found. Output: 5</td>
+<td>Hard</td>
+<td>Use Min-Heap to track stream elements</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Find the Largest Interval Covering k Lists</td>
+<td>Input: [[1, 3, 5], [2, 6], [3, 7]] - Add the first elements from each list into the Min-Heap: [1, 2, 3]. Track the interval using the minimum and maximum values, expanding until the largest interval covering all lists is found. Output: [2, 3]</td>
+<td>Hard</td>
+<td>Use Min-Heap to determine intervals</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Merge k Arrays with Duplicates</td>
+<td>Input: [[1, 2, 2], [3, 4], [2, 5]] - Add the first elements from each array into the Min-Heap: [1, 2, 2]. Extract the smallest element, and push the next element from the corresponding list. Continue until all elements are merged. Output: [1, 2, 2, 2, 3, 4, 5]</td>
+<td>Medium</td>
+<td>Use Min-Heap to merge arrays with duplicates</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Find Smallest Missing Element from k Arrays</td>
+<td>Input: [[0, 1, 2], [3, 4, 5], [6, 7]] - Add the first elements from each array into the Min-Heap: [0, 3, 6]. Extract elements while keeping track of the missing sequence until the smallest missing element is found. Output: 8</td>
+<td>Hard</td>
+<td>Use Min-Heap to track missing elements</td>
+</tr>
+</tbody>
+</table>
+<h3 id="10-key-takeaways-tips-and-summary">10. Key Takeaways, Tips, and Summary</h3>
+<ul>
+<li><strong>Key Takeaways</strong>: The K-Way Merge is efficient for merging multiple sorted inputs, utilizing a Min-Heap to maintain order.</li>
+<li><strong>Practical Tips</strong>: Always remember to push the next element from the same list after extracting the minimum.</li>
+<li><strong>Summary</strong>: Mastering the K-Way Merge template is crucial for problems involving merging or sorting multiple sorted data structures.</li>
+</ul>
+<h3 id="11-common-pitfalls">11. Common Pitfalls</h3>
+<ul>
+<li><strong>Mistakes to Avoid</strong>: Forgetting to add the next element from the same list to the heap can lead to incorrect results.</li>
+<li><strong>Troubleshooting Tips</strong>: Use print statements to debug heap operations and track the elements being added or removed.</li>
+</ul>
+<p>Here are five random problems selected from the practice problems section with detailed explanations, including numeric examples and, if required, visualizations. I have also provided Python code as comments to illustrate each solution.</p>
+<h3 id="problem-1-merge-k-sorted-arrays">Problem 1: Merge k Sorted Arrays</h3>
+<ul>
+<li><strong>Input</strong>: <code>[[1, 3, 5], [2, 4, 6], [0, 9, 10]]</code></li>
+<li><strong>Explanation</strong>:
+<ol>
+<li>Start by adding the first element of each array into the Min-Heap: <code>[0, 1, 2]</code>.</li>
+<li>Extract the minimum element (<code>0</code>) and add the next element from Array 3 to the heap: <code>[1, 2, 9]</code>.</li>
+<li>Continue this process until all elements are merged.</li>
+</ol>
+</li>
+<li><strong>Visualization</strong>:<pre class="hljs"><code><div>Step 1: Min-Heap = [0, 1, 2] -&gt; Result = []
+Step 2: Extract 0, Add 9 -&gt; Min-Heap = [1, 2, 9] -&gt; Result = [0]
+Step 3: Extract 1, Add 3 -&gt; Min-Heap = [2, 3, 9] -&gt; Result = [0, 1]
+...
+Final Result = [0, 1, 2, 3, 4, 5, 6, 9, 10]
+</div></code></pre>
+</li>
+<li><strong>Python Code</strong>:<pre class="hljs"><code><div><span class="hljs-comment"># Use Min-Heap to merge sorted arrays</span>
+<span class="hljs-keyword">from</span> heapq <span class="hljs-keyword">import</span> heappush, heappop
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">merge_k_sorted_arrays</span><span class="hljs-params">(arrays)</span>:</span>
+    min_heap = []
+    result = []
+
+    <span class="hljs-comment"># Insert the first element of each array into the heap</span>
+    <span class="hljs-keyword">for</span> i, array <span class="hljs-keyword">in</span> enumerate(arrays):
+        <span class="hljs-keyword">if</span> array:
+            heappush(min_heap, (array[<span class="hljs-number">0</span>], i, <span class="hljs-number">0</span>))  <span class="hljs-comment"># (value, array_index, element_index)</span>
+
+    <span class="hljs-comment"># Extract elements from the heap and add the next element from the same array</span>
+    <span class="hljs-keyword">while</span> min_heap:
+        value, array_index, element_index = heappop(min_heap)
+        result.append(value)
+        
+        <span class="hljs-comment"># If there is another element in the same array, add it to the heap</span>
+        <span class="hljs-keyword">if</span> element_index + <span class="hljs-number">1</span> &lt; len(arrays[array_index]):
+            next_value = arrays[array_index][element_index + <span class="hljs-number">1</span>]
+            heappush(min_heap, (next_value, array_index, element_index + <span class="hljs-number">1</span>))
+
+    <span class="hljs-keyword">return</span> result
+</div></code></pre>
+</li>
+</ul>
+<h3 id="problem-2-find-smallest-common-number-from-k-sorted-arrays">Problem 2: Find Smallest Common Number from k Sorted Arrays</h3>
+<ul>
+<li><strong>Input</strong>: <code>[[1, 2, 3, 4], [2, 3, 5], [2, 4, 6]]</code></li>
+<li><strong>Explanation</strong>:
+<ol>
+<li>Add the first elements from each list into the Min-Heap: <code>[1, 2, 2]</code>.</li>
+<li>Extract and continue until a common number (<code>2</code>) is found in all arrays.</li>
+</ol>
+</li>
+<li><strong>Visualization</strong>:<pre class="hljs"><code><div>Step 1: Min-Heap = [1, 2, 2] -&gt; Extract 1
+Step 2: Add next element from the first array -&gt; Min-Heap = [2, 2, 3]
+...
+Common Number Found = 2
+</div></code></pre>
+</li>
+<li><strong>Python Code</strong>:<pre class="hljs"><code><div><span class="hljs-comment"># Use Min-Heap to find smallest common number</span>
+<span class="hljs-keyword">from</span> heapq <span class="hljs-keyword">import</span> heappush, heappop
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_smallest_common</span><span class="hljs-params">(arrays)</span>:</span>
+    min_heap = []
+
+    <span class="hljs-comment"># Insert the first element of each array into the heap</span>
+    <span class="hljs-keyword">for</span> i, array <span class="hljs-keyword">in</span> enumerate(arrays):
+        <span class="hljs-keyword">if</span> array:
+            heappush(min_heap, (array[<span class="hljs-number">0</span>], i, <span class="hljs-number">0</span>))  <span class="hljs-comment"># (value, array_index, element_index)</span>
+
+    current_common = set()
+
+    <span class="hljs-keyword">while</span> min_heap:
+        value, array_index, element_index = heappop(min_heap)
+        current_common.add(value)
+        
+        <span class="hljs-comment"># If there are multiple occurrences, check if they are in all arrays</span>
+        <span class="hljs-keyword">if</span> len(current_common) == len(arrays):
+            <span class="hljs-keyword">return</span> value
+
+        <span class="hljs-comment"># Add next element from the same array if available</span>
+        <span class="hljs-keyword">if</span> element_index + <span class="hljs-number">1</span> &lt; len(arrays[array_index]):
+            next_value = arrays[array_index][element_index + <span class="hljs-number">1</span>]
+            heappush(min_heap, (next_value, array_index, element_index + <span class="hljs-number">1</span>))
+
+    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>  <span class="hljs-comment"># Return -1 if no common element is found</span>
+</div></code></pre>
+</li>
+</ul>
+<h3 id="problem-3-kth-smallest-number-in-m-sorted-lists">Problem 3: Kth Smallest Number in M Sorted Lists</h3>
+<ul>
+<li><strong>Input</strong>: <code>[[2, 6, 8], [3, 6, 7], [1, 3, 4]]</code>, <code>k=5</code></li>
+<li><strong>Explanation</strong>:
+<ol>
+<li>Add the first elements from each list into the Min-Heap: <code>[1, 2, 3]</code>.</li>
+<li>Extract the smallest element (<code>1</code>), add the next element from the corresponding list, and continue until the <code>kth</code> smallest is found.</li>
+</ol>
+</li>
+<li><strong>Visualization</strong>:<pre class="hljs"><code><div>Step 1: Min-Heap = [1, 2, 3]
+Step 2: Extract 1, Add 3 -&gt; Min-Heap = [2, 3, 3]
+Step 3: Extract 2, Add 6 -&gt; Min-Heap = [3, 3, 6]
+...
+5th Smallest Element = 4
+</div></code></pre>
+</li>
+<li><strong>Python Code</strong>:<pre class="hljs"><code><div><span class="hljs-comment"># Use Min-Heap to find kth smallest element</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">kth_smallest_in_m_lists</span><span class="hljs-params">(arrays, k)</span>:</span>
+    min_heap = []
+
+    <span class="hljs-comment"># Insert the first element of each array into the heap</span>
+    <span class="hljs-keyword">for</span> i, array <span class="hljs-keyword">in</span> enumerate(arrays):
+        <span class="hljs-keyword">if</span> array:
+            heappush(min_heap, (array[<span class="hljs-number">0</span>], i, <span class="hljs-number">0</span>))  <span class="hljs-comment"># (value, array_index, element_index)</span>
+
+    number_count, kth_smallest = <span class="hljs-number">0</span>, <span class="hljs-literal">None</span>
+
+    <span class="hljs-keyword">while</span> min_heap:
+        value, array_index, element_index = heappop(min_heap)
+        number_count += <span class="hljs-number">1</span>
+        
+        <span class="hljs-keyword">if</span> number_count == k:
+            kth_smallest = value
+            <span class="hljs-keyword">break</span>
+
+        <span class="hljs-comment"># Add next element from the same array if available</span>
+        <span class="hljs-keyword">if</span> element_index + <span class="hljs-number">1</span> &lt; len(arrays[array_index]):
+            next_value = arrays[array_index][element_index + <span class="hljs-number">1</span>]
+            heappush(min_heap, (next_value, array_index, element_index + <span class="hljs-number">1</span>))
+
+    <span class="hljs-keyword">return</span> kth_smallest
+</div></code></pre>
+</li>
+</ul>
+<h3 id="problem-4-find-the-largest-range-covering-k-lists">Problem 4: Find the Largest Range Covering k Lists</h3>
+<ul>
+<li><strong>Input</strong>: <code>[[1, 5, 8], [4, 12], [7, 8, 10]]</code></li>
+<li><strong>Explanation</strong>:
+<ol>
+<li>Add the first element of each list into the Min-Heap: <code>[1, 4, 7]</code>.</li>
+<li>Track the range using the minimum and maximum elements until the largest range covering all lists is found.</li>
+</ol>
+</li>
+<li><strong>Visualization</strong>:<pre class="hljs"><code><div>Step 1: Min-Heap = [1, 4, 7] -&gt; Current Max = 7
+Step 2: Extract 1, Add 5 -&gt; Min-Heap = [4, 5, 7] -&gt; Current Max = 7
+...
+Largest Range = [4, 8]
+</div></code></pre>
+</li>
+<li><strong>Python Code</strong>:<pre class="hljs"><code><div><span class="hljs-comment"># Use Min-Heap to determine largest range</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">largest_range_covering_k_lists</span><span class="hljs-params">(arrays)</span>:</span>
+    min_heap = []
+    current_max = float(<span class="hljs-string">'-inf'</span>)
+
+    <span class="hljs-keyword">for</span> i, array <span class="hljs-keyword">in</span> enumerate(arrays):
+        <span class="hljs-keyword">if</span> array:
+            heappush(min_heap, (array[<span class="hljs-number">0</span>], i, <span class="hljs-number">0</span>))
+            current_max = max(current_max, array[<span class="hljs-number">0</span>])
+
+    range_start, range_end = <span class="hljs-number">0</span>, float(<span class="hljs-string">'inf'</span>)
+
+    <span class="hljs-keyword">while</span> min_heap:
+        value, array_index, element_index = heappop(min_heap)
+
+        <span class="hljs-keyword">if</span> current_max - value &lt; range_end - range_start:
+            range_start, range_end = value, current_max
+
+        <span class="hljs-keyword">if</span> element_index + <span class="hljs-number">1</span> &lt; len(arrays[array_index]):
+            next_value = arrays[array_index][element_index + <span class="hljs-number">1</span>]
+            heappush(min_heap, (next_value, array_index, element_index + <span class="hljs-number">1</span>))
+            current_max = max(current_max, next_value)
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-keyword">break</span>
+
+    <span class="hljs-keyword">return</span> (range_start, range_end)
+</div></code></pre>
+</li>
+</ul>
+<h3 id="problem-5-smallest-number-range-covering-elements">Problem 5: Smallest Number Range Covering Elements</h3>
+<ul>
+<li><strong>Input</strong>: <code>[[1, 3, 5], [4, 8], [6, 10]]</code></li>
+<li><strong>Explanation</strong>:
+<ol>
+<li>Add the first element of each list into the Min-Heap: <code>[1, 4, 6]</code>.</li>
+<li>Track the range using the minimum and maximum elements, adjusting as needed.</li>
+</ol>
+</li>
+<li><strong>Visualization</strong>:<pre class="hljs"><code><div>Step 1: Min-Heap = [1, 4, 6] -&gt; Range = [1, 6]
+Step 2: Extract 1, Add 3 -&gt; Min-Heap = [3, 4, 6] -&gt; Range = [3, 6]
+...
+Smallest Range = [4, 6]
+</div></code></pre>
+</li>
+<li><strong>Python Code</strong>:<pre class="hljs"><code><div><span class="hljs-comment"># Use Min-Heap to track range covering all elements</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">smallest_number_range</span><span class="hljs-params">(arrays)</span>:</span>
+    min_heap = []
+    current_max = float(<span class="hljs-string">'-inf'</span>)
+
+    <span class="hljs-keyword">for</span> i, array <span class="hljs-keyword">in</span> enumerate(arrays):
+        <span class="hljs-keyword">if</span> array:
+            heappush(min_heap, (array[<span class="hljs-number">0</span>], i, <span class="hljs-number">0</span>))
+            current_max = max(current_max, array[<span class="hljs-number">0</span>])
+
+    range_start, range_end = <span class="hljs-number">0</span>, float</div></code></pre>
+</li>
+</ul>
+
+</body>
+</html>

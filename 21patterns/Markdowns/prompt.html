@@ -1,0 +1,744 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>prompt.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p>Certainly! Here's the restructured prompt according to your instructions:</p>
+<hr>
+<h3 id="comprehensive-prompt-for-coding-pattern-interview-questions"><strong>Comprehensive Prompt for Coding Pattern Interview Questions</strong></h3>
+<p><em>Please provide a comprehensive explanation of the <strong>[Coding Pattern Name]</strong>, covering the following aspects:</em></p>
+<ol>
+<li>
+<p><strong>Core Concepts and Coding Patterns</strong>:
+Explain the fundamental principles of the <strong>[Coding Pattern Name]</strong>, including how it works and its typical use cases.</p>
+</li>
+<li>
+<p><strong>Examples</strong>:
+Include numeric examples to illustrate each concept and enhance understanding.</p>
+</li>
+<li>
+<p><strong>Problem Identification Checklist</strong>:
+Provide guidelines to help identify problems that can be effectively solved using the <strong>[Coding Pattern Name]</strong>.</p>
+<ul>
+<li><strong>Add an example with tabular format</strong>.</li>
+</ul>
+</li>
+<li>
+<p><strong>General Templates with Comments</strong>:</p>
+<ul>
+<li>
+<p><strong>Multiple Templates</strong>:
+If there are multiple templates or variations within the <strong>[Coding Pattern Name]</strong>, present each one separately.</p>
+</li>
+<li>
+<p><strong>Detailed Comments and Explanations</strong>:
+Include detailed comments and explanations within the code to clarify how each part works.</p>
+</li>
+<li>
+<p><strong>Use Cases</strong>:
+Describe scenarios or problem types where each template is most applicable.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Complexity Analysis</strong>:</p>
+<ul>
+<li>
+<p><strong>Time Complexity</strong>:
+Analyze the time complexity of each template and approach.</p>
+</li>
+<li>
+<p><strong>Space Complexity</strong>:
+Discuss the space complexity, including any additional space used.</p>
+</li>
+<li>
+<p><strong>Optimization Opportunities</strong>:
+Mention any opportunities to optimize the code for better performance.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Discussion on Templates and Patterns</strong>:
+Discuss how these coding templates and patterns can be applied to various problems and whether adjustments are necessary depending on the specific question.</p>
+</li>
+<li>
+<p><strong>Multiple Approaches and Implementations</strong>:</p>
+<ul>
+<li>
+<p><strong>Different Approaches</strong>:
+If there are different approaches (e.g., iterative vs. recursive implementations), explain each one thoroughly.</p>
+</li>
+<li>
+<p><strong>Comparative Analysis</strong>:
+Compare the templates and approaches, highlighting their advantages and disadvantages.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Examples with Illustrations</strong>:
+For each template and approach, include examples with diagrams or visual aids to illustrate your explanations.</p>
+</li>
+<li>
+<p><strong>Practice Problems</strong>:
+Provide a set of practice problems in a tabular format with the following columns:</p>
+<ul>
+<li><strong>S.No</strong></li>
+<li><strong>Question</strong></li>
+<li><strong>Example</strong></li>
+<li><strong>Difficulty Level</strong></li>
+<li><strong>Approach (including which coding pattern and template to use)</strong></li>
+</ul>
+</li>
+<li>
+<p><strong>Key Takeaways, Tips, and Summary</strong>:</p>
+<ul>
+<li>
+<p><strong>Key Takeaways</strong>:
+Summarize the essential points about the <strong>[Coding Pattern Name]</strong> and its templates.</p>
+</li>
+<li>
+<p><strong>Practical Tips</strong>:
+Offer practical advice for choosing and applying the appropriate template.</p>
+</li>
+<li>
+<p><strong>Summary</strong>:
+Reinforce the main concepts and encourage further practice.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Common Pitfalls</strong>:</p>
+<ul>
+<li>
+<p><strong>Mistakes to Avoid</strong>:
+Highlight common mistakes made when applying the <strong>[Coding Pattern Name]</strong> and its templates.</p>
+</li>
+<li>
+<p><strong>Troubleshooting Tips</strong>:
+Provide tips on how to debug and fix issues that may arise.</p>
+</li>
+<li>
+<p><strong>Best Practices</strong>:
+Recommend best practices to follow when using this coding pattern.</p>
+</li>
+</ul>
+</li>
+</ol>
+<p><em>Additionally, consider including:</em></p>
+<ul>
+<li>
+<p><strong>Real-World Applications</strong>:
+Provide examples of how the <strong>[Coding Pattern Name]</strong> and its different templates are used in real-world scenarios or advanced problems.</p>
+</li>
+<li>
+<p><strong>Comparison with Other Patterns</strong>:
+Compare the <strong>[Coding Pattern Name]</strong> and its templates with other coding patterns, discussing when to use each.</p>
+</li>
+</ul>
+<hr>
+<h3 id="how-to-use-this-prompt"><strong>How to Use This Prompt</strong></h3>
+<ul>
+<li>
+<p><strong>Replace <code>[Coding Pattern Name]</code></strong> with the specific coding pattern you want to focus on, such as:</p>
+<ul>
+<li><strong>Two Pointers</strong></li>
+<li><strong>Sliding Window</strong></li>
+<li><strong>Dynamic Programming</strong></li>
+<li><strong>Backtracking</strong></li>
+<li><strong>Greedy Algorithms</strong></li>
+<li><strong>Divide and Conquer</strong></li>
+<li><strong>Breadth-First Search (BFS)</strong></li>
+<li><strong>Depth-First Search (DFS)</strong></li>
+<li><strong>Hash Table Techniques</strong></li>
+<li>etc.</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h3 id="example-usage"><strong>Example Usage</strong></h3>
+<p>If you're focusing on the <strong>Tree Depth-First Search (DFS)</strong> pattern, the prompt would be:</p>
+<p><em>Please provide a comprehensive explanation of the <strong>Tree Depth-First Search (DFS)</strong> pattern, covering the following aspects:</em></p>
+<ol>
+<li>
+<p><strong>Core Concepts and Coding Patterns</strong>:
+Explain the fundamental principles of Tree Depth-First Search (DFS), including how it works and its typical use cases.</p>
+</li>
+<li>
+<p><strong>Examples</strong>:
+Include numeric examples to illustrate each concept and enhance understanding.</p>
+</li>
+<li>
+<p><strong>Problem Identification Checklist</strong>:
+Provide guidelines to help identify problems that can be effectively solved using the Tree DFS pattern.</p>
+<ul>
+<li><strong>Add an example with tabular format</strong>.</li>
+</ul>
+</li>
+<li>
+<p><strong>General Templates with Comments</strong>:</p>
+<ul>
+<li>
+<p><strong>Multiple Templates</strong>:
+Present different traversal orders like pre-order, in-order, and post-order.</p>
+</li>
+<li>
+<p><strong>Detailed Comments and Explanations</strong>:
+Include comments in your code explaining each step.</p>
+</li>
+<li>
+<p><strong>Use Cases</strong>:
+Describe when to use each traversal method.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Complexity Analysis</strong>:</p>
+<ul>
+<li>
+<p><strong>Time Complexity</strong>:
+O(N), where N is the number of nodes.</p>
+</li>
+<li>
+<p><strong>Space Complexity</strong>:
+O(H), where H is the height of the tree (due to recursion stack).</p>
+</li>
+<li>
+<p><strong>Optimization Opportunities</strong>:
+Tail recursion optimization if supported by the language.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Discussion on Templates and Patterns</strong>:
+Discuss how to choose the appropriate traversal method based on the problem requirements.</p>
+</li>
+<li>
+<p><strong>Multiple Approaches and Implementations</strong>:</p>
+<ul>
+<li>
+<p><strong>Different Approaches</strong>:
+Explain both recursive and iterative implementations.</p>
+</li>
+<li>
+<p><strong>Comparative Analysis</strong>:
+Compare their space and time complexities.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Examples with Illustrations</strong>:
+Provide tree diagrams showing the traversal order for each method.</p>
+</li>
+<li>
+<p><strong>Practice Problems</strong>:</p>
+<table>
+<thead>
+<tr>
+<th><strong>S.No</strong></th>
+<th><strong>Question</strong></th>
+<th><strong>Example</strong></th>
+<th><strong>Difficulty Level</strong></th>
+<th><strong>Approach</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Binary Tree Preorder Traversal</td>
+<td>Input: [1,null,2,3]; Output: [1,2,3]</td>
+<td>Easy</td>
+<td>Recursive Pre-order DFS</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Binary Tree Inorder Traversal</td>
+<td>Input: [1,null,2,3]; Output: [1,3,2]</td>
+<td>Easy</td>
+<td>Recursive In-order DFS</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Binary Tree Postorder Traversal</td>
+<td>Input: [1,null,2,3]; Output: [3,2,1]</td>
+<td>Easy</td>
+<td>Recursive Post-order DFS</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Path Sum</td>
+<td>Input: root of tree, sum = 22</td>
+<td>Medium</td>
+<td>Recursive DFS with Backtracking</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Flatten Binary Tree to Linked List</td>
+<td>Input: root of tree</td>
+<td>Medium</td>
+<td>Iterative Pre-order DFS</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p><strong>Key Takeaways, Tips, and Summary</strong>:</p>
+<ul>
+<li>
+<p><strong>Key Takeaways</strong>:</p>
+<ul>
+<li>Understand different traversal methods.</li>
+<li>Know when to use recursive vs. iterative approaches.</li>
+</ul>
+</li>
+<li>
+<p><strong>Practical Tips</strong>:</p>
+<ul>
+<li>Use pre-order traversal for copying or serializing a tree.</li>
+<li>In-order traversal is useful for BSTs to get sorted order.</li>
+<li>Post-order traversal is helpful when deleting nodes.</li>
+</ul>
+</li>
+<li>
+<p><strong>Summary</strong>:
+Mastery of Tree DFS traversals is crucial for solving many tree-related problems efficiently.</p>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Common Pitfalls</strong>:</p>
+<ul>
+<li>
+<p><strong>Mistakes to Avoid</strong>:</p>
+<ul>
+<li>Forgetting to check for null nodes leading to exceptions.</li>
+<li>Incorrect traversal order causing wrong outputs.</li>
+</ul>
+</li>
+<li>
+<p><strong>Troubleshooting Tips</strong>:</p>
+<ul>
+<li>Use print statements or debuggers to trace recursion steps.</li>
+<li>Validate traversal outputs with small tree examples.</li>
+</ul>
+</li>
+<li>
+<p><strong>Best Practices</strong>:</p>
+<ul>
+<li>Always handle edge cases like empty trees.</li>
+<li>Keep your recursive functions clean and well-documented.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<hr>
+<h3 id="benefits-of-restructuring"><strong>Benefits of Restructuring</strong></h3>
+<ul>
+<li>
+<p><strong>Improved Flow</strong>: Placing <strong>Examples</strong> before the <strong>Problem Identification Checklist</strong> allows for better conceptual understanding before learning how to identify relevant problems.</p>
+</li>
+<li>
+<p><strong>Enhanced Clarity</strong>: Removing the <strong>Pseudocode</strong> focuses the prompt on conceptual templates and explanations, making it easier to adapt to different programming languages.</p>
+</li>
+<li>
+<p><strong>Focused Conclusion</strong>: Moving <strong>Common Pitfalls</strong> to the end provides a practical wrap-up, highlighting important considerations after understanding the core concepts.</p>
+</li>
+</ul>
+<hr>
+<h3 id="tips-for-maximizing-the-prompt"><strong>Tips for Maximizing the Prompt</strong></h3>
+<ul>
+<li>
+<p><strong>Engage with Examples</strong>: Work through the numeric examples to solidify your understanding of each concept.</p>
+</li>
+<li>
+<p><strong>Develop the Checklist</strong>: Use the problem identification checklist to quickly recognize when to apply the Tree DFS pattern in interview questions.</p>
+</li>
+<li>
+<p><strong>Customize Templates</strong>: Adapt the general templates provided to fit specific problems you practice, enhancing your problem-solving flexibility.</p>
+</li>
+<li>
+<p><strong>Be Aware of Pitfalls</strong>: Review the common pitfalls to avoid typical mistakes and learn best practices.</p>
+</li>
+<li>
+<p><strong>Practice Regularly</strong>: Use the practice problems to apply what you've learned and identify areas for improvement.</p>
+</li>
+</ul>
+<hr>
+<h3 id="additional-considerations"><strong>Additional Considerations</strong></h3>
+<ul>
+<li>
+<p><strong>Real-World Applications</strong>:
+Tree DFS is used in compiler design, file system navigation, and AI for game solving.</p>
+</li>
+<li>
+<p><strong>Comparison with Other Patterns</strong>:
+Compare Tree DFS with Breadth-First Search (BFS) to understand when one might be more suitable than the other, such as BFS being better for finding the shortest path in unweighted graphs.</p>
+</li>
+</ul>
+<hr>
+<p>Feel free to adjust or expand upon any section based on your specific needs. This prompt is designed to provide a comprehensive framework for understanding and mastering coding patterns, especially for interview preparation.</p>
+
+</body>
+</html>

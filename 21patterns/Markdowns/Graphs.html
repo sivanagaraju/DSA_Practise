@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Graphs.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p><strong>Graphs: Comprehensive Overview for Coding Interview Patterns</strong></p>
+<h3 id="1-core-concepts-and-coding-patterns">1. Core Concepts and Coding Patterns</h3>
+<p>Graphs are data structures used to represent relationships between entities. A graph consists of nodes (vertices) connected by edges, which can either be directed or undirected. They can model real-world problems like social networks, maps, or even dependencies between tasks.</p>
+<ul>
+<li><strong>Vertices (Nodes)</strong>: Represent entities or points in the graph.</li>
+<li><strong>Edges</strong>: Represent relationships or connections between nodes.</li>
+<li><strong>Directed vs. Undirected</strong>: Directed graphs have edges with a direction, meaning the relationship goes one way. Undirected graphs have bidirectional relationships.</li>
+<li><strong>Weighted Graphs</strong>: Graphs where edges carry values, like distances or costs.</li>
+</ul>
+<p><strong>Typical Use Cases</strong>:</p>
+<ul>
+<li><strong>Pathfinding</strong>: Finding routes in a city, e.g., GPS applications.</li>
+<li><strong>Network Flow</strong>: Calculating the optimal data flow between two nodes.</li>
+<li><strong>Social Networks</strong>: Modeling friendships or following relationships.</li>
+<li><strong>Dependencies</strong>: Representing task precedence in project management.</li>
+</ul>
+<h3 id="2-numeric-example">2. Numeric Example</h3>
+<p>Consider a graph representing a social network where nodes represent people, and edges represent friendships.</p>
+<pre class="hljs"><code><div>A - B
+|   |
+C - D - E
+</div></code></pre>
+<ul>
+<li>Here, <code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, and <code>E</code> are nodes representing people.</li>
+<li>Edges like <code>A - B</code> represent friendships. It is an undirected graph because the relationship is bidirectional.</li>
+<li><strong>Example Query</strong>: Find all friends of person <code>A</code>.
+<ul>
+<li><strong>Answer</strong>: <code>{B, C}</code>.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-problem-identification-checklist-in-tabular-format">3. Problem Identification Checklist (in Tabular Format)</h3>
+<table>
+<thead>
+<tr>
+<th>Problem Type</th>
+<th>Characteristics/Indicators</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Pathfinding Problems</strong></td>
+<td>Nodes, edges, shortest path</td>
+<td>Find the shortest route from <code>A</code> to <code>E</code></td>
+</tr>
+<tr>
+<td><strong>Cycle Detection</strong></td>
+<td>Need to detect cycles in dependencies</td>
+<td>Is there a cycle in a project's task dependencies?</td>
+</tr>
+<tr>
+<td><strong>Connected Components</strong></td>
+<td>Find isolated groups in a graph</td>
+<td>How many disconnected networks exist in a social graph?</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-general-templates-with-comments">4. General Templates with Comments</h3>
+<h4 id="template-1-depth-first-search-dfs">Template 1: Depth-First Search (DFS)</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># Depth First Search (DFS) implementation using a stack</span>
+<span class="hljs-comment"># This template is useful for traversal problems, cycle detection, and pathfinding.</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs</span><span class="hljs-params">(graph, start)</span>:</span>
+    visited = set()
+    stack = [start]
+    
+    <span class="hljs-keyword">while</span> stack:
+        node = stack.pop()
+        <span class="hljs-keyword">if</span> node <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> visited:
+            visited.add(node)
+            <span class="hljs-comment"># Process the node (e.g., print or collect it)</span>
+            <span class="hljs-keyword">for</span> neighbor <span class="hljs-keyword">in</span> graph[node]:
+                stack.append(neighbor)
+    
+    <span class="hljs-keyword">return</span> visited
+
+<span class="hljs-comment"># Use Case: Finding all nodes reachable from a starting point.</span>
+</div></code></pre>
+<ul>
+<li><strong>Use Case</strong>: Applies to finding connected components and checking connectivity between nodes.</li>
+</ul>
+<h4 id="template-2-breadth-first-search-bfs">Template 2: Breadth-First Search (BFS)</h4>
+<pre class="hljs"><code><div><span class="hljs-comment"># Breadth First Search (BFS) implementation using a queue</span>
+<span class="hljs-comment"># Useful for shortest path problems in unweighted graphs.</span>
+<span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bfs</span><span class="hljs-params">(graph, start)</span>:</span>
+    visited = set()
+    queue = deque([start])
+    
+    <span class="hljs-keyword">while</span> queue:
+        node = queue.popleft()
+        <span class="hljs-keyword">if</span> node <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> visited:
+            visited.add(node)
+            <span class="hljs-comment"># Process the node (e.g., print or collect it)</span>
+            <span class="hljs-keyword">for</span> neighbor <span class="hljs-keyword">in</span> graph[node]:
+                queue.append(neighbor)
+    
+    <span class="hljs-keyword">return</span> visited
+
+<span class="hljs-comment"># Use Case: Finding shortest paths in an unweighted graph.</span>
+</div></code></pre>
+<h3 id="5-complexity-analysis">5. Complexity Analysis</h3>
+<ul>
+<li>
+<p><strong>DFS</strong>:</p>
+<ul>
+<li>Time Complexity: O(V + E), where V is the number of vertices and E is the number of edges.</li>
+<li>Space Complexity: O(V) due to recursion stack or explicit stack.</li>
+<li><strong>Optimization Opportunity</strong>: Reduce the size of visited nodes set by using bitwise operations for large node IDs.</li>
+</ul>
+</li>
+<li>
+<p><strong>BFS</strong>:</p>
+<ul>
+<li>Time Complexity: O(V + E).</li>
+<li>Space Complexity: O(V) for the queue.</li>
+<li><strong>Optimization Opportunity</strong>: In sparse graphs, use adjacency lists to save memory.</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-discussion-on-templates-and-patterns">6. Discussion on Templates and Patterns</h3>
+<p>The DFS and BFS templates can solve problems like pathfinding, detecting connected components, and cycle detection. Adjustments might be necessary for weighted graphs or large datasets, such as optimizing storage by using adjacency lists or matrices.</p>
+<h3 id="7-multiple-approaches-and-implementations">7. Multiple Approaches and Implementations</h3>
+<ul>
+<li><strong>Iterative DFS</strong> is usually preferred over <strong>recursive DFS</strong> for very deep graphs to avoid stack overflow issues.</li>
+<li><strong>Recursive BFS</strong> is not recommended due to complexity in maintaining a queue without a loop.</li>
+</ul>
+<p><strong>Comparative Analysis</strong>:</p>
+<ul>
+<li><strong>DFS</strong> is ideal for problems where deep exploration is needed (e.g., detecting cycles).</li>
+<li><strong>BFS</strong> is suitable for shortest path calculations in unweighted graphs.</li>
+</ul>
+<h3 id="9-practice-problems-in-tabular-format">9. Practice Problems (in Tabular Format)</h3>
+<table>
+<thead>
+<tr>
+<th>S.No</th>
+<th>Question</th>
+<th>Example</th>
+<th>Difficulty Level</th>
+<th>Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Find all connected components</td>
+<td>Graph with 6 nodes: A-B, C-D, E-F (3 isolated pairs). Output: <code>{{A, B}, {C, D}, {E, F}}</code>. Explanation: Nodes A and B are connected, C and D are connected, and E and F are connected, forming 3 isolated components.</td>
+<td>Easy</td>
+<td>BFS or DFS (use a <code>visited</code> set to track which nodes have been visited to avoid redundant checks)</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Shortest path in an unweighted graph</td>
+<td>Graph: A-B, B-C, C-D, D-E. Start at A, find shortest path to E. Output: <code>[A, B, C, D, E]</code>. Explanation: The shortest path from A to E involves visiting nodes in sequence without skipping any intermediate nodes.</td>
+<td>Medium</td>
+<td>BFS (use a queue to keep track of nodes to visit and a dictionary to store the parent of each node to reconstruct the path)</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Detect cycle in directed graph</td>
+<td>Graph: A -&gt; B -&gt; C -&gt; A. Output: <code>Cycle detected</code>. Explanation: The directed edge from C to A completes a cycle involving nodes A, B, and C.</td>
+<td>Medium</td>
+<td>DFS (use an additional <code>recStack</code> set to track the nodes in the current recursive stack to detect cycles)</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Topological Sort</td>
+<td>Graph: A -&gt; B, A -&gt; C, B -&gt; D. Output: <code>[A, B, C, D]</code>. Explanation: Node A has no dependencies, followed by nodes B and C, and finally D which depends on B.</td>
+<td>Medium</td>
+<td>DFS (use a stack to store the order of nodes after visiting all their dependencies)</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Check if a graph is bipartite</td>
+<td>Graph: A-B, B-C, C-D, D-A. Output: <code>True</code>. Explanation: It is possible to color the nodes in two colors such that no two adjacent nodes have the same color.</td>
+<td>Medium</td>
+<td>BFS (use a queue and a color array to ensure nodes are colored alternatively)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Find bridges in a graph</td>
+<td>Graph: A-B, B-C, C-D, D-E, E-B. Output: <code>[{D, E}]</code>. Explanation: Removing edge D-E disconnects the graph, making it a bridge.</td>
+<td>Hard</td>
+<td>DFS (use discovery and low time arrays to find bridges)</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Find articulation points</td>
+<td>Graph: A-B, B-C, C-D, D-E, E-B. Output: <code>{B, D}</code>. Explanation: Removing node B or D will increase the number of disconnected components, making them articulation points.</td>
+<td>Hard</td>
+<td>DFS (use discovery and low values to determine articulation points)</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Clone an undirected graph</td>
+<td>Graph: A-B, B-C, C-A. Output: <code>Cloned graph with same structure</code>. Explanation: A new graph is created that replicates the connections between nodes in the original graph.</td>
+<td>Medium</td>
+<td>DFS or BFS (use a hashmap to store copies of nodes)</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Find all paths between two nodes</td>
+<td>Graph: A-B, B-C, A-C. Find all paths from A to C. Output: <code>[[A, B, C], [A, C]]</code>. Explanation: There are two paths from A to C: directly or via node B.</td>
+<td>Medium</td>
+<td>DFS (use recursion to find all possible paths)</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Detect cycle in an undirected graph</td>
+<td>Graph: A-B, B-C, C-A. Output: <code>Cycle detected</code>. Explanation: The edges A-B, B-C, and C-A form a loop, which is a cycle.</td>
+<td>Medium</td>
+<td>DFS (use a parent array to keep track of visited nodes and their parents)</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Minimum spanning tree (Prim's)</td>
+<td>Graph: Weighted graph with nodes A, B, C. Output: <code>Minimum spanning tree edges</code>. Explanation: The edges are selected such that the total weight is minimized, connecting all nodes.</td>
+<td>Hard</td>
+<td>Prim's algorithm (use a priority queue to select the minimum weight edge)</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Minimum spanning tree (Kruskal's)</td>
+<td>Graph: Weighted graph with nodes A, B, C. Output: <code>Minimum spanning tree edges</code>. Explanation: Edges are added in increasing order of weight, ensuring no cycles are formed.</td>
+<td>Hard</td>
+<td>Kruskal's algorithm (use union-find to detect cycles)</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Word ladder transformation</td>
+<td>Words: <code>hit</code> to <code>cog</code>. Output: <code>4 (hit -&gt; hot -&gt; dot -&gt; dog -&gt; cog)</code>. Explanation: Each word changes by one letter at a time, and each transformed word must be a valid word.</td>
+<td>Medium</td>
+<td>BFS (use a queue to transform one letter at a time)</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Course schedule</td>
+<td>Courses: <code>A -&gt; B, B -&gt; C, C -&gt; A</code>. Output: <code>Cycle detected</code>. Explanation: The course dependencies form a cycle, making it impossible to complete all courses.</td>
+<td>Medium</td>
+<td>DFS (use a visited and recursion stack to detect cycle in dependencies)</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Connected components in grid</td>
+<td>Grid with 1s and 0s. Output: <code>Number of islands</code>. Explanation: Each group of connected 1s represents an island. The output is the count of such islands.</td>
+<td>Medium</td>
+<td>DFS (use nested loops to iterate through grid and DFS to explore islands)</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Shortest path in a binary matrix</td>
+<td>Grid with 0s and 1s. Start at top-left, end at bottom-right. Output: <code>Shortest path length</code>. Explanation: The shortest sequence of moves from the start to the end, avoiding obstacles (1s).</td>
+<td>Medium</td>
+<td>BFS (use a queue to explore all possible paths)</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Network delay time</td>
+<td>Graph with weighted edges. Output: <code>Time taken for signal to reach all nodes</code>. Explanation: Calculate the minimum time required for a signal to reach every node from a given start node.</td>
+<td>Hard</td>
+<td>Dijkstra's algorithm (use a priority queue to find shortest paths)</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Rotten oranges</td>
+<td>Grid with fresh and rotten oranges. Output: <code>Time taken for all oranges to rot</code>. Explanation: Each rotten orange spreads rot to adjacent fresh oranges in each time unit. The output is the time required for all to rot, or -1 if impossible.</td>
+<td>Medium</td>
+<td>BFS (use a queue to track rotten oranges and spread to adjacent fresh ones)</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Find if path exists in graph</td>
+<td>Graph: A-B, B-C, C-D. Check if path exists from A to D. Output: <code>True</code>. Explanation: There is a sequence of edges from A to D, making a path possible.</td>
+<td>Easy</td>
+<td>DFS or BFS (use a <code>visited</code> set to avoid redundant checks)</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Reconstruct itinerary</td>
+<td>Flights: JFK -&gt; SFO, JFK -&gt; ATL, SFO -&gt; ATL. Output: <code>[JFK, ATL, SFO, ATL]</code>. Explanation: All tickets must be used exactly once, forming a valid itinerary.</td>
+<td>Hard</td>
+<td>DFS (use backtracking to find the valid itinerary using all tickets)</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Number of Provinces</td>
+<td>Graph represented as an adjacency matrix. Output: <code>Number of provinces</code>. Explanation: A province is a group of directly or indirectly connected cities.</td>
+<td>Medium</td>
+<td>DFS (use a <code>visited</code> array to mark all cities in the same province)</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Course schedule II</td>
+<td>Courses with dependencies. Output: <code>Order to finish all courses</code>. Explanation: The order in which all courses can be completed, respecting prerequisites.</td>
+<td>Medium</td>
+<td>Topological sort (use DFS to determine the order of courses)</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Critical Connections in Network</td>
+<td>Network graph. Output: <code>List of critical connections</code>. Explanation: Critical connections are edges that, if removed, increase the number of disconnected components.</td>
+<td>Hard</td>
+<td>Tarjan's algorithm (use discovery and low time to find critical edges)</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Alien Dictionary</td>
+<td>Sorted alien words. Output: <code>Order of characters</code>. Explanation: Determine the character order based on the given sorted words in an alien language.</td>
+<td>Hard</td>
+<td>Topological sort (use BFS/DFS to determine character precedence)</td>
+</tr>
+<tr>
+<td>25</td>
+<td>Evaluate Division</td>
+<td>Equations like A/B = 2, B/C = 3. Query A/C. Output: <code>6</code>. Explanation: Using the given equations, calculate the value of A/C by multiplying A/B and B/C.</td>
+<td>Medium</td>
+<td>DFS (use a graph representation of equations to evaluate queries)</td>
+</tr>
+<tr>
+<td>26</td>
+<td>Cheapest Flights Within K Stops</td>
+<td>Flights with costs. Find cheapest from A to B with at most K stops. Output: <code>Cost</code>. Explanation: Calculate the minimum flight cost from A to B with no more than K stops in between.</td>
+<td>Hard</td>
+<td>BFS (use a priority queue to track cost and stops)</td>
+</tr>
+<tr>
+<td>27</td>
+<td>Find Eventual Safe States</td>
+<td>Graph where nodes are either safe or lead to cycles. Output: <code>List of safe nodes</code>. Explanation: Nodes are safe if they do not lead to a cycle. The output is a list of such nodes.</td>
+<td>Medium</td>
+<td>DFS (use colors to track visiting state of nodes)</td>
+</tr>
+<tr>
+<td>28</td>
+<td>Redundant Connection</td>
+<td>Graph edges, find the edge causing a cycle. Output: <code>The redundant edge</code>. Explanation: Adding the edge results in a cycle, making it redundant.</td>
+<td>Medium</td>
+<td>Union-Find (use union and find operations to detect cycle)</td>
+</tr>
+<tr>
+<td>29</td>
+<td>Longest Increasing Path in Matrix</td>
+<td>Matrix with integers. Output: <code>Length of the longest increasing path</code>. Explanation: Find the longest path in the matrix where each step moves to a strictly greater value.</td>
+<td>Hard</td>
+<td>DFS with memoization (use recursion and memoization to avoid redundant calculations)</td>
+</tr>
+<tr>
+<td>30</td>
+<td>Graph Valid Tree</td>
+<td>Graph with N nodes and N-1 edges. Output: <code>True/False if graph is a valid tree</code>. Explanation: A valid tree must have no cycles and all nodes must be connected.</td>
+<td>Medium</td>
+<td>DFS or BFS (check for cycle and connectivity using visited set)</td>
+</tr>
+</tbody>
+</table>
+<p>Sure! I'll choose 7 random practice problems from the list and provide detailed explanations along with Python code.</p>
+<h3 id="1-detect-cycle-in-directed-graph">1. <strong>Detect Cycle in Directed Graph</strong></h3>
+<ul>
+<li><strong>Problem</strong>: Detect if there is a cycle in a directed graph.</li>
+<li><strong>Example</strong>:
+<ul>
+<li>Graph: A -&gt; B -&gt; C -&gt; A.</li>
+<li><strong>Explanation</strong>: The directed edges create a cycle (A → B → C → A).</li>
+<li><strong>Output</strong>: <code>Cycle detected</code>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> defaultdict
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">is_cyclic</span><span class="hljs-params">(graph)</span>:</span>
+    visited = set()
+    rec_stack = set()
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs</span><span class="hljs-params">(node)</span>:</span>
+        <span class="hljs-comment"># Mark the node as visited and add to recursion stack</span>
+        <span class="hljs-keyword">if</span> node <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> visited:
+            visited.add(node)
+            rec_stack.add(node)
+
+            <span class="hljs-comment"># Recur for all neighbors</span>
+            <span class="hljs-keyword">for</span> neighbor <span class="hljs-keyword">in</span> graph[node]:
+                <span class="hljs-keyword">if</span> neighbor <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> visited <span class="hljs-keyword">and</span> dfs(neighbor):
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+                <span class="hljs-keyword">elif</span> neighbor <span class="hljs-keyword">in</span> rec_stack:
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+        
+        rec_stack.remove(node)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+
+    <span class="hljs-keyword">for</span> node <span class="hljs-keyword">in</span> graph:
+        <span class="hljs-keyword">if</span> dfs(node):
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+
+<span class="hljs-comment"># Example graph represented as an adjacency list</span>
+graph = {
+    <span class="hljs-string">'A'</span>: [<span class="hljs-string">'B'</span>],
+    <span class="hljs-string">'B'</span>: [<span class="hljs-string">'C'</span>],
+    <span class="hljs-string">'C'</span>: [<span class="hljs-string">'A'</span>]
+}
+
+print(<span class="hljs-string">"Cycle detected"</span> <span class="hljs-keyword">if</span> is_cyclic(graph) <span class="hljs-keyword">else</span> <span class="hljs-string">"No cycle detected"</span>)
+</div></code></pre>
+<ul>
+<li><strong>Explanation</strong>:
+<ul>
+<li>We use DFS to visit each node.</li>
+<li>The <code>rec_stack</code> set keeps track of nodes in the current recursive stack to detect cycles.</li>
+<li>If we revisit a node that is in the <code>rec_stack</code>, it means we have a cycle.</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-find-all-connected-components">2. <strong>Find All Connected Components</strong></h3>
+<ul>
+<li><strong>Problem</strong>: Find all connected components in an undirected graph.</li>
+<li><strong>Example</strong>:
+<ul>
+<li>Graph with 6 nodes: A-B, C-D, E-F.</li>
+<li><strong>Explanation</strong>: The graph has three isolated components: {A, B}, {C, D}, and {E, F}.</li>
+<li><strong>Output</strong>: <code>{{A, B}, {C, D}, {E, F}}</code>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_connected_components</span><span class="hljs-params">(graph)</span>:</span>
+    visited = set()
+    components = []
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs</span><span class="hljs-params">(node, component)</span>:</span>
+        visited.add(node)
+        component.append(node)
+        <span class="hljs-keyword">for</span> neighbor <span class="hljs-keyword">in</span> graph[node]:
+            <span class="hljs-keyword">if</span> neighbor <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> visited:
+                dfs(neighbor, component)
+
+    <span class="hljs-keyword">for</span> node <span class="hljs-keyword">in</span> graph:
+        <span class="hljs-keyword">if</span> node <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> visited:
+            component = []
+            dfs(node, component)
+            components.append(component)
+
+    <span class="hljs-keyword">return</span> components
+
+<span class="hljs-comment"># Example graph</span>
+graph = {
+    <span class="hljs-string">'A'</span>: [<span class="hljs-string">'B'</span>],
+    <span class="hljs-string">'B'</span>: [<span class="hljs-string">'A'</span>],
+    <span class="hljs-string">'C'</span>: [<span class="hljs-string">'D'</span>],
+    <span class="hljs-string">'D'</span>: [<span class="hljs-string">'C'</span>],
+    <span class="hljs-string">'E'</span>: [<span class="hljs-string">'F'</span>],
+    <span class="hljs-string">'F'</span>: [<span class="hljs-string">'E'</span>]
+}
+
+connected_components = find_connected_components(graph)
+print(<span class="hljs-string">"Connected Components:"</span>, connected_components)
+</div></code></pre>
+<ul>
+<li><strong>Explanation</strong>:
+<ul>
+<li>We use DFS to explore each connected component.</li>
+<li>Each time we start DFS on an unvisited node, we discover a new connected component.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-shortest-path-in-an-unweighted-graph">3. <strong>Shortest Path in an Unweighted Graph</strong></h3>
+<ul>
+<li><strong>Problem</strong>: Find the shortest path in an unweighted graph.</li>
+<li><strong>Example</strong>:
+<ul>
+<li>Graph: A-B, B-C, C-D, D-E.</li>
+<li><strong>Explanation</strong>: Start at <code>A</code> and find the shortest path to <code>E</code>. The shortest path is A → B → C → D → E.</li>
+<li><strong>Output</strong>: <code>[A, B, C, D, E]</code>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> deque
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">bfs_shortest_path</span><span class="hljs-params">(graph, start, end)</span>:</span>
+    queue = deque([[start]])
+    visited = set()
+
+    <span class="hljs-keyword">while</span> queue:
+        path = queue.popleft()
+        node = path[<span class="hljs-number">-1</span>]
+
+        <span class="hljs-keyword">if</span> node == end:
+            <span class="hljs-keyword">return</span> path
+
+        <span class="hljs-keyword">elif</span> node <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> visited:
+            <span class="hljs-keyword">for</span> neighbor <span class="hljs-keyword">in</span> graph[node]:
+                new_path = list(path)
+                new_path.append(neighbor)
+                queue.append(new_path)
+
+            visited.add(node)
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+<span class="hljs-comment"># Example graph</span>
+graph = {
+    <span class="hljs-string">'A'</span>: [<span class="hljs-string">'B'</span>],
+    <span class="hljs-string">'B'</span>: [<span class="hljs-string">'A'</span>, <span class="hljs-string">'C'</span>],
+    <span class="hljs-string">'C'</span>: [<span class="hljs-string">'B'</span>, <span class="hljs-string">'D'</span>],
+    <span class="hljs-string">'D'</span>: [<span class="hljs-string">'C'</span>, <span class="hljs-string">'E'</span>],
+    <span class="hljs-string">'E'</span>: [<span class="hljs-string">'D'</span>]
+}
+
+shortest_path = bfs_shortest_path(graph, <span class="hljs-string">'A'</span>, <span class="hljs-string">'E'</span>)
+print(<span class="hljs-string">"Shortest Path from A to E:"</span>, shortest_path)
+</div></code></pre>
+<ul>
+<li><strong>Explanation</strong>:
+<ul>
+<li>Use BFS to ensure that we find the shortest path in an unweighted graph.</li>
+<li>We maintain a queue of paths and extend the path by one node at each step.</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-check-if-a-graph-is-bipartite">4. <strong>Check if a Graph is Bipartite</strong></h3>
+<ul>
+<li><strong>Problem</strong>: Check if a given graph is bipartite.</li>
+<li><strong>Example</strong>:
+<ul>
+<li>Graph: A-B, B-C, C-D, D-A.</li>
+<li><strong>Explanation</strong>: The graph can be colored using two colors such that no two adjacent nodes have the same color.</li>
+<li><strong>Output</strong>: <code>True</code>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">is_bipartite</span><span class="hljs-params">(graph)</span>:</span>
+    color = {}
+    <span class="hljs-keyword">for</span> node <span class="hljs-keyword">in</span> graph:
+        <span class="hljs-keyword">if</span> node <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> color:
+            queue = deque([node])
+            color[node] = <span class="hljs-number">0</span>
+            <span class="hljs-keyword">while</span> queue:
+                current = queue.popleft()
+                <span class="hljs-keyword">for</span> neighbor <span class="hljs-keyword">in</span> graph[current]:
+                    <span class="hljs-keyword">if</span> neighbor <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> color:
+                        color[neighbor] = <span class="hljs-number">1</span> - color[current]
+                        queue.append(neighbor)
+                    <span class="hljs-keyword">elif</span> color[neighbor] == color[current]:
+                        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+
+<span class="hljs-comment"># Example graph</span>
+graph = {
+    <span class="hljs-string">'A'</span>: [<span class="hljs-string">'B'</span>, <span class="hljs-string">'D'</span>],
+    <span class="hljs-string">'B'</span>: [<span class="hljs-string">'A'</span>, <span class="hljs-string">'C'</span>],
+    <span class="hljs-string">'C'</span>: [<span class="hljs-string">'B'</span>, <span class="hljs-string">'D'</span>],
+    <span class="hljs-string">'D'</span>: [<span class="hljs-string">'A'</span>, <span class="hljs-string">'C'</span>]
+}
+
+print(<span class="hljs-string">"Is the graph bipartite?"</span>, is_bipartite(graph))
+</div></code></pre>
+<ul>
+<li><strong>Explanation</strong>:
+<ul>
+<li>We use BFS to try and color the graph with two colors.</li>
+<li>If we find a conflict, the graph is not bipartite.</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-find-all-paths-between-two-nodes">5. <strong>Find All Paths Between Two Nodes</strong></h3>
+<ul>
+<li><strong>Problem</strong>: Find all paths between two nodes in a graph.</li>
+<li><strong>Example</strong>:
+<ul>
+<li>Graph: A-B, B-C, A-C.</li>
+<li><strong>Explanation</strong>: Find all paths from A to C. The possible paths are A → B → C and A → C.</li>
+<li><strong>Output</strong>: <code>[[A, B, C], [A, C]]</code>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_all_paths</span><span class="hljs-params">(graph, start, end, path=[])</span>:</span>
+    path = path + [start]
+    <span class="hljs-keyword">if</span> start == end:
+        <span class="hljs-keyword">return</span> [path]
+    <span class="hljs-keyword">if</span> start <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> graph:
+        <span class="hljs-keyword">return</span> []
+    paths = []
+    <span class="hljs-keyword">for</span> node <span class="hljs-keyword">in</span> graph[start]:
+        <span class="hljs-keyword">if</span> node <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> path:
+            new_paths = find_all_paths(graph, node, end, path)
+            <span class="hljs-keyword">for</span> p <span class="hljs-keyword">in</span> new_paths:
+                paths.append(p)
+    <span class="hljs-keyword">return</span> paths
+
+<span class="hljs-comment"># Example graph</span>
+graph = {
+    <span class="hljs-string">'A'</span>: [<span class="hljs-string">'B'</span>, <span class="hljs-string">'C'</span>],
+    <span class="hljs-string">'B'</span>: [<span class="hljs-string">'C'</span>],
+    <span class="hljs-string">'C'</span>: []
+}
+
+all_paths = find_all_paths(graph, <span class="hljs-string">'A'</span>, <span class="hljs-string">'C'</span>)
+print(<span class="hljs-string">"All paths from A to C:"</span>, all_paths)
+</div></code></pre>
+<ul>
+<li><strong>Explanation</strong>:
+<ul>
+<li>Use DFS to find all paths from the start node to the end node.</li>
+<li>Recursively extend each path until the end node is reached.</li>
+</ul>
+</li>
+</ul>
+<h3 id="6-network-delay-time">6. <strong>Network Delay Time</strong></h3>
+<ul>
+<li><strong>Problem</strong>: Find the time it will take for all nodes to receive a signal.</li>
+<li><strong>Example</strong>:
+<ul>
+<li>Graph with weighted edges: A -&gt; B (1), B -&gt; C (2), A -&gt; C (4).</li>
+<li><strong>Explanation</strong>: Starting from A, the time taken for the signal to reach all nodes is <code>3</code> (A → B → C).</li>
+<li><strong>Output</strong>: <code>3</code>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> heapq
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">network_delay_time</span><span class="hljs-params">(times, n, k)</span>:</span>
+    graph = defaultdict(list)
+    <span class="hljs-keyword">for</span> u, v, w <span class="hljs-keyword">in</span> times:
+        graph[u].append((v, w))
+
+    pq = [(<span class="hljs-number">0</span>, k)]
+    dist = {}
+
+    <span class="hljs-keyword">while</span> pq:
+        time, node = heapq.heappop(pq)
+        <span class="hljs-keyword">if</span> node <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> dist:
+            dist[node] = time
+            <span class="hljs-keyword">for</span> neighbor, weight <span class="hljs-keyword">in</span> graph[node]:
+                <span class="hljs-keyword">if</span> neighbor <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> dist:
+                    heapq.heappush(pq, (time + weight, neighbor))
+
+    <span class="hljs-keyword">return</span> max(dist.values()) <span class="hljs-keyword">if</span> len(dist) == n <span class="hljs-keyword">else</span> <span class="hljs-number">-1</span>
+
+<span class="hljs-comment"># Example graph with weights</span>
+times = [
+    (<span class="hljs-string">'A'</span>, <span class="hljs-string">'B'</span>, <span class="hljs-number">1</span>),
+    (<span class="hljs-string">'B'</span>, <span class="hljs-string">'C'</span>, <span class="hljs-number">2</span>),
+    (<span class="hljs-string">'A'</span>, <span class="hljs-string">'C'</span>, <span class="hljs-number">4</span>)
+]
+
+print(<span class="hljs-string">"Network delay time:"</span>, network_delay_time(times, <span class="hljs-number">3</span>, <span class="hljs-string">'A'</span>))
+</div></code></pre>
+<ul>
+<li><strong>Explanation</strong>:
+<ul>
+<li>Use Dijkstra’s algorithm to calculate the shortest time taken for the signal to reach all nodes.</li>
+</ul>
+</li>
+</ul>
+<h3 id="7-course-schedule">7. <strong>Course Schedule</strong></h3>
+<ul>
+<li><strong>Problem</strong>: Determine if you can finish all courses given prerequisites.</li>
+<li><strong>Example</strong>:
+<ul>
+<li>Courses: A -&gt; B, B -&gt; C, C -&gt; A.</li>
+<li><strong>Explanation</strong>: The course dependencies form a cycle, making it impossible to complete all courses.</li>
+<li><strong>Output</strong>: <code>Cycle detected</code>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">can_finish_courses</span><span class="hljs-params">(num_courses, prerequisites)</span>:</span>
+    graph = defaultdict(list)
+    <span class="hljs-keyword">for</span> course, prereq <span class="hljs-keyword">in</span> prerequisites:
+        graph[prereq].append(course)
+
+    visited = set()
+    rec_stack = set()
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs</span><span class="hljs-params">(node)</span>:</span>
+        <span class="hljs-keyword">if</span> node <span class="hljs-keyword">in</span> rec_stack:
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+        <span class="hljs-keyword">if</span> node <span class="hljs-keyword">in</span> visited:
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+
+        rec_stack.add(node)
+        <span class="hljs-keyword">for</span> neighbor <span class="hljs-keyword">in</span> graph[node]:
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> dfs(neighbor):
+                <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+        rec_stack.remove(node)
+        visited.add(node)
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+
+    <span class="hljs-keyword">for</span> course <span class="hljs-keyword">in</span> range(num_courses):
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> dfs(course):
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+
+<span class="hljs-comment"># Example courses with prerequisites</span>
+prerequisites = [
+    (<span class="hljs-string">'A'</span>, <span class="hljs-string">'B'</span>),
+    (<span class="hljs-string">'B'</span>, <span class="hljs-string">'C'</span>),
+    (<span class="hljs-string">'C'</span>, <span class="hljs-string">'A'</span>)
+]
+
+print(<span class="hljs-string">"Can finish courses?"</span>, can_finish_courses(<span class="hljs-number">3</span>, prerequisites))
+</div></code></pre>
+<ul>
+<li><strong>Explanation</strong>:
+<ul>
+<li>Use DFS to detect cycles in the course dependency graph.</li>
+<li>If a cycle is detected, it means it is impossible to complete all courses.</li>
+</ul>
+</li>
+</ul>
+
+</body>
+</html>

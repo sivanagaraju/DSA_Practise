@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ModifiedBinarySearch.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="modified-binary-search-comprehensive-guide">Modified Binary Search: Comprehensive Guide</h1>
+<h2 id="1-core-concepts-and-coding-patterns">1. Core Concepts and Coding Patterns</h2>
+<p>Modified Binary Search is a variation of the standard binary search that allows us to solve a variety of problems beyond simple element searches. It retains the key concept of binary search—using a divide-and-conquer approach to achieve logarithmic time complexity—but adds specific modifications to fit different types of problems. Modified Binary Search is particularly effective in problems involving finding elements in sorted arrays, searching ranges, or optimizing values.</p>
+<h3 id="typical-use-cases">Typical Use Cases</h3>
+<ul>
+<li>Finding the position of an element in sorted but rotated arrays.</li>
+<li>Determining boundaries like the first or last occurrence of an element.</li>
+<li>Solving optimization problems involving sorted data.</li>
+</ul>
+<h3 id="how-it-works">How It Works</h3>
+<p>The algorithm keeps dividing the search space in half until the desired element or condition is found. Depending on the problem requirements, you may add logic to determine the left or right boundary, or handle cyclic sorted arrays.</p>
+<h2 id="2-examples">2. Examples</h2>
+<ol>
+<li>
+<p><strong>Finding First and Last Position of a Target Element</strong></p>
+<ul>
+<li>Given an array: <code>[1, 2, 2, 2, 3, 4, 5]</code> and target <code>2</code>, the Modified Binary Search can be used to find that the first position of <code>2</code> is <code>1</code> and the last position is <code>3</code>.</li>
+<li><strong>Explanation</strong>: Start with <code>left = 0</code> and <code>right = 6</code>. Calculate <code>mid</code> each time, and adjust <code>left</code> or <code>right</code> based on whether you are searching for the first or last occurrence. For the first occurrence, adjust <code>right</code> when <code>target</code> is found; for the last occurrence, adjust <code>left</code>. The final result is <code>1</code> for the first occurrence and <code>3</code> for the last occurrence.</li>
+</ul>
+</li>
+<li>
+<p><strong>Searching in a Rotated Array</strong></p>
+<ul>
+<li>Given a sorted and rotated array: <code>[4, 5, 6, 7, 0, 1, 2]</code>, target <code>0</code>, the Modified Binary Search can find the position of <code>0</code> as <code>4</code>.</li>
+<li><strong>Explanation</strong>: Start with <code>left = 0</code> and <code>right = 6</code>. Calculate <code>mid</code> and determine which half is sorted. Adjust <code>left</code> or <code>right</code> based on which side of the array the target lies. Eventually, the target <code>0</code> is found at index <code>4</code>.</li>
+</ul>
+</li>
+</ol>
+<h2 id="3-problem-identification-checklist">3. Problem Identification Checklist</h2>
+<table>
+<thead>
+<tr>
+<th>Scenario</th>
+<th>Example Problem</th>
+<th>Use Modified Binary Search When</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Array is sorted or partially sorted</td>
+<td>Finding an element in a sorted rotated array</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Need to find boundaries</td>
+<td>Find first and last occurrence of a target</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>Problem involves a condition with min/max</td>
+<td>Finding the minimum in a rotated sorted array</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-general-templates-with-comments">4. General Templates with Comments</h2>
+<h3 id="template-1-basic-modified-binary-search">Template 1: Basic Modified Binary Search</h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># Template for finding an element or boundary in a sorted array</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">modified_binary_search</span><span class="hljs-params">(arr, target)</span>:</span>
+    left, right = <span class="hljs-number">0</span>, len(arr) - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">while</span> left &lt;= right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>  <span class="hljs-comment"># Prevents overflow</span>
+        
+        <span class="hljs-comment"># Mid element found</span>
+        <span class="hljs-keyword">if</span> arr[mid] == target:
+            <span class="hljs-keyword">return</span> mid
+        
+        <span class="hljs-comment"># Check which half to continue with</span>
+        <span class="hljs-keyword">elif</span> arr[mid] &lt; target:
+            left = mid + <span class="hljs-number">1</span>  <span class="hljs-comment"># Move right if target is greater</span>
+        <span class="hljs-keyword">else</span>:
+            right = mid - <span class="hljs-number">1</span>  <span class="hljs-comment"># Move left if target is smaller</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>
+</div></code></pre>
+<h3 id="template-2-find-first-or-last-occurrence">Template 2: Find First or Last Occurrence</h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># Template for finding the first or last occurrence of a target element</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_boundary</span><span class="hljs-params">(arr, target, find_first=True)</span>:</span>
+    left, right = <span class="hljs-number">0</span>, len(arr) - <span class="hljs-number">1</span>
+    boundary_index = <span class="hljs-number">-1</span>
+    <span class="hljs-keyword">while</span> left &lt;= right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> arr[mid] == target:
+            boundary_index = mid
+            <span class="hljs-comment"># Adjust search based on whether we're finding the first or last occurrence</span>
+            <span class="hljs-keyword">if</span> find_first:
+                right = mid - <span class="hljs-number">1</span>  <span class="hljs-comment"># Extra logic: move left to find the first occurrence</span>
+            <span class="hljs-keyword">else</span>:
+                left = mid + <span class="hljs-number">1</span>  <span class="hljs-comment"># Extra logic: move right to find the last occurrence</span>
+        <span class="hljs-keyword">elif</span> arr[mid] &lt; target:
+            left = mid + <span class="hljs-number">1</span>  <span class="hljs-comment"># Move right if target is greater</span>
+        <span class="hljs-keyword">else</span>:
+            right = mid - <span class="hljs-number">1</span>  <span class="hljs-comment"># Move left if target is smaller</span>
+    <span class="hljs-keyword">return</span> boundary_index
+</div></code></pre>
+<h3 id="use-cases">Use Cases</h3>
+<ul>
+<li><strong>Basic Template</strong>: Used for standard element searches in sorted or rotated arrays.</li>
+<li><strong>Boundary Template</strong>: Ideal for finding first/last occurrence or boundaries of elements.</li>
+</ul>
+<h2 id="5-complexity-analysis">5. Complexity Analysis</h2>
+<ul>
+<li><strong>Time Complexity</strong>: Each variation of Modified Binary Search runs in <code>O(log n)</code> time since the search space is halved in each iteration.</li>
+<li><strong>Space Complexity</strong>: Typically <code>O(1)</code> as only a fixed amount of additional space is used.</li>
+<li><strong>Optimization Opportunities</strong>: Reuse existing binary search templates to create hybrid solutions for more complex scenarios, like peak finding.</li>
+</ul>
+<h2 id="6-discussion-on-templates-and-patterns">6. Discussion on Templates and Patterns</h2>
+<p>Modified Binary Search patterns are versatile and can be adjusted for a wide range of problems. For example, the condition to determine which side of the array to continue searching can be altered to work in rotated or duplicated-element arrays.</p>
+<h2 id="7-multiple-approaches-and-implementations">7. Multiple Approaches and Implementations</h2>
+<ul>
+<li><strong>Iterative vs Recursive</strong>: An iterative approach is usually preferred for binary search due to lower space usage (<code>O(1)</code> stack space). Recursive solutions work but may involve extra stack space (<code>O(log n)</code>).</li>
+<li><strong>Comparative Analysis</strong>: Iterative approaches have advantages in performance due to reduced recursion overhead.</li>
+</ul>
+<h2 id="8-practice-problems">8. Practice Problems</h2>
+<table>
+<thead>
+<tr>
+<th>S.No</th>
+<th>Question</th>
+<th>Example &amp; Output</th>
+<th>Difficulty Level</th>
+<th>Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Find Element in Rotated Sorted Array</td>
+<td>Array <code>[4, 5, 6, 7, 0, 1, 2]</code>, Target <code>0</code> → Start with <code>left = 0</code>, <code>right = 6</code>, find <code>mid = 3</code> (<code>arr[mid] = 7</code>). Since the right half is sorted, adjust <code>left</code>. Eventually, <code>target</code> is found at index <code>4</code>. Output: <code>4</code></td>
+<td>Medium</td>
+<td>Rotated Binary Search. Template: Basic Modified Binary Search. Extra variables: <code>left</code>, <code>right</code>, <code>mid</code>. Logic: Adjust <code>left</code> or <code>right</code> depending on sorted half.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>First and Last Position of Element in Array</td>
+<td>Array <code>[5, 7, 7, 8, 8, 10]</code>, Target <code>8</code> → Start with <code>left = 0</code>, <code>right = 5</code>. First occurrence: adjust <code>right</code> when <code>target</code> is found. Last occurrence: adjust <code>left</code>. First occurrence is at <code>3</code> and last at <code>4</code>. Output: <code>[3, 4]</code></td>
+<td>Medium</td>
+<td>Boundary Search Template. Template: Find First or Last Occurrence. Extra variables: <code>left</code>, <code>right</code>, <code>mid</code>, <code>boundary_index</code>. Logic: Adjust <code>left</code> or <code>right</code> to find boundaries.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Find Peak Element</td>
+<td>Array <code>[1, 2, 3, 1]</code> → Start with <code>left = 0</code>, <code>right = 3</code>, find <code>mid = 1</code> (<code>arr[mid] = 2</code>). Move towards the side where elements are increasing to find the peak. Peak is found at index <code>2</code>. Output: <code>2</code> (index of peak)</td>
+<td>Medium</td>
+<td>Peak Finding via Binary Search. Template: Basic Modified Binary Search. Extra variables: <code>left</code>, <code>right</code>, <code>mid</code>. Logic: Move towards increasing side to find peak.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Find Minimum in Rotated Sorted Array</td>
+<td>Array <code>[3, 4, 5, 1, 2]</code> → Start with <code>left = 0</code>, <code>right = 4</code>. Keep finding <code>mid</code> and adjusting <code>left</code> or <code>right</code> based on the sorted half until the minimum (<code>1</code>) is found at index <code>3</code>. Output: <code>3</code></td>
+<td>Medium</td>
+<td>Rotated Binary Search. Template: Basic Modified Binary Search. Extra variables: <code>left</code>, <code>right</code>, <code>mid</code>. Logic: Adjust <code>left</code> or <code>right</code> based on sorted half.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Search Insert Position</td>
+<td>Array <code>[1, 3, 5, 6]</code>, Target <code>5</code> → Use binary search to find where the target fits. Target <code>5</code> is found at index <code>2</code>. Output: <code>2</code></td>
+<td>Easy</td>
+<td>Basic Binary Search. Template: Basic Modified Binary Search. Extra variables: <code>left</code>, <code>right</code>, <code>mid</code>. Logic: Find the correct position for insertion.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Find Single Element in Sorted Array</td>
+<td>Array <code>[1, 1, 2, 3, 3, 4, 4, 8, 8]</code> → Use binary search to find the unique element (<code>2</code>). Start with <code>left = 0</code>, <code>right = 8</code>. Output: <code>2</code></td>
+<td>Medium</td>
+<td>Modified Binary Search. Template: Basic Modified Binary Search. Extra variables: <code>left</code>, <code>right</code>, <code>mid</code>. Logic: Use conditions to find the non-repeating element.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Find Closest Element</td>
+<td>Array <code>[1, 3, 8, 10, 15]</code>, Target <code>12</code> → Use binary search to find closest value (<code>10</code>). Output: <code>10</code></td>
+<td>Medium</td>
+<td>Closest Search Template. Template: Basic Modified Binary Search. Extra variables: <code>closest</code>. Logic: Track closest value during search.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Find Range Sum Query</td>
+<td>Array <code>[2, 4, 6, 8, 10]</code>, Query <code>(1, 3)</code> → Use binary search for prefix sums. Sum between indices <code>1</code> and <code>3</code> is <code>4 + 6 + 8 = 18</code>. Output: <code>18</code></td>
+<td>Medium</td>
+<td>Prefix Sum + Binary Search. Template: Prefix Sum Calculation. Extra variables: <code>prefix_sums</code>. Logic: Use prefix sums and binary search to answer range queries.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Find Bitonic Peak</td>
+<td>Array <code>[1, 3, 8, 12, 4, 2]</code> → Use binary search to find peak (<code>12</code>). Peak found at index <code>3</code>. Output: <code>3</code></td>
+<td>Medium</td>
+<td>Bitonic Search Template. Template: Basic Modified Binary Search. Extra variables: <code>left</code>, <code>right</code>, <code>mid</code>. Logic: Move in the direction of increasing elements.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Search in 2D Matrix</td>
+<td>Matrix <code>[[1, 3, 5], [7, 9, 11], [13, 15, 17]]</code>, Target <code>9</code> → Use binary search to find element (<code>9</code>). Found at <code>(1, 1)</code>. Output: <code>(1, 1)</code></td>
+<td>Medium</td>
+<td>2D Binary Search. Template: Flattened Binary Search. Extra variables: <code>rows</code>, <code>cols</code>, <code>mid_value</code>. Logic: Treat 2D matrix as flattened 1D array during search.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Kth Smallest Element in Sorted Matrix</td>
+<td>Matrix <code>[[1, 5, 9], [10, 11, 13], [12, 13, 15]]</code>, <code>k = 8</code> → Use binary search to find the <code>8th</code> smallest (<code>13</code>). Output: <code>13</code></td>
+<td>Hard</td>
+<td>Matrix Binary Search. Template: Basic Modified Binary Search. Extra variables: <code>left</code>, <code>right</code>, <code>mid</code>. Logic: Apply binary search on matrix values.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Find Smallest Missing Positive Number</td>
+<td>Array <code>[0, 1, 2, 6, 9, 11, 15]</code> → Find smallest missing positive (<code>3</code>). Output: <code>3</code></td>
+<td>Medium</td>
+<td>Missing Value Search. Template: Basic Modified Binary Search. Extra variables: <code>left</code>, <code>right</code>, <code>mid</code>. Logic: Use binary conditions to locate missing value.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Count Occurrences of Element</td>
+<td>Array <code>[2, 4, 10, 10, 10, 18, 20]</code>, Target <code>10</code> → Use boundary search to find occurrences (<code>3</code>). Output: <code>3</code></td>
+<td>Easy</td>
+<td>Boundary Search Template. Template: Find First or Last Occurrence. Extra variables: <code>left</code>, <code>right</code>, <code>mid</code>, <code>boundary_index</code>. Logic: Adjust <code>left</code> and <code>right</code> to find the count.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Search in Infinite Sorted Array</td>
+<td>Array <code>[1, 2, 3, ...]</code> (infinite), Target <code>10</code> → Find bounds and use binary search. Output: <code>10</code></td>
+<td>Medium</td>
+<td>Infinite Array Search. Template: Boundary Expansion. Extra variables: <code>bound</code>. Logic: Expand bounds until target is within range, then perform binary search.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Split Array Largest Sum</td>
+<td>Array <code>[7, 2, 5, 10, 8]</code>, <code>m = 2</code> → Use binary search to split and minimize largest sum (<code>18</code>). Output: <code>18</code></td>
+<td>Hard</td>
+<td>Array Split Search. Template: Binary Search on Answer. Extra variables: <code>left</code>, <code>right</code>, <code>mid</code>. Logic: Minimize the largest subarray sum.</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Aggressive Cows</td>
+<td>Positions <code>[1, 2, 8, 4, 9]</code>, <code>cows = 3</code> → Use binary search to maximize distance (<code>3</code>). Output: <code>3</code></td>
+<td>Hard</td>
+<td>Distance Maximization. Template: Binary Search on Distance. Extra variables: <code>left</code>, <code>right</code>, <code>mid</code>. Logic: Place cows to maximize the minimum distance.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Allocate Minimum Pages</td>
+<td>Books <code>[12, 34, 67, 90]</code>, <code>students = 2</code> → Use binary search to allocate books (<code>113</code>). Output: <code>113</code></td>
+<td>Medium</td>
+<td>Page Allocation Search. Template: Binary Search on Answer. Extra variables: <code>left</code>, <code>right</code>, <code>mid</code>. Logic: Minimize the maximum pages allocated to any student.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Median of Two Sorted Arrays</td>
+<td>Arrays <code>[1, 3]</code> and <code>[2]</code> → Use binary search to find median (<code>2</code>). Output: <code>2</code></td>
+<td>Hard</td>
+<td>Median Finding Template. Template: Binary Search with Partition. Extra variables: <code>A</code>, <code>B</code>, <code>i</code>, <code>j</code>. Logic: Partition arrays and adjust search to find the median.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Capacity to Ship Packages</td>
+<td>Weights <code>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</code>, <code>days = 5</code> → Use binary search to minimize capacity (<code>15</code>). Output: <code>15</code></td>
+<td>Medium</td>
+<td>Shipping Capacity Search. Template: Binary Search on Answer. Extra variables: <code>left</code>, <code>right</code>, <code>mid</code>. Logic: Minimize the ship's weight capacity needed to meet the deadline.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Minimize Max Distance to Gas Station</td>
+<td>Stations <code>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]</code>, <code>k = 9</code> → Use binary search to minimize maximum distance (<code>0.5</code>). Output: <code>0.5</code></td>
+<td>Hard</td>
+<td>Distance Minimization. Template: Binary Search on Distance. Extra variables: <code>left</code>, <code>right</code>, <code>mid</code>. Logic: Place additional stations to minimize the maximum distance.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="9-key-takeaways-tips-and-summary">9. Key Takeaways, Tips, and Summary</h2>
+<ul>
+<li><strong>Key Takeaways</strong>: Modified Binary Search allows flexibility for a variety of problems, not just basic element search. Templates can be easily adapted.</li>
+<li><strong>Practical Tips</strong>: Determine if the array is sorted or has properties that allow binary search optimization.</li>
+<li><strong>Summary</strong>: By understanding and practicing different binary search templates, you can solve many complex problems efficiently.</li>
+</ul>
+<h2 id="10-common-pitfalls">10. Common Pitfalls</h2>
+<ul>
+<li><strong>Mistakes to Avoid</strong>: Misplacing conditions or improperly calculating mid (risk of overflow).</li>
+<li><strong>Troubleshooting Tips</strong>: Always check boundary conditions and make sure your left and right pointers are correctly adjusted.</li>
+</ul>
+<p>Here are detailed explanations for 10 randomly selected practice problems from the list:</p>
+<h3 id="1-find-element-in-rotated-sorted-array">1. Find Element in Rotated Sorted Array</h3>
+<p><strong>Problem</strong>: Given a rotated sorted array <code>[4, 5, 6, 7, 0, 1, 2]</code>, find the target element <code>0</code>.</p>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li>Start with <code>left = 0</code> and <code>right = 6</code>.</li>
+<li>Calculate <code>mid = (0 + 6) // 2 = 3</code>. <code>arr[mid] = 7</code>.</li>
+<li>Since the right half (<code>0, 1, 2</code>) is sorted and the target lies within it, adjust <code>left</code> to <code>mid + 1</code>.</li>
+<li>Continue searching until you find <code>target</code> at index <code>4</code>.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment"># Rotated Binary Search to find target in rotated sorted array</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">search_rotated_array</span><span class="hljs-params">(arr, target)</span>:</span>
+    left, right = <span class="hljs-number">0</span>, len(arr) - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">while</span> left &lt;= right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> arr[mid] == target:
+            <span class="hljs-keyword">return</span> mid
+        <span class="hljs-keyword">if</span> arr[left] &lt;= arr[mid]:
+            <span class="hljs-keyword">if</span> arr[left] &lt;= target &lt; arr[mid]:
+                right = mid - <span class="hljs-number">1</span>
+            <span class="hljs-keyword">else</span>:
+                left = mid + <span class="hljs-number">1</span>
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-keyword">if</span> arr[mid] &lt; target &lt;= arr[right]:
+                left = mid + <span class="hljs-number">1</span>
+            <span class="hljs-keyword">else</span>:
+                right = mid - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>
+</div></code></pre>
+<h3 id="2-first-and-last-position-of-element-in-array">2. First and Last Position of Element in Array</h3>
+<p><strong>Problem</strong>: Find the first and last position of <code>8</code> in array <code>[5, 7, 7, 8, 8, 10]</code>.</p>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li>First, use a modified binary search to find the first occurrence (<code>left = 0</code>, <code>right = 5</code>).</li>
+<li>Then use a similar approach to find the last occurrence.</li>
+<li>The first occurrence is at index <code>3</code> and the last occurrence is at index <code>4</code>.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment"># Find first and last occurrence of target in array</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_first_last</span><span class="hljs-params">(arr, target)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_boundary</span><span class="hljs-params">(find_first)</span>:</span>
+        left, right, boundary_index = <span class="hljs-number">0</span>, len(arr) - <span class="hljs-number">1</span>, <span class="hljs-number">-1</span>
+        <span class="hljs-keyword">while</span> left &lt;= right:
+            mid = left + (right - left) // <span class="hljs-number">2</span>
+            <span class="hljs-keyword">if</span> arr[mid] == target:
+                boundary_index = mid
+                <span class="hljs-keyword">if</span> find_first:
+                    right = mid - <span class="hljs-number">1</span>
+                <span class="hljs-keyword">else</span>:
+                    left = mid + <span class="hljs-number">1</span>
+            <span class="hljs-keyword">elif</span> arr[mid] &lt; target:
+                left = mid + <span class="hljs-number">1</span>
+            <span class="hljs-keyword">else</span>:
+                right = mid - <span class="hljs-number">1</span>
+        <span class="hljs-keyword">return</span> boundary_index
+
+    <span class="hljs-keyword">return</span> [find_boundary(<span class="hljs-literal">True</span>), find_boundary(<span class="hljs-literal">False</span>)]
+</div></code></pre>
+<h3 id="3-find-peak-element">3. Find Peak Element</h3>
+<p><strong>Problem</strong>: Given an array <code>[1, 2, 3, 1]</code>, find the peak element.</p>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li>A peak element is greater than its neighbors.</li>
+<li>Start with <code>left = 0</code> and <code>right = 3</code>.</li>
+<li>Move towards the direction where elements are increasing until you find the peak at index <code>2</code>.</li>
+</ul>
+<pre class="hljs"><code><div>
+
+<span class="hljs-comment"># Find peak element in the array</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_peak</span><span class="hljs-params">(arr)</span>:</span>
+    left, right = <span class="hljs-number">0</span>, len(arr) - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">while</span> left &lt; right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> arr[mid] &lt; arr[mid + <span class="hljs-number">1</span>]:
+            left = mid + <span class="hljs-number">1</span>
+        <span class="hljs-keyword">else</span>:
+            right = mid
+    <span class="hljs-keyword">return</span> left
+
+
+
+</div></code></pre>
+<h3 id="4-find-minimum-in-rotated-sorted-array">4. Find Minimum in Rotated Sorted Array</h3>
+<p><strong>Problem</strong>: Given a rotated sorted array <code>[3, 4, 5, 1, 2]</code>, find the minimum.</p>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li>The minimum element is the pivot point of rotation.</li>
+<li>Start with <code>left = 0</code> and <code>right = 4</code>, keep finding <code>mid</code> and adjusting <code>left</code> or <code>right</code>.</li>
+<li>Minimum (<code>1</code>) is found at index <code>3</code>.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment"># Find minimum element in rotated sorted array</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_minimum_rotated</span><span class="hljs-params">(arr)</span>:</span>
+    left, right = <span class="hljs-number">0</span>, len(arr) - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">while</span> left &lt; right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> arr[mid] &gt; arr[right]:
+            left = mid + <span class="hljs-number">1</span>
+        <span class="hljs-keyword">else</span>:
+            right = mid
+    <span class="hljs-keyword">return</span> arr[left]
+</div></code></pre>
+<h3 id="5-search-insert-position">5. Search Insert Position</h3>
+<p><strong>Problem</strong>: Find the insert position of <code>5</code> in <code>[1, 3, 5, 6]</code>.</p>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li>Use binary search to find where the target fits.</li>
+<li>The target <code>5</code> is already present at index <code>2</code>.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment"># Search insert position for target</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">search_insert_position</span><span class="hljs-params">(arr, target)</span>:</span>
+    left, right = <span class="hljs-number">0</span>, len(arr) - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">while</span> left &lt;= right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> arr[mid] == target:
+            <span class="hljs-keyword">return</span> mid
+        <span class="hljs-keyword">elif</span> arr[mid] &lt; target:
+            left = mid + <span class="hljs-number">1</span>
+        <span class="hljs-keyword">else</span>:
+            right = mid - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> left
+</div></code></pre>
+<h3 id="6-find-single-element-in-sorted-array">6. Find Single Element in Sorted Array</h3>
+<p><strong>Problem</strong>: Find the unique element in <code>[1, 1, 2, 3, 3, 4, 4, 8, 8]</code>.</p>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li>Use binary search to find the element that appears only once.</li>
+<li>Unique element (<code>2</code>) is found at index <code>2</code>.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment"># Find single non-duplicate element</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_single_element</span><span class="hljs-params">(arr)</span>:</span>
+    left, right = <span class="hljs-number">0</span>, len(arr) - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">while</span> left &lt; right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> mid % <span class="hljs-number">2</span> == <span class="hljs-number">1</span>:
+            mid -= <span class="hljs-number">1</span>
+        <span class="hljs-keyword">if</span> arr[mid] == arr[mid + <span class="hljs-number">1</span>]:
+            left = mid + <span class="hljs-number">2</span>
+        <span class="hljs-keyword">else</span>:
+            right = mid
+    <span class="hljs-keyword">return</span> arr[left]
+</div></code></pre>
+<h3 id="7-find-closest-element">7. Find Closest Element</h3>
+<p><strong>Problem</strong>: Given array <code>[1, 3, 8, 10, 15]</code> and target <code>12</code>, find the closest element.</p>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li>Use binary search to find the closest value.</li>
+<li>Closest value to <code>12</code> is <code>10</code>.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment"># Find closest element to target</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_closest_element</span><span class="hljs-params">(arr, target)</span>:</span>
+    left, right = <span class="hljs-number">0</span>, len(arr) - <span class="hljs-number">1</span>
+    closest = arr[<span class="hljs-number">0</span>]
+    <span class="hljs-keyword">while</span> left &lt;= right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> abs(arr[mid] - target) &lt; abs(closest - target):
+            closest = arr[mid]
+        <span class="hljs-keyword">if</span> arr[mid] &lt; target:
+            left = mid + <span class="hljs-number">1</span>
+        <span class="hljs-keyword">else</span>:
+            right = mid - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> closest
+</div></code></pre>
+<h3 id="8-find-bitonic-peak">8. Find Bitonic Peak</h3>
+<p><strong>Problem</strong>: Given a bitonic array <code>[1, 3, 8, 12, 4, 2]</code>, find the peak.</p>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li>A bitonic array is first increasing, then decreasing.</li>
+<li>Use binary search to find the peak (<code>12</code> at index <code>3</code>).</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment"># Find peak element in a bitonic array</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_bitonic_peak</span><span class="hljs-params">(arr)</span>:</span>
+    left, right = <span class="hljs-number">0</span>, len(arr) - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">while</span> left &lt; right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> arr[mid] &lt; arr[mid + <span class="hljs-number">1</span>]:
+            left = mid + <span class="hljs-number">1</span>
+        <span class="hljs-keyword">else</span>:
+            right = mid
+    <span class="hljs-keyword">return</span> left
+</div></code></pre>
+<h3 id="9-search-in-2d-matrix">9. Search in 2D Matrix</h3>
+<p><strong>Problem</strong>: Given a matrix <code>[[1, 3, 5], [7, 9, 11], [13, 15, 17]]</code>, find target <code>9</code>.</p>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li>Use binary search on the 2D matrix by treating it as a flattened 1D array.</li>
+<li>Target <code>9</code> is found at position <code>(1, 1)</code>.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment"># Search in 2D matrix</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">search_2d_matrix</span><span class="hljs-params">(matrix, target)</span>:</span>
+    rows, cols = len(matrix), len(matrix[<span class="hljs-number">0</span>])
+    left, right = <span class="hljs-number">0</span>, rows * cols - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">while</span> left &lt;= right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        mid_value = matrix[mid // cols][mid % cols]
+        <span class="hljs-keyword">if</span> mid_value == target:
+            <span class="hljs-keyword">return</span> (mid // cols, mid % cols)
+        <span class="hljs-keyword">elif</span> mid_value &lt; target:
+            left = mid + <span class="hljs-number">1</span>
+        <span class="hljs-keyword">else</span>:
+            right = mid - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> (<span class="hljs-number">-1</span>, <span class="hljs-number">-1</span>)
+</div></code></pre>
+<h3 id="10-median-of-two-sorted-arrays">10. Median of Two Sorted Arrays</h3>
+<p><strong>Problem</strong>: Given arrays <code>[1, 3]</code> and <code>[2]</code>, find the median.</p>
+<p><strong>Explanation</strong>:</p>
+<ul>
+<li>Merge the arrays virtually using binary search to find the median.</li>
+<li>The median is <code>2</code>.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment"># Find median of two sorted arrays</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_median_sorted_arrays</span><span class="hljs-params">(nums1, nums2)</span>:</span>
+    A, B = nums1, nums2
+    <span class="hljs-keyword">if</span> len(A) &gt; len(B):
+        A, B = B, A
+    total = len(A) + len(B)
+    half = total // <span class="hljs-number">2</span>
+
+    left, right = <span class="hljs-number">0</span>, len(A) - <span class="hljs-number">1</span>
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        i = (left + right) // <span class="hljs-number">2</span>
+        j = half - i - <span class="hljs-number">2</span>
+
+        Aleft = A[i] <span class="hljs-keyword">if</span> i &gt;= <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> float(<span class="hljs-string">"-infinity"</span>)
+        Aright = A[i + <span class="hljs-number">1</span>] <span class="hljs-keyword">if</span> (i + <span class="hljs-number">1</span>) &lt; len(A) <span class="hljs-keyword">else</span> float(<span class="hljs-string">"infinity"</span>)
+        Bleft = B[j] <span class="hljs-keyword">if</span> j &gt;= <span class="hljs-number">0</span> <span class="hljs-keyword">else</span> float(<span class="hljs-string">"-infinity"</span>)
+        Bright = B[j + <span class="hljs-number">1</span>] <span class="hljs-keyword">if</span> (j + <span class="hljs-number">1</span>) &lt; len(B) <span class="hljs-keyword">else</span> float(<span class="hljs-string">"infinity"</span>)
+
+        <span class="hljs-keyword">if</span> Aleft &lt;= Bright <span class="hljs-keyword">and</span> Bleft &lt;= Aright:
+            <span class="hljs-keyword">if</span> total % <span class="hljs-number">2</span>:
+                <span class="hljs-keyword">return</span> min(Aright, Bright)
+            <span class="hljs-keyword">return</span> (max(Aleft, Bleft) + min(Aright, Bright)) / <span class="hljs-number">2</span>
+        <span class="hljs-keyword">elif</span> Aleft &gt; Bright:
+            right = i - <span class="hljs-number">1</span>
+        <span class="hljs-keyword">else</span>:
+            left = i + <span class="hljs-number">1</span>
+</div></code></pre>
+
+</body>
+</html>

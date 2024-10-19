@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>FastandSlowPointers.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p><strong>Fast and Slow Pointers Comprehensive Guide</strong></p>
+<h3 id="1-core-concepts-and-coding-patterns">1. Core Concepts and Coding Patterns</h3>
+<p>The <strong>Fast and Slow Pointers</strong> approach involves using two pointers to traverse a data structure (typically a linked list or array) at different speeds. One pointer moves faster (typically two steps at a time) while the other moves slower (usually one step at a time). The core idea behind this pattern is to detect certain properties or cycles within the data structure.</p>
+<p><strong>Common Use Cases</strong>:</p>
+<ul>
+<li>Detecting a cycle in a linked list.</li>
+<li>Finding the length of a cycle.</li>
+<li>Determining the middle element of a linked list.</li>
+</ul>
+<p><strong>How It Works</strong>:</p>
+<ul>
+<li>If a cycle exists in a data structure, the fast pointer will eventually meet the slow pointer.</li>
+<li>If there's no cycle, the fast pointer will reach the end.</li>
+</ul>
+<p><strong>Example</strong>:
+Consider a linked list: <strong>1 → 2 → 3 → 4 → 5 → 3 (cycle begins again)</strong>.</p>
+<ul>
+<li>The <strong>slow pointer</strong> moves one step at a time: 1 → 2 → 3 → 4 → 5.</li>
+<li>The <strong>fast pointer</strong> moves two steps at a time: 1 → 3 → 5 → 3.</li>
+<li>Eventually, both pointers meet at node <strong>3</strong>, indicating a cycle.</li>
+</ul>
+<h3 id="2-problem-identification-checklist">2. Problem Identification Checklist</h3>
+<p>To determine if a problem can be solved with Fast and Slow Pointers, consider the following:</p>
+<table>
+<thead>
+<tr>
+<th>Problem Identification Criteria</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Does the problem involve a linked list or cycle detection?</td>
+<td>Detect if a linked list has a cycle</td>
+</tr>
+<tr>
+<td>Is there a need to find a middle point or intersection?</td>
+<td>Find the middle element of a linked list</td>
+</tr>
+<tr>
+<td>Is the problem related to finding repeating sequences?</td>
+<td>Check if a sequence repeats in an array</td>
+</tr>
+</tbody>
+</table>
+<h3 id="3-general-templates-with-comments">3. General Templates with Comments</h3>
+<h4 id="template-1-cycle-detection-in-a-linked-list">Template 1: Cycle Detection in a Linked List</h4>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ListNode</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, value=<span class="hljs-number">0</span>, next=None)</span>:</span>
+        self.value = value
+        self.next = next
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">has_cycle</span><span class="hljs-params">(head)</span>:</span>
+    <span class="hljs-comment"># Initialize two pointers, slow and fast</span>
+    slow, fast = head, head
+    <span class="hljs-comment"># Traverse the linked list</span>
+    <span class="hljs-keyword">while</span> fast <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> fast.next <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+        slow = slow.next          <span class="hljs-comment"># Move slow pointer by one step</span>
+        fast = fast.next.next     <span class="hljs-comment"># Move fast pointer by two steps</span>
+        <span class="hljs-keyword">if</span> slow == fast:
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>          <span class="hljs-comment"># Cycle detected</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>                 <span class="hljs-comment"># No cycle found</span>
+</div></code></pre>
+<p><strong>Use Case</strong>: Detecting a cycle in a linked list.
+<strong>Time Complexity</strong>: <strong>O(N)</strong> where <strong>N</strong> is the number of nodes.
+<strong>Space Complexity</strong>: <strong>O(1)</strong> since no extra space is used.</p>
+<h4 id="template-2-finding-the-middle-element-of-a-linked-list">Template 2: Finding the Middle Element of a Linked List</h4>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_middle</span><span class="hljs-params">(head)</span>:</span>
+    <span class="hljs-comment"># Initialize two pointers</span>
+    slow, fast = head, head
+    <span class="hljs-comment"># Traverse the linked list</span>
+    <span class="hljs-keyword">while</span> fast <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> fast.next <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+        slow = slow.next          <span class="hljs-comment"># Move slow pointer by one step</span>
+        fast = fast.next.next     <span class="hljs-comment"># Move fast pointer by two steps</span>
+    <span class="hljs-keyword">return</span> slow                   <span class="hljs-comment"># Slow will be at the middle</span>
+</div></code></pre>
+<p><strong>Use Case</strong>: Finding the middle element of a linked list.
+<strong>Time Complexity</strong>: <strong>O(N)</strong>.
+<strong>Space Complexity</strong>: <strong>O(1)</strong>.</p>
+<h3 id="4-complexity-analysis">4. Complexity Analysis</h3>
+<ul>
+<li><strong>Time Complexity</strong>: Both templates operate in <strong>O(N)</strong> time, where <strong>N</strong> is the number of nodes/elements.</li>
+<li><strong>Space Complexity</strong>: <strong>O(1)</strong>, as the solution requires constant extra space.</li>
+<li><strong>Optimization Opportunities</strong>: The Fast and Slow Pointers are inherently optimal for cycle detection and finding the middle, as they only require a single traversal.</li>
+</ul>
+<h3 id="5-multiple-approaches-and-implementations">5. Multiple Approaches and Implementations</h3>
+<ul>
+<li><strong>Iterative vs. Recursive</strong>: The Fast and Slow Pointers pattern is usually implemented iteratively due to its reliance on two pointers that change dynamically.</li>
+<li><strong>Comparative Analysis</strong>: Iterative approaches are generally preferred for this pattern because they avoid the additional space overhead that recursion might introduce (call stack).</li>
+</ul>
+<h3 id="6-practice-problems">6. Practice Problems</h3>
+<table>
+<thead>
+<tr>
+<th>S.No</th>
+<th>Question</th>
+<th>Example with Explanation</th>
+<th>Difficulty Level</th>
+<th>Approach and Template</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Detect cycle in linked list</td>
+<td>Linked list: 1→2→3→4→2→... (Cycle starts at 2). Output: True. Explanation: The linked list has a cycle starting at node with value 2. When using the fast and slow pointers, they eventually meet, confirming the cycle.</td>
+<td>Easy</td>
+<td>Use cycle detection. Extra Logic: Track both slow and fast pointers to detect when they meet.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Find middle of linked list</td>
+<td>Linked list: 1→2→3→4→5. Output: 3. Explanation: When traversing the list, the slow pointer moves one step and the fast pointer moves two steps. When the fast pointer reaches the end, the slow pointer is at the middle node with value 3.</td>
+<td>Easy</td>
+<td>Use middle element. Extra Logic: Move slow pointer by one and fast by two until fast reaches the end.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Linked list cycle length</td>
+<td>Linked list: 1→2→3→4→2 (Cycle starts at 2). Output: 3. Explanation: After detecting the cycle, keep one pointer fixed and move the other until they meet again. The number of steps taken gives the cycle length, which is 3 in this case.</td>
+<td>Medium</td>
+<td>Use cycle detection. Extra Logic: After cycle detection, count the length by moving one pointer until it meets the other again.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Find if linked list is a palindrome</td>
+<td>Linked list: 1→2→3→2→1. Output: True. Explanation: The linked list is the same forward and backward. Use fast and slow pointers to find the middle, reverse the second half, and compare.</td>
+<td>Medium</td>
+<td>Use fast and slow pointers to find the middle, reverse the second half. Extra Logic: Reverse linked list logic.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Intersection of two linked lists</td>
+<td>Linked lists: A: 1→2→3→4→5, B: 9→4→5. Output: 4. Explanation: Both lists intersect at node with value 4. Use two pointers starting at different lists and swap once they reach the end.</td>
+<td>Medium</td>
+<td>Use two pointers and swap at end of each list. Extra Logic: Handle different lengths by swapping pointers.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Start of cycle in linked list</td>
+<td>Linked list: 1→2→3→4→5→3 (Cycle starts at 3). Output: 3. Explanation: Detect the cycle first, then use a pointer from the head and the meeting point to find the start of the cycle.</td>
+<td>Medium</td>
+<td>Use cycle detection then reset one pointer. Extra Logic: Reset slow pointer and move both pointers one step.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Find duplicate number in an array</td>
+<td>Array: [1, 3, 4, 2, 2]. Output: 2. Explanation: Use fast and slow pointers to detect the cycle, which indicates the duplicate number.</td>
+<td>Medium</td>
+<td>Use cycle detection in an array. Extra Logic: Treat array values as next pointers.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Find happy number</td>
+<td>Number: 19. Output: True. Explanation: Replace the number by the sum of the squares of its digits, repeat the process, and determine if it ends at 1 using fast and slow pointers to detect a cycle.</td>
+<td>Easy</td>
+<td>Use cycle detection for digit square sum. Extra Logic: Calculate digit square repeatedly.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Length of longest palindromic sublist</td>
+<td>Linked list: 1→2→3→2→1. Output: 5. Explanation: The entire list is a palindrome. Use slow and fast pointers to determine symmetry.</td>
+<td>Medium</td>
+<td>Use fast and slow pointers to find symmetry. Extra Logic: Reverse parts of the list.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Find if linked list has even or odd length</td>
+<td>Linked list: 1→2→3→4→5. Output: Odd. Explanation: Traverse with a fast pointer moving two steps; if it ends at null, length is even, otherwise odd.</td>
+<td>Easy</td>
+<td>Use fast pointer. Extra Logic: Check if fast pointer reaches <code>None</code> or last node.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Find kth node from the end</td>
+<td>Linked list: 1→2→3→4→5, k=2. Output: 4. Explanation: Use two pointers, with the second starting when the first is k steps ahead.</td>
+<td>Medium</td>
+<td>Use two pointers with offset. Extra Logic: Move the first pointer k steps ahead.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Merge two sorted linked lists</td>
+<td>Linked lists: A: 1→3→5, B: 2→4→6. Output: 1→2→3→4→5→6. Explanation: Traverse both lists and merge by comparing values.</td>
+<td>Medium</td>
+<td>Use two pointers to merge. Extra Logic: Compare values and advance pointers accordingly.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Rearrange linked list in zigzag fashion</td>
+<td>Linked list: 1→2→3→4→5. Output: 1→3→2→5→4. Explanation: Alternate between picking elements from both ends using two pointers.</td>
+<td>Hard</td>
+<td>Use two pointers from both ends. Extra Logic: Use stack to reverse half if necessary.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Find triplet in linked list with given sum</td>
+<td>Linked list: 1→2→3→4→5, Sum=9. Output: (1, 3, 5). Explanation: Use three pointers or fix one and use two pointers for the rest.</td>
+<td>Hard</td>
+<td>Fix one pointer and use two-pointer technique. Extra Logic: Nested loop with two-pointer approach.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Find intersection point of Y-shaped lists</td>
+<td>Linked lists: A: 1→2→3, B: 4→5→3. Output: 3. Explanation: Use two pointers starting from different heads; once they reach the end, swap heads to traverse again.</td>
+<td>Medium</td>
+<td>Use two pointers, swap heads. Extra Logic: Handle different lengths by pointer switching.</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Remove nth node from the end</td>
+<td>Linked list: 1→2→3→4→5, n=2. Output: 1→2→3→5. Explanation: Use two pointers, with one pointer n steps ahead, then delete the nth node.</td>
+<td>Medium</td>
+<td>Use two pointers with offset. Extra Logic: Maintain gap and adjust next pointers.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Detect if linked list forms a palindrome</td>
+<td>Linked list: 1→2→3→2→1. Output: True. Explanation: Use fast and slow pointers to find the middle, reverse the second half, and compare both halves.</td>
+<td>Medium</td>
+<td>Use fast and slow pointers, reverse second half. Extra Logic: Reverse half and compare nodes.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Find longest cycle in a linked list</td>
+<td>Linked list: 1→2→3→4→2 (Cycle starts at 2). Output: 4. Explanation: Detect the cycle and find its length by traversing until the pointers meet again.</td>
+<td>Hard</td>
+<td>Use cycle detection, count cycle length. Extra Logic: Maintain count while traversing cycle.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Check if two linked lists merge</td>
+<td>Linked lists: A: 1→2→3, B: 4→5→3. Output: True. Explanation: Use two pointers to traverse to the ends and see if they intersect.</td>
+<td>Medium</td>
+<td>Use two pointers, traverse to end. Extra Logic: Swap heads after reaching the end.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Split linked list into two halves</td>
+<td>Linked list: 1→2→3→4→5. Output: 1→2→3, 4→5. Explanation: Use slow and fast pointers to find the middle, then split.</td>
+<td>Easy</td>
+<td>Use fast and slow pointers to find middle. Extra Logic: Adjust next pointers to break the list.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="7-key-takeaways-tips-and-summary">7. Key Takeaways, Tips, and Summary</h3>
+<ul>
+<li><strong>Key Takeaways</strong>: Fast and Slow Pointers are powerful for cycle detection and linked list problems involving traversal.</li>
+<li><strong>Practical Tips</strong>: Always ensure pointers do not exceed bounds, particularly the fast pointer.</li>
+<li><strong>Summary</strong>: This pattern is highly efficient for detecting cycles and finding the middle element in linked lists.</li>
+</ul>
+<h3 id="8-common-pitfalls">8. Common Pitfalls</h3>
+<ul>
+<li><strong>Mistakes to Avoid</strong>: Not checking if the fast pointer or <code>fast.next</code> is <code>None</code>, which can lead to null pointer exceptions.</li>
+<li><strong>Troubleshooting Tips</strong>: Use print statements to debug the movement of both pointers to understand where the pointers meet or diverge.</li>
+</ul>
+<p>Here are detailed explanations and solutions for five randomly chosen practice problems:</p>
+<h3 id="1-detect-cycle-in-linked-list-problem-1">1. Detect Cycle in Linked List (Problem 1)</h3>
+<p><strong>Problem</strong>: Given a linked list, determine if it contains a cycle.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: Linked list: 1 → 2 → 3 → 4 → 2 (Cycle starts at node with value 2).</li>
+<li><strong>Output</strong>: <code>True</code></li>
+<li><strong>Explanation</strong>: The linked list has a cycle starting at node 2. When using fast and slow pointers, they eventually meet at some point, confirming the cycle.</li>
+</ul>
+<p><strong>Visualization</strong>:</p>
+<pre class="hljs"><code><div>1 → 2 → 3 → 4
+    ↑       ↓
+    5 ←-----
+</div></code></pre>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ListNode</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, value=<span class="hljs-number">0</span>, next=None)</span>:</span>
+        self.value = value
+        self.next = next
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">has_cycle</span><span class="hljs-params">(head)</span>:</span>
+    <span class="hljs-comment"># Initialize two pointers, slow and fast</span>
+    slow, fast = head, head
+    <span class="hljs-comment"># Traverse the linked list</span>
+    <span class="hljs-keyword">while</span> fast <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> fast.next <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+        slow = slow.next          <span class="hljs-comment"># Move slow pointer by one step</span>
+        fast = fast.next.next     <span class="hljs-comment"># Move fast pointer by two steps</span>
+        <span class="hljs-keyword">if</span> slow == fast:
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>           <span class="hljs-comment"># Cycle detected</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>                  <span class="hljs-comment"># No cycle found</span>
+</div></code></pre>
+<h3 id="2-find-middle-of-linked-list-problem-2">2. Find Middle of Linked List (Problem 2)</h3>
+<p><strong>Problem</strong>: Find the middle element of a linked list.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: Linked list: 1 → 2 → 3 → 4 → 5</li>
+<li><strong>Output</strong>: <code>3</code></li>
+<li><strong>Explanation</strong>: When traversing the list, the slow pointer moves one step, and the fast pointer moves two steps. When the fast pointer reaches the end, the slow pointer is at the middle node with value <code>3</code>.</li>
+</ul>
+<p><strong>Visualization</strong>:</p>
+<pre class="hljs"><code><div>1 → 2 → 3 → 4 → 5
+        ↑
+     (Middle)
+</div></code></pre>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_middle</span><span class="hljs-params">(head)</span>:</span>
+    <span class="hljs-comment"># Initialize two pointers</span>
+    slow, fast = head, head
+    <span class="hljs-comment"># Traverse the linked list</span>
+    <span class="hljs-keyword">while</span> fast <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> fast.next <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+        slow = slow.next          <span class="hljs-comment"># Move slow pointer by one step</span>
+        fast = fast.next.next     <span class="hljs-comment"># Move fast pointer by two steps</span>
+    <span class="hljs-keyword">return</span> slow                   <span class="hljs-comment"># Slow will be at the middle</span>
+</div></code></pre>
+<h3 id="3-find-duplicate-number-in-array-problem-7">3. Find Duplicate Number in Array (Problem 7)</h3>
+<p><strong>Problem</strong>: Given an array containing <code>n + 1</code> integers where each integer is between <code>1</code> and <code>n</code> (inclusive), prove that at least one duplicate number must exist. Assume that there is only one duplicate number, find the duplicate one.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: <code>[1, 3, 4, 2, 2]</code></li>
+<li><strong>Output</strong>: <code>2</code></li>
+<li><strong>Explanation</strong>: The array has a duplicate number <code>2</code>. Use fast and slow pointers to detect the cycle, which indicates the duplicate number.</li>
+</ul>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_duplicate</span><span class="hljs-params">(nums)</span>:</span>
+    <span class="hljs-comment"># Initialize slow and fast pointers</span>
+    slow, fast = nums[<span class="hljs-number">0</span>], nums[<span class="hljs-number">0</span>]
+    
+    <span class="hljs-comment"># Phase 1: Detect cycle</span>
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        slow = nums[slow]
+        fast = nums[nums[fast]]
+        <span class="hljs-keyword">if</span> slow == fast:
+            <span class="hljs-keyword">break</span>
+
+    <span class="hljs-comment"># Phase 2: Find entry point of the cycle</span>
+    slow = nums[<span class="hljs-number">0</span>]
+    <span class="hljs-keyword">while</span> slow != fast:
+        slow = nums[slow]
+        fast = nums[fast]
+        
+    <span class="hljs-keyword">return</span> slow
+</div></code></pre>
+<h3 id="4-find-kth-node-from-the-end-problem-11">4. Find kth Node from the End (Problem 11)</h3>
+<p><strong>Problem</strong>: Find the <code>k</code>th node from the end of a linked list.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: Linked list: 1 → 2 → 3 → 4 → 5, <code>k = 2</code></li>
+<li><strong>Output</strong>: <code>4</code></li>
+<li><strong>Explanation</strong>: The 2nd node from the end of the list is <code>4</code>. Use two pointers, with the second starting when the first is <code>k</code> steps ahead.</li>
+</ul>
+<p><strong>Visualization</strong>:</p>
+<pre class="hljs"><code><div>1 → 2 → 3 → 4 → 5
+            ↑
+           (kth from end)
+</div></code></pre>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_kth_from_end</span><span class="hljs-params">(head, k)</span>:</span>
+    <span class="hljs-comment"># Initialize two pointers</span>
+    first, second = head, head
+    
+    <span class="hljs-comment"># Move the first pointer k steps ahead</span>
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(k):
+        <span class="hljs-keyword">if</span> first <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>  <span class="hljs-comment"># k is greater than the length of the list</span>
+        first = first.next
+
+    <span class="hljs-comment"># Move both pointers until the first pointer reaches the end</span>
+    <span class="hljs-keyword">while</span> first <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+        first = first.next
+        second = second.next
+
+    <span class="hljs-keyword">return</span> second
+</div></code></pre>
+<h3 id="5-start-of-cycle-in-linked-list-problem-6">5. Start of Cycle in Linked List (Problem 6)</h3>
+<p><strong>Problem</strong>: Given a linked list, return the node where the cycle begins. If there is no cycle, return <code>null</code>.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: Linked list: 1 → 2 → 3 → 4 → 5 → 3 (Cycle starts at node with value <code>3</code>)</li>
+<li><strong>Output</strong>: <code>3</code></li>
+<li><strong>Explanation</strong>: First detect the cycle, then use a pointer from the head and another from the meeting point to find the start of the cycle.</li>
+</ul>
+<p><strong>Visualization</strong>:</p>
+<pre class="hljs"><code><div>1 → 2 → 3 → 4 → 5
+        ↑       ↓
+        -----------
+</div></code></pre>
+<p><strong>Python Code</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">detect_cycle_start</span><span class="hljs-params">(head)</span>:</span>
+    <span class="hljs-comment"># Initialize two pointers, slow and fast</span>
+    slow, fast = head, head
+    
+    <span class="hljs-comment"># Detect if a cycle exists</span>
+    <span class="hljs-keyword">while</span> fast <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> fast.next <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+        slow = slow.next
+        fast = fast.next.next
+        <span class="hljs-keyword">if</span> slow == fast:
+            <span class="hljs-comment"># Cycle detected; now find the start</span>
+            slow = head
+            <span class="hljs-keyword">while</span> slow != fast:
+                slow = slow.next
+                fast = fast.next
+            <span class="hljs-keyword">return</span> slow  <span class="hljs-comment"># Start of cycle</span>
+    
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>  <span class="hljs-comment"># No cycle</span>
+</div></code></pre>
+
+</body>
+</html>

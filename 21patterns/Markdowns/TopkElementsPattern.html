@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TopkElementsPattern.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="top-k-elements-coding-pattern-comprehensive-guide">Top-K Elements Coding Pattern: Comprehensive Guide</h1>
+<h2 id="1-core-concepts-and-coding-patterns">1. Core Concepts and Coding Patterns</h2>
+<p>The <strong>Top-K Elements</strong> pattern focuses on finding the top k items in a collection. It often involves using data structures like <strong>heaps</strong> (min-heap or max-heap) or other efficient sorting mechanisms. The goal is to optimize finding the <strong>k largest</strong> or <strong>k smallest</strong> elements without needing to sort the entire collection, which would be less efficient.</p>
+<p><strong>Typical Use Cases</strong>:</p>
+<ul>
+<li>Finding the k largest or smallest numbers in an array.</li>
+<li>Identifying the top k frequent elements in a dataset.</li>
+<li>Sorting the largest k items in streaming data.</li>
+</ul>
+<p><strong>Heaps and Priority Queues</strong> play a major role in implementing this pattern efficiently.</p>
+<h2 id="2-examples">2. Examples</h2>
+<p>Consider the array: <strong>[7, 10, 4, 3, 20, 15]</strong></p>
+<ul>
+<li><strong>Problem</strong>: Find the <strong>3 smallest elements</strong>.</li>
+<li><strong>Solution</strong>: Using a <strong>max-heap</strong>, we maintain a heap of size k (in this case, 3). After iterating through the entire array, the heap contains: <strong>[4, 3, 7]</strong>.</li>
+</ul>
+<p>Another example:</p>
+<ul>
+<li><strong>Problem</strong>: Find the <strong>2 largest elements</strong> in the array <strong>[1, 5, 12, 2, 11, 5]</strong>.</li>
+<li><strong>Solution</strong>: Using a <strong>min-heap</strong> of size 2, we end up with <strong>[11, 12]</strong>.</li>
+</ul>
+<h2 id="3-problem-identification-checklist">3. Problem Identification Checklist</h2>
+<table>
+<thead>
+<tr>
+<th><strong>Characteristic</strong></th>
+<th><strong>Explanation</strong></th>
+<th><strong>Example</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Size Constraints</td>
+<td>The problem asks for a subset (k items) of an array or list</td>
+<td>Find the k largest elements</td>
+</tr>
+<tr>
+<td>Sorting Unnecessary</td>
+<td>Sorting the entire collection isn't needed, just part of it</td>
+<td>Return the top k frequent words</td>
+</tr>
+<tr>
+<td>Need for Dynamic Extraction</td>
+<td>Requires extracting max/min elements efficiently</td>
+<td>Identify k closest points to origin</td>
+</tr>
+</tbody>
+</table>
+<h2 id="4-general-templates-with-comments">4. General Templates with Comments</h2>
+<h3 id="template-1-finding-top-k-largest-elements-using-min-heap">Template 1: Finding Top K Largest Elements Using Min-Heap</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> heapq
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_k_largest_elements</span><span class="hljs-params">(nums, k)</span>:</span>
+    <span class="hljs-comment"># Step 1: Initialize a min-heap with first k elements</span>
+    min_heap = nums[:k]
+    heapq.heapify(min_heap)  <span class="hljs-comment"># Convert list into a heap</span>
+    
+    <span class="hljs-comment"># Step 2: Iterate over the remaining elements</span>
+    <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> nums[k:]:
+        <span class="hljs-keyword">if</span> num &gt; min_heap[<span class="hljs-number">0</span>]:
+            heapq.heappop(min_heap)  <span class="hljs-comment"># Remove smallest in min-heap</span>
+            heapq.heappush(min_heap, num)  <span class="hljs-comment"># Add the new number</span>
+    
+    <span class="hljs-comment"># Step 3: Return the top k largest elements in the heap</span>
+    <span class="hljs-keyword">return</span> list(min_heap)
+</div></code></pre>
+<p><strong>Use Case</strong>: This template works best when you want to find the k largest numbers, and the size of k is much smaller than the length of the input.</p>
+<h3 id="template-2-finding-top-k-frequent-elements-using-max-heap">Template 2: Finding Top K Frequent Elements Using Max-Heap</h3>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> heapq
+<span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> Counter
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_top_k_frequent</span><span class="hljs-params">(nums, k)</span>:</span>
+    <span class="hljs-comment"># Step 1: Build the frequency dictionary</span>
+    freq_map = Counter(nums)
+    
+    <span class="hljs-comment"># Step 2: Create a max-heap using negative frequency values</span>
+    max_heap = [(-freq, num) <span class="hljs-keyword">for</span> num, freq <span class="hljs-keyword">in</span> freq_map.items()]
+    heapq.heapify(max_heap)
+    
+    <span class="hljs-comment"># Step 3: Extract top k frequent elements</span>
+    top_k = []
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(k):
+        top_k.append(heapq.heappop(max_heap)[<span class="hljs-number">1</span>])
+    
+    <span class="hljs-keyword">return</span> top_k
+</div></code></pre>
+<p><strong>Use Case</strong>: This pattern is useful for finding k most frequent elements in an array, such as analyzing word frequency in a text corpus.</p>
+<h2 id="5-complexity-analysis">5. Complexity Analysis</h2>
+<ul>
+<li><strong>Time Complexity</strong>:
+<ul>
+<li><strong>Min-Heap Template</strong>: Building a heap takes <strong>O(k)</strong>, and for each remaining element, adjusting the heap takes <strong>O(log k)</strong>. Overall complexity is <strong>O(n log k)</strong>.</li>
+<li><strong>Max-Heap Template</strong>: Creating a frequency map is <strong>O(n)</strong>, and heapifying takes <strong>O(n)</strong>. Extracting elements has a complexity of <strong>O(k log n)</strong>.</li>
+</ul>
+</li>
+<li><strong>Space Complexity</strong>:
+<ul>
+<li>Both approaches require <strong>O(k)</strong> additional space for storing the heap.</li>
+</ul>
+</li>
+<li><strong>Optimization Opportunities</strong>: In cases where k is very large, converting to a sorting approach may provide simpler and comparable performance.</li>
+</ul>
+<h2 id="6-discussion-on-templates-and-patterns">6. Discussion on Templates and Patterns</h2>
+<p>The Top-K Elements templates can be applied to many problem variations, often involving dynamic data where you only need to know the most significant few. However, depending on whether you need maximum or minimum values, a <strong>min-heap</strong> or <strong>max-heap</strong> will be used.</p>
+<p>For problems with large data streams, consider implementing more optimized structures like <strong>count-min sketch</strong>.</p>
+<h2 id="7-multiple-approaches-and-implementations">7. Multiple Approaches and Implementations</h2>
+<ul>
+<li><strong>Iterative vs Recursive</strong>: Heaps are inherently iterative in Python. A sorting-based approach (like quickselect) can also be recursive.</li>
+<li><strong>Comparative Analysis</strong>: Iterative heap approaches are easy to implement but might be less optimal for large k. Recursive approaches like quickselect have better average time complexity.</li>
+</ul>
+<h2 id="8-practice-problems">8. Practice Problems</h2>
+<table>
+<thead>
+<tr>
+<th><strong>S.No</strong></th>
+<th><strong>Question</strong></th>
+<th><strong>Example</strong></th>
+<th><strong>Difficulty Level</strong></th>
+<th><strong>Approach</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Find k largest numbers in an array</td>
+<td>Given array [3,2,1,5,6,4], k=2. Output: [5, 6]</td>
+<td>Medium</td>
+<td>Min-Heap</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Find top k frequent words</td>
+<td>Given words [&quot;word1&quot;, &quot;word2&quot;, &quot;word1&quot;], k=1. Output: [&quot;word1&quot;]</td>
+<td>Medium</td>
+<td>Max-Heap</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Find k closest points to the origin</td>
+<td>Given points = [[1,3],[-2,2]], k=1. Output: [[-2,2]]</td>
+<td>Hard</td>
+<td>Max-Heap</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Find k smallest numbers in an array</td>
+<td>Given array [7, 10, 4, 3, 20, 15], k=3. Output: [3, 4, 7]</td>
+<td>Medium</td>
+<td>Max-Heap</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Find top k frequent numbers</td>
+<td>Given array [1, 1, 1, 2, 2, 3], k=2. Output: [1, 2]</td>
+<td>Medium</td>
+<td>Max-Heap</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Find k largest elements in a stream</td>
+<td>Stream input [5, 2, 9, 1, 7, 3], k=3. Output: [7, 9, 5]</td>
+<td>Hard</td>
+<td>Min-Heap with streaming logic, extra variable to track stream iteration</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Find k most frequent characters</td>
+<td>Given string &quot;aaabbc&quot;, k=2. Output: ['a', 'b']</td>
+<td>Medium</td>
+<td>Max-Heap</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Find k smallest pairs</td>
+<td>Given arrays nums1=[1,7,11], nums2=[2,4,6], k=3. Output: [(1, 2), (1, 4), (1, 6)]</td>
+<td>Hard</td>
+<td>Min-Heap, additional variables for pair indices</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Find k closest numbers to x</td>
+<td>Given array [1, 2, 3, 4, 5], k=4, x=3. Output: [2, 3, 4, 5]</td>
+<td>Medium</td>
+<td>Max-Heap, extra variable to store distance from x</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Find k most frequent elements in matrix</td>
+<td>Given matrix [[1, 2], [1, 3], [3, 3]], k=2. Output: [3, 1]</td>
+<td>Hard</td>
+<td>Max-Heap, requires flattening the matrix first</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Find top k URLs by hit count</td>
+<td>Given URLs [&quot;a.com&quot;, &quot;b.com&quot;, &quot;a.com&quot;, &quot;c.com&quot;, &quot;b.com&quot;], k=2. Output: [&quot;a.com&quot;, &quot;b.com&quot;]</td>
+<td>Medium</td>
+<td>Max-Heap</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Find k highest scoring students</td>
+<td>Given scores [87, 92, 67, 70, 89, 94], k=3. Output: [94, 92, 89]</td>
+<td>Medium</td>
+<td>Min-Heap</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Find k least common words</td>
+<td>Given words [&quot;dog&quot;, &quot;cat&quot;, &quot;bird&quot;, &quot;cat&quot;, &quot;dog&quot;, &quot;cat&quot;], k=1. Output: [&quot;bird&quot;]</td>
+<td>Medium</td>
+<td>Max-Heap</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Find k smallest elements in a BST</td>
+<td>Given BST root, k=3. Output: [1, 2, 3]</td>
+<td>Hard</td>
+<td>In-order traversal with Min-Heap</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Find k elements closest to median</td>
+<td>Given array [1, 3, 8, 2, 7], k=2. Output: [3, 7]</td>
+<td>Hard</td>
+<td>Median calculation followed by Max-Heap, extra median variable</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Find k largest sums from pairs</td>
+<td>Given arrays [4, 2, 5], [8, 0, 3], k=3. Output: [13, 12, 9]</td>
+<td>Hard</td>
+<td>Max-Heap, variables for indices tracking pairs</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Find k most frequent digits in a number</td>
+<td>Given number 112233445, k=2. Output: [1, 2]</td>
+<td>Medium</td>
+<td>Max-Heap</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Find top k elements in a rotating array</td>
+<td>Given array [1, 3, 5, 7, 9], k=3, rotated by 2. Output: [7, 9, 5]</td>
+<td>Hard</td>
+<td>Min-Heap with rotation logic, rotation variable</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Find k largest unique numbers</td>
+<td>Given array [4, 4, 6, 1, 7, 7, 8], k=3. Output: [8, 7, 6]</td>
+<td>Medium</td>
+<td>Min-Heap</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Find k closest restaurants</td>
+<td>Given distances [5.0, 2.3, 8.6, 3.7], k=2. Output: [2.3, 3.7]</td>
+<td>Easy</td>
+<td>Max-Heap</td>
+</tr>
+</tbody>
+</table>
+<h2 id="9-key-takeaways-tips-and-summary">9. Key Takeaways, Tips, and Summary</h2>
+<ul>
+<li><strong>Key Takeaways</strong>: The Top-K Elements pattern is well-suited for problems requiring partial sorting or selection.</li>
+<li><strong>Practical Tips</strong>: When k is small, heaps offer efficient solutions. Use <strong>quickselect</strong> when the input data is large and k is close to n.</li>
+<li><strong>Summary</strong>: Mastering heap usage for k-selection will help solve problems efficiently in competitive programming and interviews.</li>
+</ul>
+<h2 id="10-common-pitfalls">10. Common Pitfalls</h2>
+<ul>
+<li><strong>Mistakes to Avoid</strong>:
+<ul>
+<li>Using a <strong>max-heap</strong> when a <strong>min-heap</strong> would be more efficient.</li>
+<li>Sorting the entire array instead of using a heap for k selection.</li>
+</ul>
+</li>
+<li><strong>Troubleshooting Tips</strong>:
+<ul>
+<li>Check the heap condition: ensure proper use of <strong>heapify</strong> and <strong>heappop/heappush</strong> to avoid incorrect heap orders.</li>
+<li>For negative values or custom objects, remember to modify the comparison logic accordingly.</li>
+</ul>
+</li>
+</ul>
+<h2 id="final-key-takeaways">Final Key Takeaways</h2>
+<ul>
+<li>Using heaps can help solve Top-K problems efficiently.</li>
+<li>Each problem may have slight variations, such as handling dynamic data or computing distances.</li>
+<li>Practice these problems to become comfortable applying heaps to various scenarios.</li>
+</ul>
+<p>Here are the detailed explanations and Python code solutions for 5 randomly selected practice problems from the list:</p>
+<h3 id="1-problem-4-find-k-smallest-numbers-in-an-array">1. Problem 4: Find k Smallest Numbers in an Array</h3>
+<p><strong>Problem</strong>: Given an array <code>[7, 10, 4, 3, 20, 15]</code>, find the <code>3</code> smallest elements.
+<strong>Explanation</strong>:</p>
+<ul>
+<li>We want to find the 3 smallest numbers in the array, which are <code>[3, 4, 7]</code>.</li>
+<li>To solve this, we use a <strong>max-heap</strong> of size <code>k=3</code>. This helps us maintain the smallest elements efficiently.
+<strong>Python Code</strong>:</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> heapq
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_k_smallest_elements</span><span class="hljs-params">(nums, k)</span>:</span>
+    <span class="hljs-comment"># Step 1: Create a max-heap with the first k elements (negate values to simulate a max-heap)</span>
+    max_heap = [-num <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> nums[:k]]
+    heapq.heapify(max_heap)
+
+    <span class="hljs-comment"># Step 2: Iterate over the remaining elements</span>
+    <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> nums[k:]:
+        <span class="hljs-keyword">if</span> -num &gt; max_heap[<span class="hljs-number">0</span>]:
+            heapq.heappop(max_heap)
+            heapq.heappush(max_heap, -num)
+
+    <span class="hljs-comment"># Step 3: Return the k smallest elements (convert back to positive values)</span>
+    <span class="hljs-keyword">return</span> [-num <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> max_heap]
+
+<span class="hljs-comment"># Example usage</span>
+nums = [<span class="hljs-number">7</span>, <span class="hljs-number">10</span>, <span class="hljs-number">4</span>, <span class="hljs-number">3</span>, <span class="hljs-number">20</span>, <span class="hljs-number">15</span>]
+k = <span class="hljs-number">3</span>
+print(find_k_smallest_elements(nums, k))  <span class="hljs-comment"># Output: [3, 4, 7]</span>
+</div></code></pre>
+<h3 id="2-problem-7-find-k-most-frequent-characters">2. Problem 7: Find k Most Frequent Characters</h3>
+<p><strong>Problem</strong>: Given a string <code>&quot;aaabbc&quot;</code>, find the <code>2</code> most frequent characters.
+<strong>Explanation</strong>:</p>
+<ul>
+<li>The characters are <code>&quot;a&quot;</code> and <code>&quot;b&quot;</code> as they appear most frequently (<code>a</code> appears 3 times, <code>b</code> appears 2 times).</li>
+<li>We use a <strong>max-heap</strong> to determine the characters with the highest frequency.
+<strong>Python Code</strong>:</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> heapq
+<span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> Counter
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_k_most_frequent_chars</span><span class="hljs-params">(s, k)</span>:</span>
+    <span class="hljs-comment"># Step 1: Build the frequency dictionary</span>
+    freq_map = Counter(s)
+    
+    <span class="hljs-comment"># Step 2: Create a max-heap using negative frequency values</span>
+    max_heap = [(-freq, char) <span class="hljs-keyword">for</span> char, freq <span class="hljs-keyword">in</span> freq_map.items()]
+    heapq.heapify(max_heap)
+    
+    <span class="hljs-comment"># Step 3: Extract top k frequent characters</span>
+    top_k = []
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(k):
+        top_k.append(heapq.heappop(max_heap)[<span class="hljs-number">1</span>])
+    
+    <span class="hljs-keyword">return</span> top_k
+
+<span class="hljs-comment"># Example usage</span>
+s = <span class="hljs-string">"aaabbc"</span>
+k = <span class="hljs-number">2</span>
+print(find_k_most_frequent_chars(s, k))  <span class="hljs-comment"># Output: ['a', 'b']</span>
+</div></code></pre>
+<h3 id="3-problem-9-find-k-closest-numbers-to-x">3. Problem 9: Find k Closest Numbers to x</h3>
+<p><strong>Problem</strong>: Given an array <code>[1, 2, 3, 4, 5]</code>, find the <code>4</code> numbers closest to <code>3</code>.
+<strong>Explanation</strong>:</p>
+<ul>
+<li>The 4 closest numbers to <code>3</code> are <code>[2, 3, 4, 5]</code>.</li>
+<li>We use a <strong>max-heap</strong> to keep track of the closest numbers by calculating the distance from <code>x</code>.
+<strong>Python Code</strong>:</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> heapq
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_k_closest_numbers</span><span class="hljs-params">(nums, k, x)</span>:</span>
+    <span class="hljs-comment"># Step 1: Create a max-heap with (distance from x, value) tuples</span>
+    max_heap = []
+    <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> nums:
+        distance = abs(num - x)
+        heapq.heappush(max_heap, (-distance, -num))  <span class="hljs-comment"># Use negative values to simulate max-heap</span>
+        <span class="hljs-keyword">if</span> len(max_heap) &gt; k:
+            heapq.heappop(max_heap)
+    
+    <span class="hljs-comment"># Step 2: Extract elements from the heap and return them in sorted order</span>
+    result = [-num <span class="hljs-keyword">for</span> (_, num) <span class="hljs-keyword">in</span> max_heap]
+    <span class="hljs-keyword">return</span> sorted(result)
+
+<span class="hljs-comment"># Example usage</span>
+nums = [<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">4</span>, <span class="hljs-number">5</span>]
+k = <span class="hljs-number">4</span>
+x = <span class="hljs-number">3</span>
+print(find_k_closest_numbers(nums, k, x))  <span class="hljs-comment"># Output: [2, 3, 4, 5]</span>
+</div></code></pre>
+<h3 id="4-problem-16-find-k-largest-sums-from-pairs">4. Problem 16: Find k Largest Sums from Pairs</h3>
+<p><strong>Problem</strong>: Given arrays <code>[4, 2, 5]</code> and <code>[8, 0, 3]</code>, find the <code>3</code> largest sums of pairs formed by picking one element from each array.
+<strong>Explanation</strong>:</p>
+<ul>
+<li>Possible pairs: <code>(4+8, 4+0, 4+3, 2+8, 2+0, 2+3, 5+8, 5+0, 5+3)</code> resulting in sums <code>[12, 4, 7, 10, 2, 5, 13, 5, 8]</code>.</li>
+<li>The <code>3</code> largest sums are <code>[13, 12, 10]</code>.
+<strong>Python Code</strong>:</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> heapq
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_k_largest_sums</span><span class="hljs-params">(nums1, nums2, k)</span>:</span>
+    <span class="hljs-comment"># Step 1: Create a max-heap with all pair sums</span>
+    max_heap = []
+    <span class="hljs-keyword">for</span> num1 <span class="hljs-keyword">in</span> nums1:
+        <span class="hljs-keyword">for</span> num2 <span class="hljs-keyword">in</span> nums2:
+            heapq.heappush(max_heap, -(num1 + num2))
+    
+    <span class="hljs-comment"># Step 2: Extract top k sums</span>
+    result = []
+    <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(k):
+        result.append(-heapq.heappop(max_heap))
+    
+    <span class="hljs-keyword">return</span> result
+
+<span class="hljs-comment"># Example usage</span>
+nums1 = [<span class="hljs-number">4</span>, <span class="hljs-number">2</span>, <span class="hljs-number">5</span>]
+nums2 = [<span class="hljs-number">8</span>, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>]
+k = <span class="hljs-number">3</span>
+print(find_k_largest_sums(nums1, nums2, k))  <span class="hljs-comment"># Output: [13, 12, 10]</span>
+</div></code></pre>
+<h3 id="5-problem-20-find-k-closest-restaurants">5. Problem 20: Find k Closest Restaurants</h3>
+<p><strong>Problem</strong>: Given distances <code>[5.0, 2.3, 8.6, 3.7]</code>, find the <code>2</code> closest distances.
+<strong>Explanation</strong>:</p>
+<ul>
+<li>The 2 closest distances are <code>[2.3, 3.7]</code>.</li>
+<li>We use a <strong>max-heap</strong> to keep track of the closest <code>k</code> distances.
+<strong>Python Code</strong>:</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-keyword">import</span> heapq
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_k_closest_restaurants</span><span class="hljs-params">(distances, k)</span>:</span>
+    <span class="hljs-comment"># Step 1: Create a max-heap with the first k distances (negate to simulate max-heap)</span>
+    max_heap = [-dist <span class="hljs-keyword">for</span> dist <span class="hljs-keyword">in</span> distances[:k]]
+    heapq.heapify(max_heap)
+    
+    <span class="hljs-comment"># Step 2: Iterate over the remaining distances</span>
+    <span class="hljs-keyword">for</span> dist <span class="hljs-keyword">in</span> distances[k:]:
+        <span class="hljs-keyword">if</span> -dist &gt; max_heap[<span class="hljs-number">0</span>]:
+            heapq.heappop(max_heap)
+            heapq.heappush(max_heap, -dist)
+    
+    <span class="hljs-comment"># Step 3: Return the k closest distances</span>
+    <span class="hljs-keyword">return</span> [-dist <span class="hljs-keyword">for</span> dist <span class="hljs-keyword">in</span> max_heap]
+
+<span class="hljs-comment"># Example usage</span>
+distances = [<span class="hljs-number">5.0</span>, <span class="hljs-number">2.3</span>, <span class="hljs-number">8.6</span>, <span class="hljs-number">3.7</span>]
+k = <span class="hljs-number">2</span>
+print(find_k_closest_restaurants(distances, k))  <span class="hljs-comment"># Output: [2.3, 3.7]</span>
+</div></code></pre>
+<p>These detailed explanations and code examples should help you understand how to approach the Top-K Elements pattern effectively. Let me know if you need any further clarification!</p>
+
+</body>
+</html>

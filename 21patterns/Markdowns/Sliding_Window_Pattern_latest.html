@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sliding_Window_Pattern_latest.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p><strong>Sliding Window Comprehensive Guide for Coding Interviews</strong></p>
+<h3 id="1-core-concepts-and-coding-patterns">1. Core Concepts and Coding Patterns</h3>
+<p>The <strong>Sliding Window</strong> technique is a common method used to solve problems that involve arrays or lists, particularly when a continuous subarray or subset needs to be examined. The core idea is to maintain a window of elements over the input collection that &quot;slides&quot; from start to end, adjusting as needed to meet specific conditions. This technique is efficient in scenarios where the subarray length is dynamic or fixed and helps reduce the complexity compared to using nested loops.</p>
+<p><strong>Typical Use Cases</strong>:</p>
+<ul>
+<li>Finding the maximum or minimum sum of a subarray of fixed length.</li>
+<li>Finding a subarray that matches a condition (e.g., longest substring without repeating characters).</li>
+</ul>
+<h3 id="2-numeric-example">2. Numeric Example</h3>
+<p><strong>Example 1</strong>: Finding the maximum sum of a subarray of length 3 in an array.</p>
+<p>Given the array <code>[1, 3, 5, 2, 7, 6, 4]</code> and a window size of 3, the sliding window moves across the array as follows:</p>
+<ul>
+<li>Window 1: <code>[1, 3, 5]</code> - Sum = 9</li>
+<li>Window 2: <code>[3, 5, 2]</code> - Sum = 10</li>
+<li>Window 3: <code>[5, 2, 7]</code> - Sum = 14 (maximum)</li>
+<li>Window 4: <code>[2, 7, 6]</code> - Sum = 15 (maximum)</li>
+<li>Window 5: <code>[7, 6, 4]</code> - Sum = 17 (maximum)</li>
+</ul>
+<p>The final answer is <code>17</code>.</p>
+<h3 id="3-problem-identification-checklist">3. Problem Identification Checklist</h3>
+<p>To identify whether a problem can be solved with the sliding window technique, use the following guidelines:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Checklist</strong></th>
+<th><strong>Example Problem</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Requires processing of contiguous subarrays or substrings</td>
+<td>Find the maximum sum of a subarray of length <code>k</code>.</td>
+</tr>
+<tr>
+<td>Involves optimization of a subarray (e.g., maximum, minimum, shortest)</td>
+<td>Longest substring with distinct characters.</td>
+</tr>
+<tr>
+<td>Condition requires window expansion and contraction</td>
+<td>Smallest subarray with sum greater than a target.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-general-templates-with-comments">4. General Templates with Comments</h3>
+<h4 id="template-1-fixed-size-sliding-window">Template 1: Fixed-Size Sliding Window</h4>
+<p>This template is used when the window size is constant.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Function to find maximum sum of subarray of size k</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">max_sum_subarray</span><span class="hljs-params">(arr, k)</span>:</span>
+    <span class="hljs-comment"># Initializing variables</span>
+    max_sum = <span class="hljs-number">0</span>
+    window_sum = <span class="hljs-number">0</span>
+    n = len(arr)
+
+    <span class="hljs-comment"># Calculating the sum of the first window</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(k):
+        window_sum += arr[i]
+    max_sum = window_sum
+
+    <span class="hljs-comment"># Sliding the window over the rest of the array</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(k, n):
+        <span class="hljs-comment"># Slide the window to the right by subtracting the element going out of the window</span>
+        <span class="hljs-comment"># and adding the element coming into the window</span>
+        window_sum += arr[i] - arr[i - k]
+        max_sum = max(max_sum, window_sum)
+    
+    <span class="hljs-keyword">return</span> max_sum
+</div></code></pre>
+<p><strong>Use Cases</strong>: Finding maximum/minimum sum or average of subarrays of fixed size.</p>
+<h4 id="template-2-dynamic-size-sliding-window">Template 2: Dynamic-Size Sliding Window</h4>
+<p>This template is used when the window size changes dynamically based on a condition.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Function to find the length of the smallest subarray with sum &gt;= target</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">min_length_subarray</span><span class="hljs-params">(arr, target)</span>:</span>
+    n = len(arr)
+    min_length = float(<span class="hljs-string">'inf'</span>)
+    window_sum = <span class="hljs-number">0</span>
+    left = <span class="hljs-number">0</span>
+
+    <span class="hljs-comment"># Expanding the window with the right pointer</span>
+    <span class="hljs-keyword">for</span> right <span class="hljs-keyword">in</span> range(n):
+        window_sum += arr[right]
+
+        <span class="hljs-comment"># Contract the window until the condition is met</span>
+        <span class="hljs-keyword">while</span> window_sum &gt;= target:
+            min_length = min(min_length, right - left + <span class="hljs-number">1</span>)
+            window_sum -= arr[left]
+            left += <span class="hljs-number">1</span>
+
+    <span class="hljs-keyword">return</span> min_length <span class="hljs-keyword">if</span> min_length != float(<span class="hljs-string">'inf'</span>) <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>
+</div></code></pre>
+<p><strong>Use Cases</strong>: Problems involving finding the shortest or longest subarray that meets certain criteria.</p>
+<h3 id="5-complexity-analysis">5. Complexity Analysis</h3>
+<ul>
+<li><strong>Fixed-Size Sliding Window</strong>:
+<ul>
+<li><strong>Time Complexity</strong>: O(n), since each element is processed once.</li>
+<li><strong>Space Complexity</strong>: O(1), as no extra space is used.</li>
+</ul>
+</li>
+<li><strong>Dynamic-Size Sliding Window</strong>:
+<ul>
+<li><strong>Time Complexity</strong>: O(n), each element is added and removed at most once.</li>
+<li><strong>Space Complexity</strong>: O(1).</li>
+</ul>
+</li>
+<li><strong>Optimization Opportunities</strong>: Ensure the window is adjusted as soon as the condition is met to minimize unnecessary operations.</li>
+</ul>
+<h3 id="6-discussion-on-templates-and-patterns">6. Discussion on Templates and Patterns</h3>
+<p>Sliding Window patterns can be adapted for many types of problems involving contiguous sequences. Adjustments are often needed, such as using hashmaps for character counts in strings or adjusting both pointers in tandem for more complex conditions.</p>
+<h3 id="7-multiple-approaches-and-implementations">7. Multiple Approaches and Implementations</h3>
+<ul>
+<li><strong>Iterative Approach</strong>: Typically used for the sliding window as it allows easy expansion and contraction of the window.</li>
+<li><strong>Recursive Approach</strong>: Rarely used for sliding window due to stack limitations and complexity in managing window boundaries.</li>
+</ul>
+<h3 id="8-practice-problems">8. Practice Problems</h3>
+<table>
+<thead>
+<tr>
+<th>S.No</th>
+<th>Question</th>
+<th>Example</th>
+<th>Difficulty Level</th>
+<th>Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Maximum sum of subarray of size k</td>
+<td>Given an array <code>[1, 2, 3, 4, 5]</code> and <code>k=3</code>, find the maximum sum of any subarray of length <code>k</code>. <strong>Output</strong>: <code>12</code> (subarray <code>[3, 4, 5]</code>).</td>
+<td>Easy</td>
+<td>Fixed-size window using basic sum update by adding the new element and removing the old element.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Longest substring without repeating characters</td>
+<td>Given the string <code>&quot;abcabcbb&quot;</code>, find the length of the longest substring without repeating characters. <strong>Output</strong>: <code>3</code> (substring <code>&quot;abc&quot;</code>).</td>
+<td>Medium</td>
+<td>Dynamic-size window using a set to track characters and two pointers to expand and shrink the window.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Smallest subarray with sum greater than target</td>
+<td>Given an array <code>[2, 1, 5, 2, 3, 2]</code> and <code>target=7</code>, find the length of the smallest subarray with a sum greater than <code>7</code>. <strong>Output</strong>: <code>2</code> (subarray <code>[5, 3]</code>).</td>
+<td>Medium</td>
+<td>Dynamic-size window with left and right pointers to expand and contract, maintaining a running sum.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Longest subarray with at most K distinct characters</td>
+<td>Given the string <code>&quot;eceba&quot;</code> and <code>k=2</code>, find the length of the longest subarray with at most 2 distinct characters. <strong>Output</strong>: <code>3</code> (substring <code>&quot;ece&quot;</code>).</td>
+<td>Hard</td>
+<td>Dynamic-size window using a hashmap to track character frequencies and count distinct characters.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Minimum window substring</td>
+<td>Given the string <code>&quot;ADOBECODEBANC&quot;</code> and target string <code>&quot;ABC&quot;</code>, find the minimum window that contains all characters of the target. <strong>Output</strong>: <code>&quot;BANC&quot;</code>.</td>
+<td>Hard</td>
+<td>Dynamic-size window using hashmap to track the frequency of target characters and maintain coverage.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Longest substring with at most two distinct characters</td>
+<td>Given the string <code>&quot;ccaabbb&quot;</code>, find the length of the longest substring with at most two distinct characters. <strong>Output</strong>: <code>5</code> (substring <code>&quot;aabbb&quot;</code>).</td>
+<td>Medium</td>
+<td>Dynamic-size window with a hashmap to track frequencies of characters and ensure at most two distinct ones are present.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Find all anagrams in a string</td>
+<td>Find all starting indices of anagrams of the string <code>&quot;abc&quot;</code> in <code>&quot;cbaebabacd&quot;</code>. <strong>Output</strong>: <code>[0, 6]</code>.</td>
+<td>Medium</td>
+<td>Dynamic-size window with a hashmap to track character counts and compare with the target frequency.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Longest repeating character replacement</td>
+<td>Given the string <code>&quot;AABABBA&quot;</code> and <code>k=1</code>, find the length of the longest substring after replacing at most <code>k</code> characters to make all characters the same. <strong>Output</strong>: <code>4</code> (substring <code>&quot;AABA&quot;</code> or <code>&quot;ABBA&quot;</code>).</td>
+<td>Medium</td>
+<td>Dynamic-size window while keeping track of the most frequent character count in the current window.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Subarrays with K different integers</td>
+<td>Given the array <code>[1, 2, 1, 2, 3]</code> and <code>k=2</code>, find the number of subarrays with exactly <code>k</code> different integers. <strong>Output</strong>: <code>7</code>.</td>
+<td>Hard</td>
+<td>Dynamic-size window with two pointers and two hashmaps to maintain and count distinct integers.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Longest substring with at most K distinct vowels</td>
+<td>Given the string <code>&quot;aeiouxxaeiouy&quot;</code> and <code>k=3</code>, find the length of the longest substring with at most <code>k</code> distinct vowels. <strong>Output</strong>: <code>7</code> (substring <code>&quot;aeiouxx&quot;</code>).</td>
+<td>Hard</td>
+<td>Dynamic-size window using a set to track vowels and a count of distinct vowels in the current window.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Maximum number of vowels in a substring of given length</td>
+<td>Given the string <code>&quot;abciiidef&quot;</code> and <code>k=3</code>, find the maximum number of vowels in any substring of length <code>k</code>. <strong>Output</strong>: <code>3</code> (substring <code>&quot;iii&quot;</code>).</td>
+<td>Medium</td>
+<td>Fixed-size window to count vowels in the first window and update the count as the window slides.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Longest continuous subarray with absolute difference &lt;= limit</td>
+<td>Given the array <code>[8, 2, 4, 7]</code> and <code>limit=4</code>, find the length of the longest continuous subarray with an absolute difference less than or equal to <code>4</code>. <strong>Output</strong>: <code>2</code> (subarray <code>[2, 4]</code> or <code>[4, 7]</code>).</td>
+<td>Medium</td>
+<td>Dynamic-size window using two deques to maintain the maximum and minimum elements efficiently.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Max consecutive ones III</td>
+<td>Given the binary array <code>[1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1]</code> and <code>k=2</code>, find the length of the longest subarray containing <code>1</code>s after flipping at most <code>k</code> zeroes. <strong>Output</strong>: <code>8</code>.</td>
+<td>Medium</td>
+<td>Dynamic-size window keeping track of zero count to ensure it doesn't exceed <code>k</code>.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Sliding window maximum</td>
+<td>Given the array <code>[1,3,-1,-3,5,3,6,7]</code> and <code>k=3</code>, find the maximum value in each sliding window of size <code>k</code>. <strong>Output</strong>: <code>[3, 3, 5, 5, 6, 7]</code>.</td>
+<td>Hard</td>
+<td>Fixed-size window using deque to maintain indices of maximum elements efficiently.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Longest subarray with sum at most K</td>
+<td>Given the array <code>[1, 2, 3, 4, 5]</code> and <code>k=10</code>, find the length of the longest subarray with a sum less than or equal to <code>10</code>. <strong>Output</strong>: <code>4</code> (subarray <code>[1, 2, 3, 4]</code>).</td>
+<td>Medium</td>
+<td>Dynamic-size window with left and right pointers to maintain the current sum.</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Maximum sum of two non-overlapping subarrays</td>
+<td>Given the array <code>[0,6,5,2,2,5,1,9,4]</code>, <code>firstLen=1</code>, <code>secondLen=2</code>, find the maximum sum of two non-overlapping subarrays. <strong>Output</strong>: <code>20</code> (subarrays <code>[9]</code> and <code>[6, 5]</code>).</td>
+<td>Hard</td>
+<td>Sliding window with prefix sums to track and optimize non-overlapping subarray sums.</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Count number of nice subarrays</td>
+<td>Given the array <code>[1,1,2,1,1]</code> and <code>k=3</code>, find the number of subarrays with exactly <code>k</code> odd numbers. <strong>Output</strong>: <code>2</code>.</td>
+<td>Medium</td>
+<td>Dynamic-size window using two pointers and counting odd numbers in the current window.</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Number of subarrays of size K and average greater than or equal to threshold</td>
+<td>Given the array <code>[2,1,3,4,1]</code>, <code>k=3</code>, and <code>threshold=3</code>, find the number of subarrays of size <code>k</code> with an average greater than or equal to the threshold. <strong>Output</strong>: <code>1</code>.</td>
+<td>Medium</td>
+<td>Fixed-size window calculating the sum and updating it as the window slides.</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Shortest subarray with sum at least K</td>
+<td>Given the array <code>[1, 2, 3, 4, 5]</code> and <code>k=11</code>, find the length of the shortest subarray with a sum greater than or equal to <code>11</code>. <strong>Output</strong>: <code>3</code> (subarray <code>[3, 4, 5]</code>).</td>
+<td>Hard</td>
+<td>Dynamic-size window using deque to maintain the current sum and minimize the window size.</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Maximum number of non-overlapping subarrays with sum equals target</td>
+<td>Given the array <code>[1,1,1,1,1]</code> and <code>target=2</code>, find the maximum number of non-overlapping subarrays with a sum equal to <code>2</code>. <strong>Output</strong>: <code>2</code>.</td>
+<td>Hard</td>
+<td>Sliding window with greedy approach to track non-overlapping subarrays.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Shortest subarray with sum exactly K</td>
+<td>Given the array <code>[1, 2, -1, 4, -2, 3]</code> and <code>k=5</code>, find the shortest subarray with a sum exactly equal to <code>5</code>. <strong>Output</strong>: <code>2</code> (subarray <code>[2, 3]</code>).</td>
+<td>Hard</td>
+<td>Dynamic-size window adjusting the sum and minimizing the length of the subarray.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Longest subarray with binary ones</td>
+<td>Given the binary array <code>[0,1,1,1,0,1,1,0,1]</code>, find the length of the longest subarray containing only <code>1</code>s. <strong>Output</strong>: <code>3</code>.</td>
+<td>Medium</td>
+<td>Dynamic-size window keeping track of zero count to ensure the window contains only <code>1</code>s.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Longest substring with at least K repeating characters</td>
+<td>Given the string <code>&quot;aaabb&quot;</code> and <code>k=3</code>, find the length of the longest substring in which each character appears at least <code>k</code> times. <strong>Output</strong>: <code>3</code> (substring <code>&quot;aaa&quot;</code>).</td>
+<td>Hard</td>
+<td>Dynamic-size window to expand and ensure character frequency meets the condition.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="9-key-takeaways-tips-and-summary">9. Key Takeaways, Tips, and Summary</h3>
+<ul>
+<li><strong>Key Takeaways</strong>: Sliding Window is best suited for contiguous subarray/substring problems where optimization or condition-checking is involved.</li>
+<li><strong>Practical Tips</strong>: Start with the simplest window and adjust dynamically; understand the problem requirements thoroughly.</li>
+<li><strong>Summary</strong>: Sliding Window is an efficient approach that reduces nested loops into linear time solutions by maintaining a moving subarray.</li>
+</ul>
+<h3 id="10-common-pitfalls">10. Common Pitfalls</h3>
+<ul>
+<li><strong>Mistakes to Avoid</strong>: Forgetting to shrink the window properly, resulting in incorrect answers or infinite loops.</li>
+<li><strong>Troubleshooting Tips</strong>: Always check boundary conditions, especially when moving the <code>left</code> pointer in dynamic-size windows.</li>
+</ul>
+<h3 id="explanation-for-%22longest-substring-with-at-most-k-distinct-vowels%22">Explanation for &quot;Longest Substring with at most K Distinct Vowels&quot;</h3>
+<p><strong>Problem Statement</strong>:
+Given a string, you need to find the longest substring that contains at most <code>K</code> distinct vowels.</p>
+<p><strong>Example</strong>:
+Given the string <code>&quot;aeiouxxaeiouy&quot;</code> and <code>K = 3</code>, you want to find the length of the longest substring that contains no more than 3 distinct vowels.</p>
+<p><strong>Output</strong>: <code>7</code> (substring <code>&quot;aeiouxx&quot;</code>)</p>
+<p>The substring <code>&quot;aeiouxx&quot;</code> has 3 distinct vowels (<code>a, e, i</code>) and is the longest such substring within the given string.</p>
+<p><strong>Approach</strong>:
+This problem can be efficiently solved using a dynamic sliding window approach, where two pointers (<code>left</code> and <code>right</code>) are used to maintain a window over the input string. We use a set or a hashmap to keep track of the distinct vowels in the current window, expanding the window with the right pointer and contracting from the left when the number of distinct vowels exceeds <code>K</code>.</p>
+<p><strong>Python Code with Comments</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">longest_substring_k_vowels</span><span class="hljs-params">(s, k)</span>:</span>
+    <span class="hljs-comment"># Initialize pointers and variables</span>
+    left = <span class="hljs-number">0</span>
+    max_length = <span class="hljs-number">0</span>
+    vowel_count = {}
+    
+    vowels = set(<span class="hljs-string">'aeiou'</span>)
+    
+    <span class="hljs-comment"># Iterate over the string with the right pointer</span>
+    <span class="hljs-keyword">for</span> right <span class="hljs-keyword">in</span> range(len(s)):
+        char = s[right]
+        
+        <span class="hljs-comment"># If the character is a vowel, add it to the count dictionary</span>
+        <span class="hljs-keyword">if</span> char <span class="hljs-keyword">in</span> vowels:
+            <span class="hljs-keyword">if</span> char <span class="hljs-keyword">not</span> <span class="hljs-keyword">in</span> vowel_count:
+                vowel_count[char] = <span class="hljs-number">0</span>
+            vowel_count[char] += <span class="hljs-number">1</span>
+        
+        <span class="hljs-comment"># Check if the number of distinct vowels exceeds k</span>
+        <span class="hljs-keyword">while</span> len(vowel_count) &gt; k:
+            left_char = s[left]
+            <span class="hljs-keyword">if</span> left_char <span class="hljs-keyword">in</span> vowel_count:
+                vowel_count[left_char] -= <span class="hljs-number">1</span>
+                <span class="hljs-comment"># Remove from dictionary if count reaches zero</span>
+                <span class="hljs-keyword">if</span> vowel_count[left_char] == <span class="hljs-number">0</span>:
+                    <span class="hljs-keyword">del</span> vowel_count[left_char]
+            left += <span class="hljs-number">1</span>  <span class="hljs-comment"># Contract the window from the left</span>
+
+        <span class="hljs-comment"># Update the maximum length of the window</span>
+        max_length = max(max_length, right - left + <span class="hljs-number">1</span>)
+
+    <span class="hljs-keyword">return</span> max_length
+
+<span class="hljs-comment"># Example usage</span>
+s = <span class="hljs-string">"aeiouxxaeiouy"</span>
+k = <span class="hljs-number">3</span>
+print(longest_substring_k_vowels(s, k))  <span class="hljs-comment"># Output: 7</span>
+</div></code></pre>
+<p>The approach ensures that we efficiently find the longest substring by expanding and contracting the window, avoiding unnecessary nested loops.</p>
+<h3 id="explanation-for-%22max-consecutive-ones-iii%22">Explanation for &quot;Max Consecutive Ones III&quot;</h3>
+<p><strong>Problem Statement</strong>:
+You are given a binary array (an array consisting of only <code>0</code>s and <code>1</code>s) and an integer <code>k</code>. You need to find the length of the longest subarray that contains only <code>1</code>s after flipping at most <code>k</code> zeroes.</p>
+<p><strong>Example</strong>:
+Given the binary array <code>[1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1]</code> and <code>k = 2</code>, you want to find the length of the longest subarray that contains only <code>1</code>s after flipping at most <code>2</code> zeroes.</p>
+<p><strong>Output</strong>: <code>8</code></p>
+<p>The longest subarray that meets the condition is <code>[1, 1, 1, 1, 1, 1, 1, 1]</code>, which can be obtained by flipping two <code>0</code>s to <code>1</code>s.</p>
+<p><strong>Approach</strong>:
+To solve this problem efficiently, we can use a sliding window approach with two pointers (<code>left</code> and <code>right</code>). We expand the window by moving the <code>right</code> pointer and count how many <code>0</code>s are in the current window. If the count of <code>0</code>s exceeds <code>k</code>, we shrink the window by moving the <code>left</code> pointer until the count is <code>&lt;= k</code>. This approach ensures that we find the longest window that satisfies the condition.</p>
+<p><strong>Python Code with Explanation</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">longest_ones</span><span class="hljs-params">(arr, k)</span>:</span>
+    <span class="hljs-comment"># Initialize pointers and variables</span>
+    left = <span class="hljs-number">0</span>
+    max_length = <span class="hljs-number">0</span>
+    zero_count = <span class="hljs-number">0</span>
+
+    <span class="hljs-comment"># Expand the window with the right pointer</span>
+    <span class="hljs-keyword">for</span> right <span class="hljs-keyword">in</span> range(len(arr)):
+        <span class="hljs-comment"># If the current element is 0, increment the zero count</span>
+        <span class="hljs-keyword">if</span> arr[right] == <span class="hljs-number">0</span>:
+            zero_count += <span class="hljs-number">1</span>
+
+        <span class="hljs-comment"># If the number of zeros exceeds k, shrink the window from the left</span>
+        <span class="hljs-keyword">while</span> zero_count &gt; k:
+            <span class="hljs-keyword">if</span> arr[left] == <span class="hljs-number">0</span>:
+                zero_count -= <span class="hljs-number">1</span>
+            left += <span class="hljs-number">1</span>  <span class="hljs-comment"># Move the left pointer to the right to shrink the window</span>
+
+        <span class="hljs-comment"># Update the maximum length of the window that contains at most k zeros</span>
+        max_length = max(max_length, right - left + <span class="hljs-number">1</span>)
+
+    <span class="hljs-keyword">return</span> max_length
+
+<span class="hljs-comment"># Example usage</span>
+arr = [<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>]
+k = <span class="hljs-number">2</span>
+print(longest_ones(arr, k))  <span class="hljs-comment"># Output: 8</span>
+</div></code></pre>
+<p>This approach has a time complexity of <code>O(n)</code> since each element is processed at most twice (once by the <code>right</code> pointer and once by the <code>left</code> pointer), and a space complexity of <code>O(1)</code> as it uses only a fixed amount of extra space.</p>
+<h3 id="explanation-for-%22longest-substring-without-repeating-characters%22">Explanation for &quot;Longest Substring Without Repeating Characters&quot;</h3>
+<p><strong>Problem Statement</strong>:
+You are given a string, and you need to find the length of the longest substring that contains no repeating characters.</p>
+<p><strong>Example</strong>:
+For the string <code>&quot;abcabcbb&quot;</code>, you want to find the length of the longest substring that has no repeating characters.</p>
+<p><strong>Output</strong>: <code>3</code></p>
+<p>The longest substring without repeating characters is <code>&quot;abc&quot;</code>, which has a length of <code>3</code>.</p>
+<p><strong>Approach</strong>:
+To solve this problem, we can use a sliding window approach with two pointers (<code>left</code> and <code>right</code>). We expand the window by moving the <code>right</code> pointer and add characters to a set to keep track of the unique characters in the current window. If a character is repeated, we move the <code>left</code> pointer to remove characters from the set until there are no more duplicates.</p>
+<p><strong>Python Code with Explanation</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">longest_substring_without_repeating</span><span class="hljs-params">(s)</span>:</span>
+    <span class="hljs-comment"># Initialize pointers and a set to track unique characters</span>
+    left = <span class="hljs-number">0</span>
+    max_length = <span class="hljs-number">0</span>
+    char_set = set()
+
+    <span class="hljs-comment"># Iterate with the right pointer over the string</span>
+    <span class="hljs-keyword">for</span> right <span class="hljs-keyword">in</span> range(len(s)):
+        <span class="hljs-comment"># If the character at the right pointer is already in the set, move the left pointer to remove duplicates</span>
+        <span class="hljs-keyword">while</span> s[right] <span class="hljs-keyword">in</span> char_set:
+            char_set.remove(s[left])
+            left += <span class="hljs-number">1</span>
+
+        <span class="hljs-comment"># Add the character at the right pointer to the set</span>
+        char_set.add(s[right])
+
+        <span class="hljs-comment"># Update the maximum length of the window</span>
+        max_length = max(max_length, right - left + <span class="hljs-number">1</span>)
+
+    <span class="hljs-keyword">return</span> max_length
+
+<span class="hljs-comment"># Example usage</span>
+s = <span class="hljs-string">"abcabcbb"</span>
+print(longest_substring_without_repeating(s))  <span class="hljs-comment"># Output: 3</span>
+</div></code></pre>
+<p>This approach has a time complexity of <code>O(n)</code> because each character is processed at most twice (once by the <code>right</code> pointer and once by the <code>left</code> pointer) and a space complexity of <code>O(min(n, m))</code>, where <code>n</code> is the length of the string and <code>m</code> is the size of the character set, due to the usage of the set to track unique characters.</p>
+
+</body>
+</html>

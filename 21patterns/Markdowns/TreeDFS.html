@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TreeDFS.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="tree-depth-first-search-dfs-overview">Tree Depth First Search (DFS) Overview</h1>
+<p>Tree Depth First Search (DFS) is a technique used to traverse trees or graphs by exploring each branch as deeply as possible before backtracking. In trees, this approach allows you to fully explore a node's descendants before moving to another branch. DFS is particularly effective for problems where you need to visit all nodes, find paths, or reach specific leaf nodes to apply conditions or calculations.</p>
+<h2 id="different-tree-traversal-techniques">Different Tree Traversal Techniques</h2>
+<p>Tree traversal techniques are used to explore or visit all the nodes in a tree. Here are some common traversal techniques:</p>
+<h3 id="depth-first-search-dfs">Depth First Search (DFS)</h3>
+<p>DFS explores as far as possible along each branch before backtracking. It has three main types:</p>
+<ol>
+<li><strong>Preorder Traversal (Root-Left-Right)</strong>: Visit the root node first, then recursively visit the left subtree, followed by the right subtree. For example, in the tree below:</li>
+</ol>
+<pre class="hljs"><code><div>    1
+   / \
+  2   3
+ / \
+4   5
+</div></code></pre>
+<p>The Preorder Traversal would be: 1, 2, 4, 5, 3.</p>
+<ol start="2">
+<li><strong>In-order Traversal (Left-Root-Right)</strong>: Recursively visit the left subtree, then visit the root node, and finally the right subtree. This traversal is particularly useful for binary search trees to retrieve nodes in sorted order.</li>
+</ol>
+<p>For example, in the tree below:</p>
+<pre class="hljs"><code><div>    1
+   / \
+  2   3
+ / \
+4   5
+</div></code></pre>
+<p>The In-order Traversal would be: 4, 2, 5, 1, 3.</p>
+<ol start="3">
+<li><strong>Post-order Traversal (Left-Right-Root)</strong>: Recursively visit the left subtree, then the right subtree, and finally visit the root node. This is useful for deleting nodes in a tree.</li>
+</ol>
+<p>For example, in the tree below:</p>
+<pre class="hljs"><code><div>    1
+   / \
+  2   3
+ / \
+4   5
+</div></code></pre>
+<p>The Post-order Traversal would be: 4, 5, 2, 3, 1.</p>
+<h3 id="breadth-first-search-bfs">Breadth First Search (BFS)</h3>
+<p>BFS explores nodes <strong>level by level</strong>, from top to bottom. It uses a <strong>queue</strong> to keep track of nodes at each level and is useful for finding the shortest path in unweighted graphs or trees.</p>
+<h2 id="checklist-to-determine-if-a-problem-belongs-to-tree-dfs">Checklist to Determine if a Problem Belongs to Tree DFS</h2>
+<table>
+<thead>
+<tr>
+<th>Checklist Criteria</th>
+<th>Example</th>
+<th>Interview Question Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Traversal or Path Search</strong></td>
+<td>The problem asks for traversing the entire tree or finding specific paths.</td>
+<td><strong>Question</strong>: Given a binary tree, write a function that prints the preorder traversal of its nodes.</td>
+</tr>
+<tr>
+<td><strong>All Possible Solutions</strong></td>
+<td>The problem involves finding all possible solutions rather than just one (e.g., all root-to-leaf paths).</td>
+<td><strong>Question</strong>: Given a binary tree, find all paths from the root to the leaf nodes.</td>
+</tr>
+<tr>
+<td><strong>Recursive Structure</strong></td>
+<td>Trees naturally have recursive structures, so problems that can be broken down into smaller subproblems (e.g., solving the problem for left and right subtrees) may use DFS.</td>
+<td><strong>Question</strong>: Given a binary tree, write a function that computes the maximum depth of the tree.</td>
+</tr>
+<tr>
+<td><strong>Path-Related Computations</strong></td>
+<td>Problems where conditions depend on paths from root to nodes, such as path sums, longest paths, etc., are good candidates for DFS.</td>
+<td><strong>Question</strong>: Find if there is a root-to-leaf path in a binary tree with a given sum.</td>
+</tr>
+</tbody>
+</table>
+<h2 id="tree-dfs-templates">Tree DFS Templates</h2>
+<p>Tree DFS can be implemented in three common ways: using recursion, using an iterative approach with a stack, or using Morris Traversal for in-order without extra space. Below, the first two templates are described:</p>
+<h3 id="recursive-dfs-template">Recursive DFS Template</h3>
+<p>The recursive approach to DFS is natural for tree structures, as each node's children can be explored through successive recursive calls. Here's a basic recursive template for Tree DFS:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Recursive DFS Template</span>
+<span class="hljs-comment"># PRE-ORDER traversal</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs_recursive</span><span class="hljs-params">(node)</span>:</span>
+    <span class="hljs-keyword">if</span> node <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+        <span class="hljs-keyword">return</span>
+
+    <span class="hljs-comment"># Process the current node (if required)</span>
+    process_node(node)
+
+    <span class="hljs-comment"># Traverse the left subtree</span>
+    dfs_recursive(node.left)
+
+    <span class="hljs-comment"># Traverse the right subtree</span>
+    dfs_recursive(node.right)
+
+<span class="hljs-comment"># Time Complexity: O(N) - where N is the number of nodes in the tree, as each node is visited once.</span>
+<span class="hljs-comment"># Space Complexity: O(H) - where H is the height of the tree, due to the recursion stack.</span>
+</div></code></pre>
+<h3 id="iterative-dfs-template-using-stack">Iterative DFS Template (Using Stack)</h3>
+<p>The iterative approach uses an explicit stack to simulate the recursive calls. This is useful when you want to avoid Python's recursion depth limitations.</p>
+<h4 id="space-and-time-complexity">Space and Time Complexity</h4>
+<ul>
+<li><strong>Time Complexity</strong>: O(N), where N is the number of nodes in the tree, as each node is visited once.</li>
+<li><strong>Space Complexity</strong>: O(H), where H is the height of the tree. In the worst case, the height can be equal to the number of nodes (O(N)) for skewed trees.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-comment"># Iterative DFS using a Stack</span>
+<span class="hljs-comment"># Preorder traversal</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs_iterative</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-keyword">if</span> root <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+        <span class="hljs-keyword">return</span>
+
+    stack = [(root, [root.val])]
+    <span class="hljs-keyword">while</span> stack:
+        node, path = stack.pop()
+
+        <span class="hljs-comment"># If it's a leaf node, perform any specific operation</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> node.left <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> node.right:
+            process_path(path)
+
+        <span class="hljs-comment"># Traverse the right and left child (right first, so that left is processed first)</span>
+        <span class="hljs-keyword">if</span> node.right:
+            stack.append((node.right, path + [node.right.val]))
+        <span class="hljs-keyword">if</span> node.left:
+            stack.append((node.left, path + [node.left.val]))
+</div></code></pre>
+<p>The basic structure usually involves traversing to the left child and right child, then backtracking to undo changes for the current node to reset for the next traversal.</p>
+<h2 id="examples-of-problems-using-tree-dfs">Examples of Problems Using Tree DFS</h2>
+<h3 id="example-1-path-sum-using-recursive-template">Example 1: Path Sum (Using Recursive Template)</h3>
+<p><strong>Problem Statement</strong>: Given a binary tree and a sum, determine if the tree has a root-to-leaf path such that adding up all the values along the path equals the given sum.</p>
+<p><strong>Recursive Approach</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Recursive DFS for Path Sum</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">has_path_sum_recursive</span><span class="hljs-params">(node, target_sum)</span>:</span>
+    <span class="hljs-keyword">if</span> node <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+
+    <span class="hljs-comment"># If it's a leaf node, check if the path sum equals the target sum</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> node.left <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> node.right <span class="hljs-keyword">and</span> target_sum == node.val:
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+
+    <span class="hljs-comment"># Recurse down to left and right children with updated sum</span>
+    <span class="hljs-keyword">return</span> (has_path_sum_recursive(node.left, target_sum - node.val) <span class="hljs-keyword">or</span>
+            has_path_sum_recursive(node.right, target_sum - node.val))
+</div></code></pre>
+<h3 id="example-2-all-paths-from-root-to-leaf-using-recursive-and-iterative-templates">Example 2: All Paths From Root to Leaf (Using Recursive and Iterative Templates)</h3>
+<p><strong>Problem Statement</strong>: Given a binary tree, return all root-to-leaf paths.</p>
+<p><strong>Recursive Approach</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Recursive DFS for All Paths From Root to Leaf</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">all_paths_recursive</span><span class="hljs-params">(node)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs</span><span class="hljs-params">(node, path, result)</span>:</span>
+        <span class="hljs-keyword">if</span> node <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+            <span class="hljs-keyword">return</span>
+
+        path.append(str(node.val))
+
+        <span class="hljs-comment"># If it's a leaf node, add the path to the result</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> node.left <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> node.right:
+            result.append(<span class="hljs-string">"-&gt;"</span>.join(path))
+        <span class="hljs-keyword">else</span>:
+            dfs(node.left, path, result)
+            dfs(node.right, path, result)
+
+        <span class="hljs-comment"># Backtrack</span>
+        path.pop()
+
+    result = []
+    dfs(node, [], result)
+    <span class="hljs-keyword">return</span> result
+</div></code></pre>
+<p><strong>Iterative Approach</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Iterative DFS for All Paths From Root to Leaf</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">all_paths_iterative</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-keyword">if</span> root <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+        <span class="hljs-keyword">return</span> []
+
+    stack = [(root, [str(root.val)])]
+    result = []
+
+    <span class="hljs-keyword">while</span> stack:
+        node, path = stack.pop()
+
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> node.left <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> node.right:
+            result.append(<span class="hljs-string">"-&gt;"</span>.join(path))
+
+        <span class="hljs-keyword">if</span> node.right:
+            stack.append((node.right, path + [str(node.right.val)]))
+        <span class="hljs-keyword">if</span> node.left:
+            stack.append((node.left, path + [str(node.left.val)]))
+
+    <span class="hljs-keyword">return</span> result
+</div></code></pre>
+<p><strong>Numeric Example</strong>:
+Consider the following binary tree:</p>
+<pre class="hljs"><code><div>    1
+   / \
+  2   3
+ / \
+4   5
+</div></code></pre>
+<ul>
+<li><strong>Recursive Approach</strong>: The paths from root to leaf are: <code>1-&gt;2-&gt;4</code>, <code>1-&gt;2-&gt;5</code>, and <code>1-&gt;3</code>.</li>
+<li><strong>Iterative Approach</strong>: Using the stack, we get the same paths: <code>1-&gt;2-&gt;4</code>, <code>1-&gt;2-&gt;5</code>, and <code>1-&gt;3</code>.</li>
+</ul>
+<h3 id="example-3-maximum-path-sum-using-recursive-template">Example 3: Maximum Path Sum (Using Recursive Template)</h3>
+<p><strong>Problem Statement</strong>: Find the maximum path sum in a binary tree. The path can start and end at any node.</p>
+<p><strong>Recursive Approach</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Recursive DFS for Maximum Path Sum</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">max_path_sum_recursive</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs</span><span class="hljs-params">(node)</span>:</span>
+        <span class="hljs-keyword">nonlocal</span> max_sum
+        <span class="hljs-keyword">if</span> node <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+
+        <span class="hljs-comment"># Calculate the maximum path sum for the left and right children</span>
+        left_max = max(dfs(node.left), <span class="hljs-number">0</span>)
+        right_max = max(dfs(node.right), <span class="hljs-number">0</span>)
+
+        <span class="hljs-comment"># Update the global maximum path sum</span>
+        current_sum = node.val + left_max + right_max
+        max_sum = max(max_sum, current_sum)
+
+        <span class="hljs-comment"># Return the maximum gain from continuing the path</span>
+        <span class="hljs-keyword">return</span> node.val + max(left_max, right_max)
+
+    max_sum = float(<span class="hljs-string">'-inf'</span>)
+    dfs(root)
+    <span class="hljs-keyword">return</span> max_sum
+</div></code></pre>
+<h2 id="key-takeaways-for-tree-dfs">Key Takeaways for Tree DFS</h2>
+<ul>
+<li><strong>Template Usage</strong>: The basic template for DFS remains similar across problems; however, specifics like how to process nodes, the conditions for leaf nodes, and what to do during backtracking will change.</li>
+<li><strong>Recursive vs Iterative</strong>: Recursive solutions are more natural for trees, but iterative solutions can avoid recursion limits in Python.</li>
+<li><strong>Path Storage</strong>: Often, DFS requires storing the current path, especially if the problem requires outputting or processing the path from the root to a leaf node.</li>
+<li><strong>Global Variables</strong>: For problems like finding the maximum path sum, a global variable (<code>nonlocal</code> or a class-level variable) is often used to track the maximum value across all recursive calls.</li>
+</ul>
+<h2 id="practice-problems">Practice Problems</h2>
+<table>
+<thead>
+<tr>
+<th>S.No</th>
+<th>Question</th>
+<th>Numeric Example</th>
+<th>Difficulty Level</th>
+<th>Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Path Sum II: Find all paths from root to leaf that sum to a given value.</td>
+<td>Given tree: <code>1 -&gt; 2 -&gt; 4, 5; 1 -&gt; 3</code> with sum 7</td>
+<td>Medium</td>
+<td>Recursive/Iterative</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Diameter of Binary Tree: Use DFS to calculate the diameter (longest path between any two nodes).</td>
+<td>Binary tree with nodes <code>1, 2, 3, 4, 5</code></td>
+<td>Medium</td>
+<td>Recursive</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Lowest Common Ancestor: Find the lowest common ancestor of two nodes in a binary tree using DFS.</td>
+<td>Nodes <code>4 and 5</code> in a tree <code>1, 2, 3, 4, 5</code></td>
+<td>Medium</td>
+<td>Recursive</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Binary Tree Maximum Path Sum</td>
+<td>Find max path in tree <code>1 -&gt; 2 -&gt; 3, 4 -&gt; 5</code></td>
+<td>Hard</td>
+<td>Recursive</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Binary Tree All Paths</td>
+<td>Find all paths in tree <code>1 -&gt; 2 -&gt; 4, 5; 1 -&gt; 3</code></td>
+<td>Easy</td>
+<td>Recursive/Iterative</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Count Good Nodes in Binary Tree</td>
+<td>Count good nodes in tree <code>3 -&gt; 1 -&gt; 4, 5</code></td>
+<td>Medium</td>
+<td>Recursive/Iterative</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Binary Tree Right Side View</td>
+<td>Find right side view of tree <code>1 -&gt; 2, 3 -&gt; 4, 5</code></td>
+<td>Medium</td>
+<td>Iterative</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Flatten Binary Tree to Linked List</td>
+<td>Flatten tree <code>1 -&gt; 2, 3 -&gt; 4, 5, 6</code> to linked list</td>
+<td>Medium</td>
+<td>Recursive</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Sum Root to Leaf Numbers</td>
+<td>Calculate sum of all numbers from root to leaf in tree <code>1 -&gt; 2, 3 -&gt; 4, 5</code></td>
+<td>Medium</td>
+<td>Recursive/Iterative</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Validate Binary Search Tree</td>
+<td>Validate if tree <code>2 -&gt; 1, 3</code> is a BST</td>
+<td>Medium</td>
+<td>Recursive/Iterative</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<p><strong>Path Sum II: Find all paths from root to leaf that sum to a given value</strong></p>
+<p>To solve the <strong>Path Sum II</strong> problem, the goal is to find <strong>all paths</strong> in a binary tree where the sum of the nodes along each path is equal to a given target value. Unlike the basic path sum problem, this requires capturing <strong>all possible root-to-leaf paths</strong> that match the sum condition.</p>
+<h3 id="numeric-example"><strong>Numeric Example</strong></h3>
+<p>Consider the following binary tree:</p>
+<pre class="hljs"><code><div>    5
+   / \
+  4   8
+ /   / \
+11  13  4
+/ \      \
+7  2      1
+</div></code></pre>
+<ul>
+<li>
+<p><strong>Target Sum</strong>: 22</p>
+</li>
+<li>
+<p><strong>Paths that meet the sum</strong>:</p>
+<ul>
+<li><code>5 -&gt; 4 -&gt; 11 -&gt; 2</code></li>
+<li><code>5 -&gt; 8 -&gt; 4 -&gt; 5</code></li>
+</ul>
+</li>
+</ul>
+<h3 id="recursive-approach"><strong>Recursive Approach</strong></h3>
+<p>This approach uses Depth First Search (DFS) recursively, starting from the root node. It keeps track of the current path and checks at each leaf node if the path sum equals the target sum.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Recursive DFS for Path Sum II</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">path_sum_recursive</span><span class="hljs-params">(node, target_sum)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs</span><span class="hljs-params">(node, current_path, remaining_sum)</span>:</span>
+        <span class="hljs-keyword">if</span> node <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+            <span class="hljs-keyword">return</span>
+
+        <span class="hljs-comment"># Add the current node to the path</span>
+        current_path.append(node.val)
+
+        <span class="hljs-comment"># If it's a leaf node and the remaining sum equals the node's value</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> node.left <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> node.right <span class="hljs-keyword">and</span> remaining_sum == node.val:
+            result.append(list(current_path))
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-comment"># Recurse to left and right children with updated remaining sum</span>
+            dfs(node.left, current_path, remaining_sum - node.val)
+            dfs(node.right, current_path, remaining_sum - node.val)
+
+        <span class="hljs-comment"># Backtrack: remove the current node from the path</span>
+        current_path.pop()
+
+    result = []
+    dfs(node, [], target_sum)
+    <span class="hljs-keyword">return</span> result
+</div></code></pre>
+<h3 id="iterative-approach"><strong>Iterative Approach</strong></h3>
+<p>This approach uses an <strong>explicit stack</strong> to simulate the recursive calls and to store paths. Each entry in the stack stores the current node, the path leading to it, and the remaining target sum.</p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Iterative DFS for Path Sum II</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">path_sum_iterative</span><span class="hljs-params">(root, target_sum)</span>:</span>
+    <span class="hljs-keyword">if</span> root <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+        <span class="hljs-keyword">return</span> []
+
+    stack = [(root, [root.val], target_sum - root.val)]
+    result = []
+
+    <span class="hljs-keyword">while</span> stack:
+        node, current_path, remaining_sum = stack.pop()
+
+        <span class="hljs-comment"># If it's a leaf node and the remaining sum equals zero, add the path to the result</span>
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> node.left <span class="hljs-keyword">and</span> <span class="hljs-keyword">not</span> node.right <span class="hljs-keyword">and</span> remaining_sum == <span class="hljs-number">0</span>:
+            result.append(list(current_path))
+
+        <span class="hljs-comment"># Traverse right and left child (right first, so left is processed first)</span>
+        <span class="hljs-keyword">if</span> node.right:
+            stack.append((node.right, current_path + [node.right.val], remaining_sum - node.right.val))
+        <span class="hljs-keyword">if</span> node.left:
+            stack.append((node.left, current_path + [node.left.val], remaining_sum - node.left.val))
+
+    <span class="hljs-keyword">return</span> result
+</div></code></pre>
+<hr>
+<p><strong>Diameter of Binary Tree: Use DFS to calculate the diameter (longest path between any two nodes)</strong></p>
+<p>In the context of a binary tree, the <strong>diameter</strong> is defined as the <strong>longest path between any two nodes</strong>. This path may or may not pass through the root of the tree. The diameter is not simply the height of the tree but can be calculated by measuring the length of the longest possible path.</p>
+<h3 id="how-dfs-helps-calculate-diameter"><strong>How DFS Helps Calculate Diameter</strong></h3>
+<ol>
+<li><strong>DFS Traversal</strong>: To find the diameter, you can use <strong>Depth First Search (DFS)</strong> to recursively compute the height of each subtree.</li>
+<li><strong>Tracking the Longest Path</strong>: At each node, the diameter could be the longest path through that node, which is calculated by adding the heights of its left and right subtrees.</li>
+<li><strong>Global Maximum</strong>: To determine the overall diameter, a <strong>global variable</strong> is maintained and updated whenever a new maximum path length is found.</li>
+</ol>
+<h3 id="approach"><strong>Approach</strong></h3>
+<ol>
+<li>Traverse the entire tree using DFS.</li>
+<li>For each node, calculate:
+<ul>
+<li><strong>Height of the left subtree</strong>.</li>
+<li><strong>Height of the right subtree</strong>.</li>
+</ul>
+</li>
+<li><strong>Diameter through the current node</strong>: This is the sum of the left and right subtree heights.</li>
+<li>Update the global maximum diameter with the current value if it is larger.</li>
+</ol>
+<h3 id="recursive-implementation-example"><strong>Recursive Implementation Example</strong></h3>
+<pre class="hljs"><code><div><span class="hljs-comment"># Recursive DFS to calculate the diameter of a binary tree</span>
+
+<span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">TreeNode</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, val=<span class="hljs-number">0</span>, left=None, right=None)</span>:</span>
+        self.val = val
+        self.left = left
+        self.right = right
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">diameter_of_binary_tree</span><span class="hljs-params">(root)</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dfs</span><span class="hljs-params">(node)</span>:</span>
+        <span class="hljs-keyword">nonlocal</span> diameter
+        <span class="hljs-keyword">if</span> node <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+            <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+
+        <span class="hljs-comment"># Recursively calculate the height of left and right subtrees</span>
+        left_height = dfs(node.left)
+        right_height = dfs(node.right)
+
+        <span class="hljs-comment"># Update the global diameter (the longest path through the current node)</span>
+        diameter = max(diameter, left_height + right_height)
+
+        <span class="hljs-comment"># Return the height of the subtree rooted at this node</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-number">1</span> + max(left_height, right_height)
+
+    diameter = <span class="hljs-number">0</span>
+    dfs(root)
+    <span class="hljs-keyword">return</span> diameter
+
+
+<span class="hljs-comment"># Example</span>
+<span class="hljs-comment"># Consider the following binary tree:</span>
+<span class="hljs-comment">#     1</span>
+<span class="hljs-comment">#    / \</span>
+<span class="hljs-comment">#   2   3</span>
+<span class="hljs-comment">#  / \</span>
+<span class="hljs-comment"># 4   5</span>
+<span class="hljs-comment"># The diameter of this tree is 3 (path: 4 -&gt; 2 -&gt; 1 -&gt; 3 or 5 -&gt; 2 -&gt; 1 -&gt; 3)</span>
+
+root = TreeNode(<span class="hljs-number">1</span>)
+root.left = TreeNode(<span class="hljs-number">2</span>)
+root.right = TreeNode(<span class="hljs-number">3</span>)
+root.left.left = TreeNode(<span class="hljs-number">4</span>)
+root.left.right = TreeNode(<span class="hljs-number">5</span>)
+
+print(diameter_of_binary_tree(root))  <span class="hljs-comment"># Output: 3</span>
+</div></code></pre>
+<p>In this example:</p>
+<ul>
+<li>The <strong>diameter</strong> of a binary tree is measured in <strong>edges</strong>, not nodes.</li>
+<li>The <strong>diameter</strong> is the longest path, which is <code>3</code> (either from <code>4 -&gt; 2 -&gt; 1 -&gt; 3</code> or from <code>5 -&gt; 2 -&gt; 1 -&gt; 3</code>).</li>
+<li>The <strong>DFS</strong> helps efficiently calculate both the height of each subtree and track the maximum diameter throughout the traversal.</li>
+</ul>
+<p>The recursive approach makes it easy to explore each subtree, calculate the required heights, and update the global maximum for the diameter in one traversal.</p>
+
+</body>
+</html>

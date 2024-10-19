@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sliding_Window_Pattern.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<p><strong>Sliding Window Concept Checklist</strong></p>
+<p>The sliding window technique is commonly used in problems that involve arrays or strings, where you need to process a contiguous subset of elements. It is especially useful for problems involving maximum, minimum, or sum operations over subarrays of a specific length. Below is a checklist to help identify when the sliding window approach is applicable, and a detailed explanation of how to approach these types of problems.</p>
+<p><strong>Example</strong>:</p>
+<p>Consider the array <code>[1, 3, 5, 7, 9, 11]</code> and a fixed-size sliding window of size <code>k = 3</code>. We want to find the maximum sum of any subarray of size <code>k</code>.</p>
+<ul>
+<li><strong>Initial Window</strong> (<code>left = 0</code>, <code>right = 2</code>): <code>[1, 3, 5]</code> → Sum = <code>1 + 3 + 5 = 9</code></li>
+<li><strong>Slide the Window</strong> (<code>left = 1</code>, <code>right = 3</code>): Move one position to the right → <code>[3, 5, 7]</code> → Sum = <code>3 + 5 + 7 = 15</code></li>
+<li><strong>Slide Again</strong> (<code>left = 2</code>, <code>right = 4</code>): Move one more position to the right → <code>[5, 7, 9]</code> → Sum = <code>5 + 7 + 9 = 21</code></li>
+<li><strong>Final Slide</strong> (<code>left = 3</code>, <code>right = 5</code>): <code>[7, 9, 11]</code> → Sum = <code>7 + 9 + 11 = 27</code></li>
+</ul>
+<p>The maximum sum of any subarray of size <code>k</code> is <code>27</code>.</p>
+<h3 id="checklist-to-identify-sliding-window-problems">Checklist to Identify Sliding Window Problems:</h3>
+<table>
+<thead>
+<tr>
+<th>Criteria</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Subarray/Subsequence Search</strong></td>
+<td>The problem asks for a subarray/subsequence of an array or string.</td>
+<td>Find the longest increasing subsequence in an array.  For example, given an array [10, 22, 9, 33, 21, 50, 41, 60, 80], the longest increasing subsequence is [10, 22, 33, 50, 60, 80], with a length of 6.</td>
+</tr>
+<tr>
+<td><strong>Contiguous Elements</strong></td>
+<td>The solution must involve elements that are contiguous.</td>
+<td>Find the maximum sum of a contiguous subarray of length <code>k</code>.</td>
+</tr>
+<tr>
+<td><strong>Fixed or Variable Size Window</strong></td>
+<td>You are interested in finding a fixed size or dynamic length subarray.</td>
+<td>Find the smallest subarray with a sum greater than or equal to a given value.</td>
+</tr>
+<tr>
+<td><strong>Max/Min/Sum Property</strong></td>
+<td>The problem involves finding the maximum, minimum, or sum of values in a subset of elements.</td>
+<td>Find the maximum sum of any subarray of size <code>k</code>.</td>
+</tr>
+<tr>
+<td><strong>Optimization Criteria</strong></td>
+<td>You need to optimize (maximize or minimize) a condition related to the subset of the array or string.</td>
+<td>Find the shortest subarray whose sum is greater than or equal to a target value.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="types-of-sliding-window">Types of Sliding Window:</h3>
+<table>
+<thead>
+<tr>
+<th>Sliding Window Type</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Fixed-size Sliding Window</strong></td>
+<td>The size of the window is fixed.</td>
+<td>Find the maximum sum of any subarray of size <code>k</code>.</td>
+</tr>
+<tr>
+<td><strong>Dynamic-size Sliding Window</strong></td>
+<td>The size of the window changes based on the condition.</td>
+<td>Find the smallest subarray whose sum is greater than a value.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="general-templates">General Templates</h3>
+<ol>
+<li>
+<p><strong>Fixed-Size Sliding Window Template</strong></p>
+<ul>
+<li>This template is useful when the size of the window is fixed, such as &quot;maximum sum of subarray of length k&quot;.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">fixed_size_sliding_window</span><span class="hljs-params">(arr, k)</span>:</span>
+    <span class="hljs-comment"># Initialize the maximum sum as 0</span>
+    max_sum = <span class="hljs-number">0</span>
+    <span class="hljs-comment"># Calculate the sum of the first 'k' elements (initial window)</span>
+    window_sum = sum(arr[:k])
+    <span class="hljs-comment"># Set the initial window sum as the current maximum sum</span>
+    max_sum = window_sum
+
+    <span class="hljs-comment"># Iterate through the rest of the array starting from index 'k'</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(k, len(arr)):
+        <span class="hljs-comment"># Update the window by adding the next element and removing the leftmost element</span>
+        window_sum += arr[i] - arr[i - k]
+        <span class="hljs-comment"># Update the maximum sum if the current window sum is greater</span>
+        max_sum = max(max_sum, window_sum)
+
+    <span class="hljs-comment"># Return the maximum sum found</span>
+    <span class="hljs-keyword">return</span> max_sum
+</div></code></pre>
+</li>
+<li>
+<p><strong>Dynamic-Size Sliding Window Template</strong></p>
+<ul>
+<li>This template is useful when the window size needs to change based on a condition, such as &quot;find the smallest subarray with a sum greater than or equal to a given value&quot;.</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">dynamic_size_sliding_window</span><span class="hljs-params">(arr, target)</span>:</span>
+    <span class="hljs-comment"># Initialize the current window sum as 0</span>
+    window_sum = <span class="hljs-number">0</span>
+    <span class="hljs-comment"># Initialize the left pointer of the window</span>
+    left = <span class="hljs-number">0</span>
+    <span class="hljs-comment"># Initialize the minimum length to infinity</span>
+    min_length = float(<span class="hljs-string">'inf'</span>)
+
+    <span class="hljs-comment"># Expand the window by moving the right pointer</span>
+    <span class="hljs-keyword">for</span> right <span class="hljs-keyword">in</span> range(len(arr)):
+        <span class="hljs-comment"># Add the current element to the window sum</span>
+        window_sum += arr[right]
+
+        <span class="hljs-comment"># Shrink the window from the left as long as the window sum is greater than or equal to the target</span>
+        <span class="hljs-keyword">while</span> window_sum &gt;= target:
+            <span class="hljs-comment"># Update the minimum length of the subarray</span>
+            min_length = min(min_length, right - left + <span class="hljs-number">1</span>)
+            <span class="hljs-comment"># Subtract the element at the left pointer from the window sum</span>
+            window_sum -= arr[left]
+            <span class="hljs-comment"># Move the left pointer to the right</span>
+            left += <span class="hljs-number">1</span>
+
+    <span class="hljs-comment"># Return the minimum length found, or 0 if no valid subarray was found</span>
+    <span class="hljs-keyword">return</span> min_length <span class="hljs-keyword">if</span> min_length != float(<span class="hljs-string">'inf'</span>) <span class="hljs-keyword">else</span> <span class="hljs-number">0</span>
+</div></code></pre>
+<ul>
+<li><strong>Explanation</strong>: The <code>right</code> pointer expands the window by moving to the right, while the <code>left</code> pointer shrinks the window when the condition is met. This helps in maintaining the minimum length of the subarray with the desired condition.</li>
+</ul>
+</li>
+</ol>
+<h3 id="summary">Summary</h3>
+<ul>
+<li><strong>Fixed-size Sliding Window</strong>: Used when the window size is fixed, and you need to compute something for all subarrays of that size.</li>
+<li><strong>Dynamic-size Sliding Window</strong>: Used when the window size changes based on a condition (e.g., sum, distinct elements).</li>
+</ul>
+<h3 id="tips">Tips</h3>
+<ul>
+<li><strong>Sliding Window Template</strong>: For fixed-size windows, maintain the sum or required value as you slide from left to right.</li>
+<li>For dynamic-size windows, use two pointers (<code>left</code> and <code>right</code>) to adjust the window size based on the condition.</li>
+<li>Practice identifying the problem type based on the keywords like &quot;subarray&quot;, &quot;contiguous&quot;, &quot;sum&quot;, &quot;maximum&quot;, or &quot;minimum&quot;.</li>
+</ul>
+<p>Using the templates provided above can help solve many sliding window problems efficiently. However, each problem may require minor adjustments, especially in the condition used for expanding or shrinking the window.</p>
+<h3 id="sliding-window-problems-and-approaches">Sliding Window Problems and Approaches</h3>
+<table>
+<thead>
+<tr>
+<th>S.No</th>
+<th>Question</th>
+<th>Numeric Example</th>
+<th>Difficulty Level</th>
+<th>Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Find the maximum sum of a subarray of length <code>k</code>.</td>
+<td>Array: <code>[1, 2, 3, 4, 5, 6, 7, 8, 9]</code>, <code>k = 3</code> → Output: <code>24</code> (subarray <code>[7, 8, 9]</code>)</td>
+<td>Easy</td>
+<td>Use a fixed-size sliding window to maintain the sum of the subarray, iterate through the array, adding the next element and removing the leftmost element.</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Find the smallest subarray with a sum greater than or equal to a given value.</td>
+<td>Array: <code>[2, 1, 5, 2, 3, 2]</code>, Target: <code>7</code> → Output: <code>2</code> (subarray <code>[5, 2]</code>)</td>
+<td>Medium</td>
+<td>Use a dynamic-size sliding window, expand the window to reach the target sum, and then shrink it from the left to find the minimum length.</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Find the longest substring with at most <code>k</code> distinct characters.</td>
+<td>String: <code>&quot;eceba&quot;</code>, <code>k = 2</code> → Output: <code>3</code> (substring <code>&quot;ece&quot;</code>)</td>
+<td>Medium</td>
+<td>Use a dynamic-size sliding window, track character frequencies, and adjust the left pointer when distinct character count exceeds <code>k</code>.</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Find the maximum number of vowels in a substring of length <code>k</code>.</td>
+<td>String: <code>&quot;abciiidef&quot;</code>, <code>k = 3</code> → Output: <code>3</code> (substring <code>&quot;iii&quot;</code>)</td>
+<td>Easy</td>
+<td>Use a fixed-size sliding window to count the number of vowels in the current window and update the maximum count as the window slides.</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Find the longest subarray with a sum less than or equal to <code>S</code>.</td>
+<td>Array: <code>[3, 1, 2, 7, 4, 2, 1, 1, 5]</code>, <code>S = 8</code> → Output: <code>4</code> (subarray <code>[3, 1, 2, 1]</code>)</td>
+<td>Medium</td>
+<td>Use a dynamic-size sliding window, expand to add elements to the window, and shrink from the left when the sum exceeds <code>S</code> to find the longest subarray.</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Find the shortest subarray with all unique elements.</td>
+<td>Array: <code>[1, 2, 3, 1, 4, 5, 3]</code> → Output: <code>4</code> (subarray <code>[1, 4, 5, 3]</code>)</td>
+<td>Hard</td>
+<td>Use a dynamic-size sliding window with a hash set to track unique elements, expanding and shrinking the window to find the shortest valid subarray.</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Find the longest contiguous subarray with an equal number of 0s and 1s.</td>
+<td>Array: <code>[0, 1, 0, 1, 1, 0]</code> → Output: <code>6</code> (whole array)</td>
+<td>Hard</td>
+<td>Use a dynamic-size sliding window and a hashmap to track the difference between the count of 0s and 1s, adjusting pointers to maintain balance.</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Find the minimum number of consecutive cards you need to pick to achieve a target score.</td>
+<td>Array: <code>[5, 1, 3, 7, 9]</code>, Target: <code>15</code> → Output: <code>2</code> (subarray <code>[7, 9]</code>)</td>
+<td>Medium</td>
+<td>Use a dynamic-size sliding window, expanding until the score is achieved, then shrinking to minimize the subarray length.</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Find the smallest window in a string containing all characters of another string.</td>
+<td>String: <code>&quot;ADOBECODEBANC&quot;</code>, Pattern: <code>&quot;ABC&quot;</code> → Output: <code>&quot;BANC&quot;</code></td>
+<td>Hard</td>
+<td>Use a dynamic-size sliding window, track character counts with a hashmap, and shrink the window to find the smallest match.</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Find the longest substring with no more than <code>k</code> repeating characters.</td>
+<td>String: <code>&quot;aaabbcc&quot;</code>, <code>k = 2</code> → Output: <code>5</code> (substring <code>&quot;aaabb&quot;</code>)</td>
+<td>Medium</td>
+<td>Use a dynamic-size sliding window with character frequency counting to ensure no more than <code>k</code> repeating characters.</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Find the maximum sum of a subarray of at most <code>k</code> elements.</td>
+<td>Array: <code>[4, 2, 1, 7, 8, 1, 2, 8, 1, 0]</code>, <code>k = 3</code> → Output: <code>16</code> (subarray <code>[7, 8, 1]</code>)</td>
+<td>Easy</td>
+<td>Use a sliding window to compute the sum of the first <code>k</code> elements, and slide the window across the array to find the maximum sum.</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Find the longest subarray where the difference between the maximum and minimum elements is less than <code>k</code>.</td>
+<td>Array: <code>[10, 1, 2, 4, 7, 2]</code>, <code>k = 5</code> → Output: <code>4</code> (subarray <code>[2, 4, 7, 2]</code>)</td>
+<td>Hard</td>
+<td>Use a dynamic-size sliding window with two deques to track the minimum and maximum values in the current window, expanding and shrinking as necessary.</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Find the longest substring without repeating characters.</td>
+<td>String: <code>&quot;abcabcbb&quot;</code> → Output: <code>3</code> (substring <code>&quot;abc&quot;</code>)</td>
+<td>Medium</td>
+<td>Use a dynamic sliding window to expand with new characters, shrink when duplicates are found, and maintain the maximum length of the substring.</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Find the length of the longest subarray with <code>k</code> odd numbers.</td>
+<td>Array: <code>[1, 2, 3, 4, 5, 6, 7]</code>, <code>k = 3</code> → Output: <code>5</code> (subarray <code>[1, 2, 3, 4, 5]</code>)</td>
+<td>Medium</td>
+<td>Use a dynamic sliding window, expand to include elements, and shrink from the left until exactly <code>k</code> odd numbers remain, updating the max length.</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Find the longest binary subarray with more 1s than 0s.</td>
+<td>Array: <code>[1, 0, 1, 1, 0, 1, 1, 0, 0, 1]</code> → Output: <code>5</code> (subarray <code>[1, 1, 0, 1, 1]</code>)</td>
+<td>Hard</td>
+<td>Use a dynamic-size sliding window to maintain a count of 1s and 0s, expanding and shrinking the window to ensure more 1s than 0s are present.</td>
+</tr>
+</tbody>
+</table>
+
+</body>
+</html>

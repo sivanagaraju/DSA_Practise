@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>TwoPointers.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="comprehensive-explanation-of-the-two-pointers-technique">Comprehensive Explanation of the Two Pointers Technique</h1>
+<h3 id="1-core-concepts-and-coding-patterns">1. Core Concepts and Coding Patterns</h3>
+<p>The <strong>Two Pointers</strong> technique involves using two different pointers to iterate through an array, usually starting at different positions. This approach is used for problems where you need to search for pairs or manipulate data in a sorted sequence efficiently. The idea is to leverage the order in which data is presented to reduce the problem's time complexity.</p>
+<p><strong>Typical Use Cases:</strong></p>
+<ul>
+<li>Finding pairs in a sorted array that add up to a given target.</li>
+<li>Reversing an array in place.</li>
+<li>Merging sorted arrays.</li>
+<li>Detecting if a linked list has a cycle.</li>
+</ul>
+<p><strong>How It Works:</strong></p>
+<ul>
+<li>Use one pointer at the start and another at the end of the data structure (e.g., array).</li>
+<li>Move pointers toward each other based on the conditions of the problem.</li>
+</ul>
+<h3 id="2-examples">2. Examples</h3>
+<p><strong>Example 1:</strong> Finding a Pair in a Sorted Array</p>
+<p>Array: <code>[1, 3, 4, 5, 7, 8]</code>, Target Sum: <code>12</code></p>
+<ul>
+<li>Start with <code>left = 0</code> (pointing to <code>1</code>) and <code>right = 5</code> (pointing to <code>8</code>).</li>
+<li>Check if <code>array[left] + array[right] = 12</code>.
+<ul>
+<li><code>1 + 8 = 9</code>, less than <code>12</code>, so increment <code>left</code>.</li>
+<li>Now <code>left</code> points to <code>3</code>, and <code>3 + 8 = 11</code>, still less.</li>
+<li>Continue until <code>5 + 7 = 12</code>, pair found.</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-problem-identification-checklist">3. Problem Identification Checklist</h3>
+<table>
+<thead>
+<tr>
+<th>Criteria</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Given an array or list and need to find pairs, triplets, or combinations</td>
+<td><strong>Example:</strong> Find all pairs with a given sum in a sorted array. <strong>Array:</strong> <code>[2, 7, 11, 15]</code>, <strong>Target:</strong> <code>9</code>. <strong>Explanation:</strong> Start with <code>left = 0</code> (pointing to <code>2</code>) and <code>right = 3</code> (pointing to <code>15</code>). Calculate <code>2 + 15 = 17</code>, which is greater than <code>9</code>, so move <code>right</code> to <code>2</code> (pointing to <code>11</code>). Now <code>2 + 11 = 13</code>, still greater. Move <code>right</code> to <code>1</code> (pointing to <code>7</code>). Now <code>2 + 7 = 9</code>, which matches the target. <strong>Output:</strong> <code>[(2, 7)]</code></td>
+</tr>
+<tr>
+<td>Searching for a specific relationship between elements that are in sorted order</td>
+<td><strong>Example:</strong> Detect if an array contains two elements whose difference equals a given value. <strong>Array:</strong> <code>[1, 5, 9, 12, 15]</code>, <strong>Target Difference:</strong> <code>4</code>. <strong>Explanation:</strong> Use two pointers, <code>left</code> starting at index <code>0</code> (pointing to <code>1</code>) and <code>right</code> starting at index <code>1</code> (pointing to <code>5</code>). Calculate <code>5 - 1 = 4</code>, which matches the target difference. <strong>Output:</strong> <code>[(1, 5)]</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="4-general-templates-with-comments">4. General Templates with Comments</h3>
+<p><strong>Template 1: Finding a Pair with a Given Sum in a Sorted Array</strong></p>
+<pre class="hljs"><code><div><span class="hljs-comment"># Function to find if there is a pair with a given sum</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">find_pair_with_sum</span><span class="hljs-params">(arr, target_sum)</span>:</span>
+    <span class="hljs-comment"># Define two pointers: left starts at the beginning, right starts at the end</span>
+    left, right = <span class="hljs-number">0</span>, len(arr) - <span class="hljs-number">1</span>
+    
+    <span class="hljs-keyword">while</span> left &lt; right:
+        current_sum = arr[left] + arr[right]
+        
+        <span class="hljs-comment"># If the current sum matches the target, return the pair</span>
+        <span class="hljs-keyword">if</span> current_sum == target_sum:
+            <span class="hljs-keyword">return</span> (arr[left], arr[right])
+        <span class="hljs-comment"># If current sum is less, move the left pointer to the right</span>
+        <span class="hljs-keyword">elif</span> current_sum &lt; target_sum:
+            left += <span class="hljs-number">1</span>
+        <span class="hljs-comment"># If current sum is more, move the right pointer to the left</span>
+        <span class="hljs-keyword">else</span>:
+            right -= <span class="hljs-number">1</span>
+    
+    <span class="hljs-comment"># If no pair is found, return None</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+</div></code></pre>
+<p><strong>Use Cases:</strong> Problems involving pairs or combinations of values in a sorted structure.</p>
+<p><strong>Time Complexity:</strong> O(n)
+<strong>Space Complexity:</strong> O(1)</p>
+<p><strong>Optimization Opportunities:</strong> The Two Pointers method is optimal for sorted data, minimizing the need for nested loops.</p>
+<h3 id="5-complexity-analysis">5. Complexity Analysis</h3>
+<ul>
+<li><strong>Time Complexity:</strong> Typically <strong>O(n)</strong>, as both pointers traverse the list once in the worst case.</li>
+<li><strong>Space Complexity:</strong> <strong>O(1)</strong> as no additional data structures are used.</li>
+<li><strong>Optimization Opportunities:</strong> Sorting the array (if not already sorted) can be an extra overhead (O(n log n)).</li>
+</ul>
+<h3 id="6-discussion-on-templates-and-patterns">6. Discussion on Templates and Patterns</h3>
+<p>Two Pointers can be adapted for different types of problems:</p>
+<ul>
+<li><strong>Same-Direction Pointers</strong>: For problems like moving zeros to the end, both pointers move in the same direction.</li>
+<li><strong>Opposite-Direction Pointers</strong>: Used for pair problems in sorted arrays.</li>
+</ul>
+<p><strong>Adjustments</strong> may be needed depending on whether the data structure is sorted, whether indices are required, or if the input can have duplicates.</p>
+<h3 id="7-multiple-approaches-and-implementations">7. Multiple Approaches and Implementations</h3>
+<p><strong>Iterative vs Recursive Implementations</strong></p>
+<ul>
+<li><strong>Iterative</strong> is common for most two-pointer problems, especially those that involve searching for pairs.</li>
+<li><strong>Recursive</strong> is not usually suitable for Two Pointers, but can be used for linked list problems involving Two Pointers (e.g., finding the middle element).</li>
+</ul>
+<p><strong>Comparative Analysis:</strong></p>
+<ul>
+<li><strong>Iterative</strong>: Lower space complexity (O(1) space).</li>
+<li><strong>Recursive</strong>: Clearer for problems involving tree structures or linked lists but has O(n) space due to the call stack.</li>
+</ul>
+<h3 id="8-practice-problems">8. Practice Problems</h3>
+<table>
+<thead>
+<tr>
+<th>S.No</th>
+<th>Question</th>
+<th>Example</th>
+<th>Difficulty Level</th>
+<th>Approach</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Find a pair with a given sum in a sorted array</td>
+<td><strong>Array:</strong> <code>[1, 2, 3, 4, 6]</code>, <strong>Target:</strong> <code>6</code>. <strong>Explanation:</strong> Start with <code>left = 0</code> (pointing to <code>1</code>) and <code>right = 4</code> (pointing to <code>6</code>). Calculate <code>1 + 6 = 7</code>, greater than <code>6</code>, move <code>right</code> to <code>3</code>. Now <code>1 + 4 = 5</code>, less than <code>6</code>, move <code>left</code> to <code>1</code>. Now <code>2 + 4 = 6</code>, which matches the target. <strong>Output:</strong> <code>(2, 4)</code></td>
+<td>Easy</td>
+<td>Two Pointers; Template 1; No extra variables needed</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Remove duplicates from a sorted array in-place</td>
+<td><strong>Array:</strong> <code>[2, 3, 3, 3, 6, 9, 9]</code>. <strong>Explanation:</strong> Use two pointers, <code>i</code> for unique elements and <code>j</code> for iteration. Move <code>j</code> from <code>1</code> to the end, placing unique elements in position <code>i</code> when <code>arr[j]</code> is different from <code>arr[i-1]</code>. <strong>Output:</strong> <code>[2, 3, 6, 9]</code></td>
+<td>Medium</td>
+<td>Two Pointers; Maintaining unique index; Extra logic involves using a secondary pointer <code>j</code> to iterate and a pointer <code>i</code> to track unique elements</td>
+</tr>
+<tr>
+<td>3</td>
+<td>Triplet sum to zero</td>
+<td><strong>Array:</strong> <code>[-3, -1, 1, 2, -1, -4]</code>. <strong>Explanation:</strong> Sort the array to <code>[-4, -3, -1, -1, 1, 2]</code>. Fix one element and use two pointers to find the other two such that the sum is <code>0</code>. <strong>Output:</strong> <code>[(-3, 1, 2), (-1, -1, 2)]</code></td>
+<td>Hard</td>
+<td>Two Pointers; Nested Loop with Pointers; Extra logic involves fixing one element and using two pointers to find the other two elements</td>
+</tr>
+<tr>
+<td>4</td>
+<td>Move Zeros to End of Array</td>
+<td><strong>Array:</strong> <code>[0, 1, 0, 3, 12]</code>. <strong>Explanation:</strong> Use two pointers, one to iterate (<code>j</code>) and another (<code>i</code>) to place non-zero elements in order. After finishing the iteration, fill the remaining positions with zeros. <strong>Output:</strong> <code>[1, 3, 12, 0, 0]</code></td>
+<td>Easy</td>
+<td>Two Pointers; Maintaining unique index; Extra logic to fill remaining positions with zeros</td>
+</tr>
+<tr>
+<td>5</td>
+<td>Find the middle of a linked list</td>
+<td><strong>Linked List:</strong> <code>[1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5]</code>. <strong>Explanation:</strong> Use two pointers (<code>slow</code> and <code>fast</code>), where <code>fast</code> moves twice as fast as <code>slow</code>. When <code>fast</code> reaches the end, <code>slow</code> will be at the middle. <strong>Output:</strong> <code>3</code></td>
+<td>Medium</td>
+<td>Two Pointers; Fast and slow pointers; Extra logic involves moving fast pointer twice as fast</td>
+</tr>
+<tr>
+<td>6</td>
+<td>Container With Most Water</td>
+<td><strong>Array:</strong> <code>[1, 8, 6, 2, 5, 4, 8, 3, 7]</code>. <strong>Explanation:</strong> Use two pointers, <code>left</code> and <code>right</code>, and calculate the area between them. Move the pointer with the smaller height. <strong>Output:</strong> <code>49</code></td>
+<td>Medium</td>
+<td>Two Pointers; Calculating area; Extra logic to track maximum area</td>
+</tr>
+<tr>
+<td>7</td>
+<td>Sort Colors (Dutch National Flag Problem)</td>
+<td><strong>Array:</strong> <code>[2, 0, 2, 1, 1, 0]</code>. <strong>Explanation:</strong> Use three pointers: <code>low</code>, <code>mid</code>, and <code>high</code> to sort elements in a single pass. <strong>Output:</strong> <code>[0, 0, 1, 1, 2, 2]</code></td>
+<td>Medium</td>
+<td>Two Pointers; Three-way partitioning; Extra logic involves maintaining three regions</td>
+</tr>
+<tr>
+<td>8</td>
+<td>Minimum Window Substring</td>
+<td><strong>String:</strong> <code>&quot;ADOBECODEBANC&quot;</code>, <strong>Target:</strong> <code>&quot;ABC&quot;</code>. <strong>Explanation:</strong> Use two pointers to create a sliding window that contains all characters of the target. Expand and contract the window to find the minimum length. <strong>Output:</strong> <code>&quot;BANC&quot;</code></td>
+<td>Hard</td>
+<td>Two Pointers; Sliding window; Extra logic for character frequency count</td>
+</tr>
+<tr>
+<td>9</td>
+<td>Subarray Product Less Than K</td>
+<td><strong>Array:</strong> <code>[10, 5, 2, 6]</code>, <strong>Target:</strong> <code>100</code>. <strong>Explanation:</strong> Use a sliding window with two pointers to find subarrays with product less than <code>100</code>. <strong>Output:</strong> <code>8</code></td>
+<td>Medium</td>
+<td>Two Pointers; Sliding window; Extra logic involves maintaining product of current window</td>
+</tr>
+<tr>
+<td>10</td>
+<td>Longest Substring Without Repeating Characters</td>
+<td><strong>String:</strong> <code>&quot;abcabcbb&quot;</code>. <strong>Explanation:</strong> Use two pointers to form a sliding window of unique characters. Move the <code>right</code> pointer to expand and <code>left</code> pointer to remove duplicates. <strong>Output:</strong> <code>3</code> (<code>&quot;abc&quot;</code>)</td>
+<td>Medium</td>
+<td>Two Pointers; Sliding window; Extra logic for character set maintenance</td>
+</tr>
+<tr>
+<td>11</td>
+<td>Remove Element</td>
+<td><strong>Array:</strong> <code>[3, 2, 2, 3]</code>, <strong>Target:</strong> <code>3</code>. <strong>Explanation:</strong> Use two pointers, one to iterate (<code>j</code>) and another (<code>i</code>) to keep track of elements not equal to the target. <strong>Output:</strong> <code>[2, 2]</code></td>
+<td>Easy</td>
+<td>Two Pointers; Maintaining unique index; Extra logic involves overwriting target elements</td>
+</tr>
+<tr>
+<td>12</td>
+<td>Reverse String</td>
+<td><strong>String:</strong> <code>&quot;hello&quot;</code>. <strong>Explanation:</strong> Use two pointers at the beginning and end of the string. Swap characters and move pointers toward each other. <strong>Output:</strong> <code>&quot;olleh&quot;</code></td>
+<td>Easy</td>
+<td>Two Pointers; Swapping characters; No extra variables needed</td>
+</tr>
+<tr>
+<td>13</td>
+<td>Squares of a Sorted Array</td>
+<td><strong>Array:</strong> <code>[-4, -1, 0, 3, 10]</code>. <strong>Explanation:</strong> Use two pointers starting from both ends to insert the larger square value into the result array from the back. <strong>Output:</strong> <code>[0, 1, 9, 16, 100]</code></td>
+<td>Easy</td>
+<td>Two Pointers; Filling result from back; Extra logic for handling negative and positive values</td>
+</tr>
+<tr>
+<td>14</td>
+<td>Three Sum Closest</td>
+<td><strong>Array:</strong> <code>[-1, 2, 1, -4]</code>, <strong>Target:</strong> <code>1</code>. <strong>Explanation:</strong> Sort the array and use a fixed pointer with two moving pointers to find the closest sum to the target. <strong>Output:</strong> <code>2</code></td>
+<td>Medium</td>
+<td>Two Pointers; Nested loop with pointers; Extra logic involves tracking minimum difference</td>
+</tr>
+<tr>
+<td>15</td>
+<td>Find K Closest Elements</td>
+<td><strong>Array:</strong> <code>[1, 2, 3, 4, 5]</code>, <strong>Target:</strong> <code>3</code>, <strong>K:</strong> <code>4</code>. <strong>Explanation:</strong> Use two pointers to find the closest elements to the target and adjust them to include <code>K</code> elements. <strong>Output:</strong> <code>[1, 2, 3, 4]</code></td>
+<td>Medium</td>
+<td>Two Pointers; Expanding window; Extra logic involves expanding both pointers to cover K elements</td>
+</tr>
+<tr>
+<td>16</td>
+<td>Max Consecutive Ones III</td>
+<td><strong>Array:</strong> <code>[1, 1, 0, 0, 1, 1, 1, 0, 1, 1]</code>, <strong>K:</strong> <code>2</code>. <strong>Explanation:</strong> Use a sliding window with two pointers to include at most <code>K</code> zeros and maximize the number of consecutive ones. <strong>Output:</strong> <code>6</code></td>
+<td>Medium</td>
+<td>Two Pointers; Sliding window; Extra logic for tracking zero counts</td>
+</tr>
+<tr>
+<td>17</td>
+<td>Linked List Cycle Detection</td>
+<td><strong>Linked List:</strong> <code>[3 -&gt; 2 -&gt; 0 -&gt; -4 -&gt; 2]</code> (cycle at <code>2</code>). <strong>Explanation:</strong> Use two pointers (<code>slow</code> and <code>fast</code>), where <code>fast</code> moves twice as fast. If they meet, there is a cycle. <strong>Output:</strong> <code>True</code></td>
+<td>Medium</td>
+<td>Two Pointers; Fast and slow pointers; No extra variables needed</td>
+</tr>
+<tr>
+<td>18</td>
+<td>Merge Sorted Array</td>
+<td><strong>Arrays:</strong> <code>[1, 2, 3, 0, 0, 0]</code>, <code>[2, 5, 6]</code>. <strong>Explanation:</strong> Use two pointers starting from the end of both arrays to merge them into the first array in-place. <strong>Output:</strong> <code>[1, 2, 2, 3, 5, 6]</code></td>
+<td>Easy</td>
+<td>Two Pointers; Merging in-place; Extra logic for filling from the end</td>
+</tr>
+<tr>
+<td>19</td>
+<td>Find the Duplicate Number</td>
+<td><strong>Array:</strong> <code>[1, 3, 4, 2, 2]</code>. <strong>Explanation:</strong> Use two pointers (Floyd's Tortoise and Hare) to detect a cycle in the sequence formed by treating array values as indices. <strong>Output:</strong> <code>2</code></td>
+<td>Hard</td>
+<td>Two Pointers; Fast and slow pointers; Extra logic involves detecting cycle start</td>
+</tr>
+<tr>
+<td>20</td>
+<td>Valid Palindrome</td>
+<td><strong>String:</strong> <code>&quot;A man, a plan, a canal: Panama&quot;</code>. <strong>Explanation:</strong> Use two pointers, one at the start and one at the end, to compare alphanumeric characters while ignoring case and non-alphanumeric characters. <strong>Output:</strong> <code>True</code></td>
+<td>Easy</td>
+<td>Two Pointers; Character comparison; Extra logic involves ignoring non-alphanumeric characters</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="9-key-takeaways-tips-and-summary">9. Key Takeaways, Tips, and Summary</h3>
+<p><strong>Key Takeaways:</strong></p>
+<ul>
+<li>Use Two Pointers when working with sorted data or when the problem involves comparing elements from different ends.</li>
+<li>Know the difference between moving toward each other vs in the same direction.</li>
+</ul>
+<p><strong>Practical Tips:</strong></p>
+<ul>
+<li>Always confirm if the data is sorted.</li>
+<li>Practice problems involving pairs, subarrays, and linked lists to gain familiarity.</li>
+</ul>
+<p><strong>Summary:</strong> Two Pointers is an essential technique for reducing time complexity in problems involving pairs or subsets in arrays or linked lists. Practice identifying use cases to improve efficiency.</p>
+<h3 id="10-common-pitfalls">10. Common Pitfalls</h3>
+<p><strong>Mistakes to Avoid:</strong></p>
+<ul>
+<li>Not considering all edge cases, such as empty arrays or single-element arrays.</li>
+<li>Forgetting to move both pointers, resulting in infinite loops.</li>
+</ul>
+<p><strong>Troubleshooting Tips:</strong></p>
+<ul>
+<li><strong>Debugging Infinite Loops</strong>: Ensure the condition for moving pointers (<code>left &lt; right</code> or <code>left &lt;= right</code>) is appropriate.</li>
+<li><strong>Wrong Output</strong>: Track the position of pointers and verify against expected outputs.</li>
+</ul>
+<p>Here are detailed explanations of five randomly selected interview questions from the list:</p>
+<h3 id="1-problem-4-move-zeros-to-end-of-array">1. <strong>Problem 4: Move Zeros to End of Array</strong></h3>
+<p><strong>Problem Statement:</strong>
+Move all zeros in an array to the end while maintaining the relative order of the non-zero elements.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>Input Array:</strong> <code>[0, 1, 0, 3, 12]</code></li>
+<li><strong>Explanation:</strong>
+<ul>
+<li>Use two pointers (<code>i</code> and <code>j</code>), where <code>i</code> is used to keep track of the position to place the next non-zero element and <code>j</code> iterates through the array.</li>
+<li>First pass: Move all non-zero values to the beginning. <code>[1, 3, 12, _, _]</code> (<code>_</code> represents the rest of the array).</li>
+<li>Second pass: Fill the rest with zeros.</li>
+</ul>
+</li>
+<li><strong>Output:</strong> <code>[1, 3, 12, 0, 0]</code></li>
+</ul>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">move_zeros</span><span class="hljs-params">(arr)</span>:</span>
+    i = <span class="hljs-number">0</span>
+    <span class="hljs-comment"># Move all non-zero elements to the beginning</span>
+    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(len(arr)):
+        <span class="hljs-keyword">if</span> arr[j] != <span class="hljs-number">0</span>:
+            arr[i] = arr[j]
+            i += <span class="hljs-number">1</span>
+    <span class="hljs-comment"># Fill the remaining array with zeros</span>
+    <span class="hljs-keyword">while</span> i &lt; len(arr):
+        arr[i] = <span class="hljs-number">0</span>
+        i += <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> arr
+
+<span class="hljs-comment"># Example usage</span>
+print(move_zeros([<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">3</span>, <span class="hljs-number">12</span>]))  <span class="hljs-comment"># Output: [1, 3, 12, 0, 0]</span>
+</div></code></pre>
+<h3 id="2-problem-6-container-with-most-water">2. <strong>Problem 6: Container With Most Water</strong></h3>
+<p><strong>Problem Statement:</strong>
+Find two lines that together with the x-axis form a container that holds the most water.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>Input Array:</strong> <code>[1, 8, 6, 2, 5, 4, 8, 3, 7]</code></li>
+<li><strong>Explanation:</strong>
+<ul>
+<li>Start with two pointers at the beginning (<code>left = 0</code>) and end (<code>right = 8</code>) of the array.</li>
+<li>Calculate the area (<code>height * width</code>) between the two pointers.</li>
+<li>Move the pointer with the smaller height to maximize the container size.</li>
+</ul>
+</li>
+<li><strong>Output:</strong> <code>49</code> (Between <code>left = 1</code> and <code>right = 7</code>)</li>
+</ul>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">max_area</span><span class="hljs-params">(height)</span>:</span>
+    left, right = <span class="hljs-number">0</span>, len(height) - <span class="hljs-number">1</span>
+    max_area = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">while</span> left &lt; right:
+        <span class="hljs-comment"># Calculate the area between the two pointers</span>
+        area = (right - left) * min(height[left], height[right])
+        max_area = max(max_area, area)
+
+        <span class="hljs-comment"># Move the pointer with the smaller height</span>
+        <span class="hljs-keyword">if</span> height[left] &lt; height[right]:
+            left += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">else</span>:
+            right -= <span class="hljs-number">1</span>
+
+    <span class="hljs-keyword">return</span> max_area
+
+<span class="hljs-comment"># Example usage</span>
+print(max_area([<span class="hljs-number">1</span>, <span class="hljs-number">8</span>, <span class="hljs-number">6</span>, <span class="hljs-number">2</span>, <span class="hljs-number">5</span>, <span class="hljs-number">4</span>, <span class="hljs-number">8</span>, <span class="hljs-number">3</span>, <span class="hljs-number">7</span>]))  <span class="hljs-comment"># Output: 49</span>
+</div></code></pre>
+<h2 id="">--</h2>
+<h2 id="">--</h2>
+<h2 id="">--</h2>
+<h2 id="">--</h2>
+<h2 id="">--</h2>
+<h2 id="">--</h2>
+<h2 id="">--</h2>
+<h2 id="">--</h2>
+<h2 id="">--</h2>
+<h2 id="">--</h2>
+<h2 id="">--</h2>
+<h2 id="">--</h2>
+<h3 id="3-problem-8-minimum-window-substring">3. <strong>Problem 8: Minimum Window Substring</strong></h3>
+<p><strong>Problem Statement:</strong>
+Find the minimum window substring of <code>s</code> that contains all the characters in <code>t</code>.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>Input String:</strong> <code>&quot;ADOBECODEBANC&quot;</code>, <strong>Target:</strong> <code>&quot;ABC&quot;</code></li>
+<li><strong>Explanation:</strong>
+<ul>
+<li>Use two pointers (<code>left</code> and <code>right</code>) to create a sliding window.</li>
+<li>Expand the window (<code>right</code> pointer) to include characters from <code>t</code>.</li>
+<li>Contract (<code>left</code> pointer) to minimize the window while still containing all the characters.</li>
+</ul>
+</li>
+<li><strong>Output:</strong> <code>&quot;BANC&quot;</code></li>
+</ul>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-keyword">from</span> collections <span class="hljs-keyword">import</span> Counter
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">min_window</span><span class="hljs-params">(s, t)</span>:</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> s <span class="hljs-keyword">or</span> <span class="hljs-keyword">not</span> t:
+        <span class="hljs-keyword">return</span> <span class="hljs-string">""</span>
+    
+    <span class="hljs-comment"># Create a dictionary to keep track of the character counts in t</span>
+    dict_t = Counter(t)
+    required = len(dict_t)  <span class="hljs-comment"># Number of unique characters in t that must be present in the window</span>
+
+    left, right = <span class="hljs-number">0</span>, <span class="hljs-number">0</span>
+    formed = <span class="hljs-number">0</span>  <span class="hljs-comment"># Number of unique characters in the current window that match the required count in t</span>
+    window_counts = {}
+
+    <span class="hljs-comment"># Tuple to store the result (window length, left index, right index)</span>
+    ans = float(<span class="hljs-string">"inf"</span>), <span class="hljs-literal">None</span>, <span class="hljs-literal">None</span>
+
+    <span class="hljs-keyword">while</span> right &lt; len(s):
+        <span class="hljs-comment"># Add the character from the right pointer to the window</span>
+        character = s[right]
+        window_counts[character] = window_counts.get(character, <span class="hljs-number">0</span>) + <span class="hljs-number">1</span>
+
+        <span class="hljs-comment"># If the current character matches the count required from t, increment 'formed'</span>
+        <span class="hljs-keyword">if</span> character <span class="hljs-keyword">in</span> dict_t <span class="hljs-keyword">and</span> window_counts[character] == dict_t[character]:
+            formed += <span class="hljs-number">1</span>
+
+        <span class="hljs-comment"># Contract the window until it no longer contains all characters of t</span>
+        <span class="hljs-keyword">while</span> left &lt;= right <span class="hljs-keyword">and</span> formed == required:
+            character = s[left]
+
+            <span class="hljs-comment"># Save the smallest window until now</span>
+            <span class="hljs-keyword">if</span> right - left + <span class="hljs-number">1</span> &lt; ans[<span class="hljs-number">0</span>]:
+                ans = (right - left + <span class="hljs-number">1</span>, left, right)
+
+            <span class="hljs-comment"># The character at the position 'left' is no longer in the window</span>
+            window_counts[character] -= <span class="hljs-number">1</span>
+            <span class="hljs-keyword">if</span> character <span class="hljs-keyword">in</span> dict_t <span class="hljs-keyword">and</span> window_counts[character] &lt; dict_t[character]:
+                formed -= <span class="hljs-number">1</span>
+
+            <span class="hljs-comment"># Move the left pointer to contract the window</span>
+            left += <span class="hljs-number">1</span>
+
+        <span class="hljs-comment"># Expand the window by moving the right pointer</span>
+        right += <span class="hljs-number">1</span>
+
+    <span class="hljs-comment"># Return the smallest window or empty string if no valid window is found</span>
+    <span class="hljs-keyword">return</span> <span class="hljs-string">""</span> <span class="hljs-keyword">if</span> ans[<span class="hljs-number">0</span>] == float(<span class="hljs-string">"inf"</span>) <span class="hljs-keyword">else</span> s[ans[<span class="hljs-number">1</span>]: ans[<span class="hljs-number">2</span>] + <span class="hljs-number">1</span>]
+
+<span class="hljs-comment"># Example usage</span>
+print(min_window(<span class="hljs-string">"ADOBECODEBANC"</span>, <span class="hljs-string">"ABC"</span>))  <span class="hljs-comment"># Output: "BANC"</span>
+
+</div></code></pre>
+<h3 id="4-problem-10-longest-substring-without-repeating-characters">4. <strong>Problem 10: Longest Substring Without Repeating Characters</strong></h3>
+<p><strong>Problem Statement:</strong>
+Find the length of the longest substring without repeating characters.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>Input String:</strong> <code>&quot;abcabcbb&quot;</code></li>
+<li><strong>Explanation:</strong>
+<ul>
+<li>Use two pointers (<code>left</code> and <code>right</code>) to form a sliding window.</li>
+<li>Expand (<code>right</code> pointer) until a duplicate is found, then move (<code>left</code> pointer) to remove duplicates.</li>
+<li>Keep track of the maximum length.</li>
+</ul>
+</li>
+<li><strong>Output:</strong> <code>3</code> (The substring is <code>&quot;abc&quot;</code>)</li>
+</ul>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">length_of_longest_substring</span><span class="hljs-params">(s)</span>:</span>
+    <span class="hljs-comment"># Dictionary to store the last index of each character</span>
+    char_index = {}
+    <span class="hljs-comment"># Left pointer of the sliding window</span>
+    left = <span class="hljs-number">0</span>
+    <span class="hljs-comment"># Variable to keep track of the maximum length of non-repeating substring</span>
+    max_length = <span class="hljs-number">0</span>
+
+    <span class="hljs-comment"># Iterate through the string with the right pointer</span>
+    <span class="hljs-keyword">for</span> right <span class="hljs-keyword">in</span> range(len(s)):
+        <span class="hljs-comment"># If the character is already in the dictionary, move the left pointer</span>
+        <span class="hljs-comment"># to the right of the last occurrence of this character</span>
+        <span class="hljs-keyword">if</span> s[right] <span class="hljs-keyword">in</span> char_index:
+            left = max(left, char_index[s[right]] + <span class="hljs-number">1</span>)
+
+        <span class="hljs-comment"># Update the last occurrence of the character</span>
+        char_index[s[right]] = right
+        <span class="hljs-comment"># Calculate the length of the current window and update max_length</span>
+        max_length = max(max_length, right - left + <span class="hljs-number">1</span>)
+
+    <span class="hljs-keyword">return</span> max_length
+
+<span class="hljs-comment"># Example usage</span>
+print(length_of_longest_substring(<span class="hljs-string">"abcabcbb"</span>))  <span class="hljs-comment"># Output: 3</span>
+
+</div></code></pre>
+<h3 id="5-problem-16-max-consecutive-ones-iii">5. <strong>Problem 16: Max Consecutive Ones III</strong></h3>
+<p><strong>Problem Statement:</strong>
+Given a binary array and an integer <code>K</code>, find the maximum number of consecutive 1s you can obtain by flipping at most <code>K</code> 0s.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>Input Array:</strong> <code>[1, 1, 0, 0, 1, 1, 1, 0, 1, 1]</code>, <strong>K:</strong> <code>2</code></li>
+<li><strong>Explanation:</strong>
+<ul>
+<li>Use a sliding window (<code>left</code> and <code>right</code> pointers) that can include at most <code>K</code> zeros.</li>
+<li>Expand the window by moving <code>right</code> and contract by moving <code>left</code> to keep at most <code>K</code> zeros.</li>
+</ul>
+</li>
+<li><strong>Output:</strong> <code>6</code> (Longest subarray is <code>[1, 1, 0, 0, 1, 1, 1]</code>)</li>
+</ul>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">longest_ones</span><span class="hljs-params">(nums, k)</span>:</span>
+    <span class="hljs-comment"># Left pointer of the sliding window</span>
+    left = <span class="hljs-number">0</span>
+    <span class="hljs-comment"># Variable to keep track of the number of zeros in the current window</span>
+    zeros_count = <span class="hljs-number">0</span>
+    <span class="hljs-comment"># Variable to keep track of the maximum length of consecutive ones found</span>
+    max_length = <span class="hljs-number">0</span>
+
+    <span class="hljs-comment"># Iterate through the array with the right pointer</span>
+    <span class="hljs-keyword">for</span> right <span class="hljs-keyword">in</span> range(len(nums)):
+        <span class="hljs-comment"># If the current element is zero, increase the zero count</span>
+        <span class="hljs-keyword">if</span> nums[right] == <span class="hljs-number">0</span>:
+            zeros_count += <span class="hljs-number">1</span>
+
+        <span class="hljs-comment"># If the number of zeros exceeds k, move the left pointer</span>
+        <span class="hljs-keyword">while</span> zeros_count &gt; k:
+            <span class="hljs-keyword">if</span> nums[left] == <span class="hljs-number">0</span>:
+                zeros_count -= <span class="hljs-number">1</span>
+            <span class="hljs-comment"># Move the left pointer to shrink the window</span>
+            left += <span class="hljs-number">1</span>
+
+        <span class="hljs-comment"># Calculate the length of the current window and update max_length</span>
+        max_length = max(max_length, right - left + <span class="hljs-number">1</span>)
+
+    <span class="hljs-keyword">return</span> max_length
+
+<span class="hljs-comment"># Example usage</span>
+print(longest_ones([<span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>], <span class="hljs-number">2</span>))  <span class="hljs-comment"># Output: 6</span>
+
+</div></code></pre>
+<p>These detailed explanations and code examples should help clarify the approach for each problem and provide practice with the Two Pointers technique.</p>
+
+</body>
+</html>
