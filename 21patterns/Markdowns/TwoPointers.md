@@ -369,3 +369,4 @@ print(longest_ones([1, 1, 0, 0, 1, 1, 1, 0, 1, 1], 2))  # Output: 6
 ```
 
 These detailed explanations and code examples should help clarify the approach for each problem and provide practice with the Two Pointers technique.
+
