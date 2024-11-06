@@ -1,0 +1,1531 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>21CodingExtraPrblms.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="two-pointer-problems">TWO POINTER PROBLEMS</h1>
+<h3 id="problem-2-remove-duplicates-from-a-sorted-array-in-place">Problem 2: Remove Duplicates from a Sorted Array In-Place</h3>
+<p><strong>Problem Statement:</strong>
+Given a sorted array <code>arr</code>, remove the duplicates in-place such that each unique element appears only once. The relative order of the elements should be kept the same, and it should be done in <strong>O(1)</strong> extra space. You must modify the input array in-place with the result being stored in the first part of the array, and return the length of the unique elements.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>Input:</strong> <code>[2, 3, 3, 3, 6, 9, 9]</code></li>
+<li><strong>Explanation:</strong>
+<ul>
+<li>The sorted input array has duplicates.</li>
+<li>We need to modify the array in such a way that each unique element appears only once and the duplicates are removed.</li>
+<li>Use two pointers:
+<ul>
+<li>One pointer (<code>i</code>) keeps track of where to place the next unique element.</li>
+<li>Another pointer (<code>j</code>) iterates through the entire array.</li>
+</ul>
+</li>
+<li>After processing, the first <code>4</code> elements of the array will be <code>[2, 3, 6, 9]</code> representing unique values.</li>
+</ul>
+</li>
+<li><strong>Output:</strong> Length of unique elements = <code>4</code></li>
+</ul>
+<p><strong>Approach:</strong></p>
+<ul>
+<li>Use the <strong>Two Pointers</strong> technique:
+<ul>
+<li>The first pointer, <code>i</code>, keeps track of the index where the next unique element should be placed.</li>
+<li>The second pointer, <code>j</code>, iterates through the array.</li>
+</ul>
+</li>
+<li>Since the array is sorted, duplicates are always adjacent. As <code>j</code> iterates, if the element at <code>j</code> is different from the element at <code>i - 1</code>, we have found a new unique element, and we place it at index <code>i</code>.</li>
+</ul>
+<p><strong>Python Code with Comments:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">remove_duplicates</span><span class="hljs-params">(arr)</span>:</span>
+    <span class="hljs-comment"># If the array is empty, return 0</span>
+    <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> arr:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>
+
+    <span class="hljs-comment"># Initialize the unique element pointer</span>
+    i = <span class="hljs-number">1</span>
+
+    <span class="hljs-comment"># Iterate through the array starting from the second element</span>
+    <span class="hljs-keyword">for</span> j <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, len(arr)):
+        <span class="hljs-comment"># If the current element is not equal to the previous element</span>
+        <span class="hljs-comment"># It means we have found a unique element</span>
+        <span class="hljs-keyword">if</span> arr[j] != arr[i - <span class="hljs-number">1</span>]:
+            arr[i] = arr[j]  <span class="hljs-comment"># Place the unique element at index 'i'</span>
+            i += <span class="hljs-number">1</span>           <span class="hljs-comment"># Increment the unique index pointer</span>
+
+    <span class="hljs-comment"># Return the length of unique elements</span>
+    <span class="hljs-keyword">return</span> i
+
+<span class="hljs-comment"># Example usage</span>
+arr = [<span class="hljs-number">2</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">3</span>, <span class="hljs-number">6</span>, <span class="hljs-number">9</span>, <span class="hljs-number">9</span>]
+length = remove_duplicates(arr)
+print(<span class="hljs-string">f"Length of unique elements: <span class="hljs-subst">{length}</span>"</span>)  <span class="hljs-comment"># Output: 4</span>
+print(<span class="hljs-string">f"Modified array (first <span class="hljs-subst">{length}</span> elements): <span class="hljs-subst">{arr[:length]}</span>"</span>)  <span class="hljs-comment"># Output: [2, 3, 6, 9]</span>
+</div></code></pre>
+<p><strong>Explanation of the Code:</strong></p>
+<ol>
+<li>
+<p><strong>Initialization:</strong></p>
+<ul>
+<li>If the input array is empty, simply return <code>0</code>.</li>
+<li>Start with <code>i = 1</code> as the pointer for placing the next unique element.</li>
+</ul>
+</li>
+<li>
+<p><strong>Iteration Through the Array:</strong></p>
+<ul>
+<li>Start iterating from index <code>1</code> using the <code>j</code> pointer.</li>
+<li>Compare <code>arr[j]</code> with the element at <code>i - 1</code> (the last placed unique element).</li>
+<li>If <code>arr[j]</code> is different from <code>arr[i - 1]</code>, it means that <code>arr[j]</code> is unique and should be placed at the current position of <code>i</code>.</li>
+<li>After placing the unique element, increment <code>i</code> to point to the next position.</li>
+</ul>
+</li>
+<li>
+<p><strong>Return Value:</strong></p>
+<ul>
+<li>The value <code>i</code> represents the length of the array that contains unique elements.</li>
+<li>The array itself is modified in-place, with the unique elements placed in the first <code>i</code> positions.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Time Complexity:</strong></p>
+<ul>
+<li><strong>O(n)</strong>, where <code>n</code> is the length of the array. We only iterate through the array once.</li>
+</ul>
+<p><strong>Space Complexity:</strong></p>
+<ul>
+<li><strong>O(1)</strong>, since we are modifying the array in place and not using any extra space.</li>
+</ul>
+<p><strong>Summary</strong></p>
+<ul>
+<li>The <strong>Two Pointers</strong> technique is used effectively to remove duplicates from a sorted array in <strong>O(n)</strong> time and <strong>O(1)</strong> space.</li>
+<li>The <code>i</code> pointer keeps track of where to place the next unique element, while the <code>j</code> pointer iterates through the array.</li>
+<li>By keeping the original sorted order and modifying the array in place, this solution is both time and space efficient.</li>
+</ul>
+<h3 id="problem-3-triplet-sum-to-zero">Problem 3: Triplet Sum to Zero</h3>
+<p><strong>Problem Statement:</strong>
+Given an array of integers <code>arr</code>, find all unique triplets in the array which give the sum of zero. The solution set must not contain duplicate triplets.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>Input:</strong> <code>[-3, -1, 1, 2, -1, -4]</code></li>
+<li><strong>Explanation:</strong>
+<ul>
+<li>To find all unique triplets that add up to zero, sort the array first.</li>
+<li>Iterate through the sorted array and use two pointers to find pairs that sum up with the current element to give zero.</li>
+<li>Possible unique triplets: <code>[-3, 1, 2]</code> and <code>[-1, -1, 2]</code>.</li>
+</ul>
+</li>
+<li><strong>Output:</strong> <code>[[-3, 1, 2], [-1, -1, 2]]</code></li>
+</ul>
+<p><strong>Approach:</strong></p>
+<ul>
+<li>The <strong>Two Pointers</strong> technique is used in combination with sorting.</li>
+<li><strong>Steps:</strong>
+<ol>
+<li><strong>Sort the Array:</strong> Sort the input array to make it easier to find unique combinations and avoid duplicates.</li>
+<li><strong>Fixed Pointer and Two Pointers:</strong>
+<ul>
+<li>Iterate through the sorted array with a pointer <code>i</code>.</li>
+<li>For each element at <code>i</code>, use two pointers (<code>left</code> and <code>right</code>) to find pairs whose sum is equal to the negative value of the current element (<code>-arr[i]</code>).</li>
+</ul>
+</li>
+<li><strong>Avoid Duplicates:</strong> Skip elements that are the same as the previous one to ensure each triplet is unique.</li>
+</ol>
+</li>
+</ul>
+<p><strong>Python Code with Comments:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">three_sum</span><span class="hljs-params">(arr)</span>:</span>
+    <span class="hljs-comment"># Sort the array to make it easier to find unique combinations</span>
+    arr.sort()
+    <span class="hljs-comment"># List to store the unique triplets that sum to zero</span>
+    result = []
+
+    <span class="hljs-comment"># Iterate through the array, considering each element as a potential part of a triplet</span>
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(arr) - <span class="hljs-number">2</span>):
+        <span class="hljs-comment"># Skip duplicate elements to avoid duplicate triplets</span>
+        <span class="hljs-keyword">if</span> i &gt; <span class="hljs-number">0</span> <span class="hljs-keyword">and</span> arr[i] == arr[i - <span class="hljs-number">1</span>]:
+            <span class="hljs-keyword">continue</span>
+
+        <span class="hljs-comment"># Set up two pointers: one starting just after 'i' and the other at the end of the array</span>
+        left, right = i + <span class="hljs-number">1</span>, len(arr) - <span class="hljs-number">1</span>
+
+        <span class="hljs-comment"># While 'left' is to the left of 'right', try to find a valid triplet</span>
+        <span class="hljs-keyword">while</span> left &lt; right:
+            <span class="hljs-comment"># Calculate the current sum of the triplet</span>
+            current_sum = arr[i] + arr[left] + arr[right]
+
+            <span class="hljs-comment"># If the current sum is zero, we found a triplet</span>
+            <span class="hljs-keyword">if</span> current_sum == <span class="hljs-number">0</span>:
+                result.append([arr[i], arr[left], arr[right]])
+
+                <span class="hljs-comment"># Move the left pointer to the right while skipping duplicates</span>
+                <span class="hljs-keyword">while</span> left &lt; right <span class="hljs-keyword">and</span> arr[left] == arr[left + <span class="hljs-number">1</span>]:
+                    left += <span class="hljs-number">1</span>
+                <span class="hljs-comment"># Move the right pointer to the left while skipping duplicates</span>
+                <span class="hljs-keyword">while</span> left &lt; right <span class="hljs-keyword">and</span> arr[right] == arr[right - <span class="hljs-number">1</span>]:
+                    right -= <span class="hljs-number">1</span>
+
+                <span class="hljs-comment"># Move both pointers to continue finding other potential triplets</span>
+                left += <span class="hljs-number">1</span>
+                right -= <span class="hljs-number">1</span>
+            <span class="hljs-comment"># If the current sum is less than zero, move the left pointer to increase the sum</span>
+            <span class="hljs-keyword">elif</span> current_sum &lt; <span class="hljs-number">0</span>:
+                left += <span class="hljs-number">1</span>
+            <span class="hljs-comment"># If the current sum is greater than zero, move the right pointer to decrease the sum</span>
+            <span class="hljs-keyword">else</span>:
+                right -= <span class="hljs-number">1</span>
+
+    <span class="hljs-comment"># Return the list of unique triplets</span>
+    <span class="hljs-keyword">return</span> result
+
+<span class="hljs-comment"># Example usage</span>
+arr = [<span class="hljs-number">-3</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">-1</span>, <span class="hljs-number">-4</span>]
+print(three_sum(arr))  <span class="hljs-comment"># Output: [[-3, 1, 2], [-1, -1, 2]]</span>
+</div></code></pre>
+<p><strong>Explanation of the Code:</strong></p>
+<ol>
+<li>
+<p><strong>Sorting the Array:</strong></p>
+<ul>
+<li>The array is sorted to facilitate the use of two pointers and to make it easier to skip duplicate elements.</li>
+</ul>
+</li>
+<li>
+<p><strong>Iterating with a Fixed Pointer:</strong></p>
+<ul>
+<li>Use a for loop to iterate through the array, treating each element as a potential part of the triplet.</li>
+<li>The index <code>i</code> represents the first element of the triplet.</li>
+</ul>
+</li>
+<li>
+<p><strong>Two-Pointer Technique:</strong></p>
+<ul>
+<li>For each element at index <code>i</code>, use two pointers:
+<ul>
+<li><strong><code>left</code></strong> starts just after <code>i</code>.</li>
+<li><strong><code>right</code></strong> starts at the end of the array.</li>
+</ul>
+</li>
+<li>Move the <code>left</code> and <code>right</code> pointers to find pairs that, together with <code>arr[i]</code>, sum to zero.</li>
+</ul>
+</li>
+<li>
+<p><strong>Handling Duplicates:</strong></p>
+<ul>
+<li>Skip duplicate elements for <code>i</code>, <code>left</code>, and <code>right</code> to avoid generating duplicate triplets.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Time Complexity:</strong></p>
+<ul>
+<li>Sorting the array takes <strong>O(n log n)</strong>.</li>
+<li>The two-pointer search for each element takes <strong>O(n)</strong>.</li>
+<li>Therefore, the overall complexity is <strong>O(n^2)</strong>.</li>
+</ul>
+<p><strong>Space Complexity:</strong></p>
+<ul>
+<li><strong>O(1)</strong>, not counting the space required for the output. No additional space is used apart from the input and output.</li>
+</ul>
+<p><strong>Summary</strong></p>
+<ul>
+<li>The <strong>Two Pointers</strong> technique is combined with sorting to efficiently find triplets that sum to zero.</li>
+<li>The sorted array allows the use of two pointers (<code>left</code> and <code>right</code>) to find pairs that, together with the current element (<code>arr[i]</code>), form a triplet that sums to zero.</li>
+<li>Careful handling of <strong>duplicates</strong> is crucial to ensure that the solution set contains only unique triplets.</li>
+</ul>
+<h3 id="problem-7-sort-colors-dutch-national-flag-problem">Problem 7: Sort Colors (Dutch National Flag Problem)</h3>
+<p><strong>Problem Statement:</strong>
+Given an array <code>arr</code> with <code>n</code> objects colored red, white, or blue, represented by integers <code>0</code>, <code>1</code>, and <code>2</code>, respectively, sort them in-place so that objects of the same color are adjacent, with the colors in the order <code>red (0)</code>, <code>white (1)</code>, and <code>blue (2)</code>.</p>
+<p><strong>Note:</strong> You are not supposed to use the library's sort function for this problem. The idea is to use a single pass (O(n)) and in-place sorting (O(1) space).</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>Input:</strong> <code>[2, 0, 2, 1, 1, 0]</code></li>
+<li><strong>Explanation:</strong>
+<ul>
+<li>Use the <strong>Dutch National Flag algorithm</strong>, which involves using three pointers (<code>low</code>, <code>mid</code>, <code>high</code>) to segregate the values in a single pass.</li>
+<li>After processing, the array should be sorted as <code>[0, 0, 1, 1, 2, 2]</code>.</li>
+</ul>
+</li>
+<li><strong>Output:</strong> <code>[0, 0, 1, 1, 2, 2]</code></li>
+</ul>
+<p><strong>Approach:</strong></p>
+<ul>
+<li>Use three pointers:
+<ul>
+<li><strong><code>low</code></strong>: Keeps track of the position where <code>0</code>s should be placed.</li>
+<li><strong><code>mid</code></strong>: Current element to be checked.</li>
+<li><strong><code>high</code></strong>: Keeps track of the position where <code>2</code>s should be placed.</li>
+</ul>
+</li>
+<li>Initially, set <code>low = 0</code>, <code>mid = 0</code>, and <code>high = len(arr) - 1</code>.</li>
+<li>Iterate through the array until <code>mid</code> exceeds <code>high</code>:
+<ul>
+<li>If <code>arr[mid] == 0</code>: Swap <code>arr[low]</code> and <code>arr[mid]</code>, then increment both <code>low</code> and <code>mid</code>.</li>
+<li>If <code>arr[mid] == 1</code>: Just increment <code>mid</code>.</li>
+<li>If <code>arr[mid] == 2</code>: Swap <code>arr[mid]</code> and <code>arr[high]</code>, then decrement <code>high</code>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Python Code with Comments:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">sort_colors</span><span class="hljs-params">(arr)</span>:</span>
+    <span class="hljs-comment"># Initialize three pointers: 'low', 'mid', and 'high'</span>
+    low, mid, high = <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, len(arr) - <span class="hljs-number">1</span>
+
+    <span class="hljs-comment"># Iterate until 'mid' crosses 'high'</span>
+    <span class="hljs-keyword">while</span> mid &lt;= high:
+        <span class="hljs-keyword">if</span> arr[mid] == <span class="hljs-number">0</span>:
+            <span class="hljs-comment"># Swap the current element with the element at 'low'</span>
+            arr[low], arr[mid] = arr[mid], arr[low]
+            <span class="hljs-comment"># Increment both 'low' and 'mid' pointers</span>
+            low += <span class="hljs-number">1</span>
+            mid += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">elif</span> arr[mid] == <span class="hljs-number">1</span>:
+            <span class="hljs-comment"># If the element is '1', move the 'mid' pointer forward</span>
+            mid += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">else</span>:  <span class="hljs-comment"># arr[mid] == 2</span>
+            <span class="hljs-comment"># Swap the current element with the element at 'high'</span>
+            arr[mid], arr[high] = arr[high], arr[mid]
+            <span class="hljs-comment"># Decrement the 'high' pointer</span>
+            high -= <span class="hljs-number">1</span>
+
+<span class="hljs-comment"># Example usage</span>
+arr = [<span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>]
+sort_colors(arr)
+print(arr)  <span class="hljs-comment"># Output: [0, 0, 1, 1, 2, 2]</span>
+</div></code></pre>
+<p><strong>Explanation of the Code:</strong></p>
+<ol>
+<li>
+<p><strong>Initialization:</strong></p>
+<ul>
+<li>Three pointers are used:
+<ul>
+<li><code>low</code> (starting from <code>0</code>) tracks where the next <code>0</code> should be placed.</li>
+<li><code>mid</code> (starting from <code>0</code>) is used to iterate through the array.</li>
+<li><code>high</code> (starting from the last index) tracks where the next <code>2</code> should be placed.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>
+<p><strong>Iterate Through the Array:</strong></p>
+<ul>
+<li>If <code>arr[mid] == 0</code>:
+<ul>
+<li>Swap the element at <code>mid</code> with the element at <code>low</code>.</li>
+<li>This ensures that <code>0</code>s are moved to the beginning.</li>
+<li>Increment both <code>low</code> and <code>mid</code>.</li>
+</ul>
+</li>
+<li>If <code>arr[mid] == 1</code>:
+<ul>
+<li>Simply move the <code>mid</code> pointer to the next element.</li>
+<li><code>1</code>s are already in the correct position.</li>
+</ul>
+</li>
+<li>If <code>arr[mid] == 2</code>:
+<ul>
+<li>Swap the element at <code>mid</code> with the element at <code>high</code>.</li>
+<li>This ensures that <code>2</code>s are moved to the end.</li>
+<li>Decrement <code>high</code>.</li>
+<li>Note that after swapping, the <code>mid</code> pointer is <strong>not incremented</strong> because we need to recheck the new value at <code>mid</code> (since it was just swapped).</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p><strong>Time Complexity:</strong></p>
+<ul>
+<li><strong>O(n)</strong> where <code>n</code> is the length of the array. Each element is processed at most once.</li>
+</ul>
+<p><strong>Space Complexity:</strong></p>
+<ul>
+<li><strong>O(1)</strong> since no additional space is used other than the input array.</li>
+</ul>
+<p><strong>Summary</strong></p>
+<ul>
+<li>The <strong>Dutch National Flag Algorithm</strong> is an efficient solution for this problem.</li>
+<li>By using three pointers (<code>low</code>, <code>mid</code>, <code>high</code>), the array is partitioned into three regions:
+<ul>
+<li>Elements less than <code>1</code> (<code>0</code>s) are placed at the beginning.</li>
+<li>Elements equal to <code>1</code> are placed in the middle.</li>
+<li>Elements greater than <code>1</code> (<code>2</code>s) are placed at the end.</li>
+</ul>
+</li>
+<li>This approach runs in <strong>O(n)</strong> time and <strong>O(1)</strong> space, making it very efficient for in-place sorting.</li>
+</ul>
+<h1 id="fast-and-slow-pointers">Fast and Slow Pointers</h1>
+<h3 id="problem-3-linked-list-cycle-length">Problem 3: Linked List Cycle Length</h3>
+<p><strong>Problem</strong>: Given a linked list, find the length of the cycle (if it exists).</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: Linked list: 1 → 2 → 3 → 4 → 2 (Cycle starts at node with value <code>2</code>)</li>
+<li><strong>Output</strong>: <code>3</code></li>
+<li><strong>Explanation</strong>: The linked list has a cycle starting at node <code>2</code> and the cycle length is <code>3</code>. The nodes forming the cycle are <code>2 → 3 → 4 → 2</code>. To determine the length, we can use the fast and slow pointers to detect the cycle and then determine its length by counting the nodes involved.</li>
+</ul>
+<p><strong>Step-by-Step Solution</strong>:</p>
+<ol>
+<li>
+<p><strong>Detect if a Cycle Exists</strong>:</p>
+<ul>
+<li>Use the Fast and Slow Pointers method to detect if a cycle is present.</li>
+<li>The <strong>slow pointer</strong> moves one step at a time while the <strong>fast pointer</strong> moves two steps.</li>
+<li>If there is a cycle, the fast and slow pointers will eventually meet.</li>
+</ul>
+</li>
+<li>
+<p><strong>Determine the Length of the Cycle</strong>:</p>
+<ul>
+<li>Once a cycle is detected (both pointers meet at the same node), keep one pointer fixed and move the other until it meets the fixed pointer again.</li>
+<li>Count the number of steps taken to determine the cycle length.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Visualization</strong>:</p>
+<pre class="hljs"><code><div>1 → 2 → 3 → 4
+    ↑       ↓
+    5 ←-----
+</div></code></pre>
+<p>In this example, the cycle is formed by nodes <code>2 → 3 → 4</code>, and the length of this cycle is <code>3</code>.</p>
+<p><strong>Python Code with Detailed Comments</strong>:</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ListNode</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, value=<span class="hljs-number">0</span>, next=None)</span>:</span>
+        self.value = value
+        self.next = next
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">cycle_length</span><span class="hljs-params">(head)</span>:</span>
+    <span class="hljs-comment"># Step 1: Detect if a cycle exists using slow and fast pointers</span>
+    slow, fast = head, head
+  
+    <span class="hljs-comment"># Traverse the linked list</span>
+    <span class="hljs-keyword">while</span> fast <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">and</span> fast.next <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span>:
+        slow = slow.next           <span class="hljs-comment"># Move slow pointer by one step</span>
+        fast = fast.next.next      <span class="hljs-comment"># Move fast pointer by two steps</span>
+
+        <span class="hljs-comment"># If slow and fast meet, a cycle is detected</span>
+        <span class="hljs-keyword">if</span> slow == fast:
+            <span class="hljs-keyword">return</span> count_cycle_length(slow)  <span class="hljs-comment"># Step 2: Calculate the cycle length</span>
+  
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>  <span class="hljs-comment"># No cycle found</span>
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">count_cycle_length</span><span class="hljs-params">(meeting_node)</span>:</span>
+    <span class="hljs-comment"># Start from the meeting node</span>
+    current = meeting_node
+    length = <span class="hljs-number">0</span>
+  
+    <span class="hljs-comment"># Traverse the cycle until we reach the starting point again</span>
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        current = current.next  <span class="hljs-comment"># Move to the next node in the cycle</span>
+        length += <span class="hljs-number">1</span>             <span class="hljs-comment"># Increment the length count</span>
+        <span class="hljs-keyword">if</span> current == meeting_node:  <span class="hljs-comment"># If we are back at the start, stop</span>
+            <span class="hljs-keyword">break</span>
+  
+    <span class="hljs-keyword">return</span> length
+
+<span class="hljs-comment"># Example usage:</span>
+<span class="hljs-comment"># Create a linked list with a cycle: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 3 (cycle starts at 3)</span>
+head = ListNode(<span class="hljs-number">1</span>)
+head.next = ListNode(<span class="hljs-number">2</span>)
+head.next.next = ListNode(<span class="hljs-number">3</span>)
+head.next.next.next = ListNode(<span class="hljs-number">4</span>)
+head.next.next.next.next = ListNode(<span class="hljs-number">5</span>)
+head.next.next.next.next.next = head.next.next  <span class="hljs-comment"># Create a cycle back to node 3</span>
+
+print(cycle_length(head))  <span class="hljs-comment"># Output: 3</span>
+</div></code></pre>
+<ul>
+<li>
+<p><strong>Time Complexity</strong>:</p>
+<ul>
+<li><strong>Cycle Detection</strong>: The time complexity of detecting a cycle is <strong>O(N)</strong>, where <strong>N</strong> is the number of nodes in the linked list. This is because, in the worst case, we need to traverse the entire list until the fast pointer catches up to the slow pointer.</li>
+<li><strong>Cycle Length Calculation</strong>: Once the cycle is detected, the time complexity of counting the cycle length is <strong>O(C)</strong>, where <strong>C</strong> is the length of the cycle. In the worst case, <strong>C</strong> could be all the nodes in the list.</li>
+<li>Therefore, the overall time complexity is <strong>O(N)</strong>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Space Complexity</strong>:</p>
+<ul>
+<li>The space complexity is <strong>O(1)</strong> because we only use a constant amount of extra space (two pointers, <code>slow</code> and <code>fast</code>, and a few additional variables).</li>
+</ul>
+</li>
+</ul>
+<p><strong>Summary</strong></p>
+<ul>
+<li><strong>Fast and Slow Pointers</strong> are used to detect a cycle.</li>
+<li>Once a cycle is detected, <strong>counting the length</strong> is done by fixing one pointer and moving another until it completes the cycle.</li>
+<li>The solution is efficient, requiring only <strong>O(N)</strong> time and <strong>O(1)</strong> space, making it suitable for large linked lists.</li>
+</ul>
+<h2 id="problem-5-intersection-of-two-linked-lists">Problem 5: Intersection of Two Linked Lists</h2>
+<p><strong>Problem</strong>: Given two singly linked lists, determine if they intersect, and return the intersecting node. Intersection is defined based on reference, not value; if the same node is shared between the two linked lists, they intersect at that node.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>:
+<ul>
+<li><strong>List A</strong>: <code>1 → 2 → 3 → 4 → 5</code></li>
+<li><strong>List B</strong>: <code>9 → 4 → 5</code></li>
+</ul>
+</li>
+<li><strong>Output</strong>: <code>Node with value 4</code></li>
+<li><strong>Explanation</strong>: Both lists intersect at the node with value <code>4</code>. This means they share the same reference from that point onward.</li>
+</ul>
+<p><strong>Visualization</strong>:</p>
+<pre class="hljs"><code><div>List A: 1 → 2 → 3 → 4 → 5
+                      ↑
+List B:         9 → 4
+</div></code></pre>
+<p>The lists intersect at node <code>4</code>.</p>
+<p><strong>Approach to Solve the Problem</strong></p>
+<ol>
+<li><strong>Two Pointers Technique</strong>:
+<ul>
+<li>Use two pointers, one for each list (<code>pointerA</code> and <code>pointerB</code>).</li>
+<li>Traverse each list simultaneously.</li>
+<li>When a pointer reaches the end of its list, move it to the head of the other list.</li>
+<li>If the lists intersect, the two pointers will meet at the intersection point after swapping heads once. If they do not intersect, both pointers will reach the end (<code>None</code>) at the same time.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Detailed Explanation</strong></p>
+<ul>
+<li><strong>Initialization</strong>:
+<ul>
+<li>Start with two pointers, one at the head of each list (<code>pointerA</code> at the head of List A, and <code>pointerB</code> at the head of List B).</li>
+</ul>
+</li>
+<li><strong>Traversing</strong>:
+<ul>
+<li>Move each pointer one step at a time.</li>
+<li>When a pointer reaches the end of its list, redirect it to the head of the other list.</li>
+</ul>
+</li>
+<li><strong>Meeting Point</strong>:
+<ul>
+<li>If there is an intersection, both pointers will eventually meet at the intersection node.</li>
+<li>If there is no intersection, both pointers will reach the end (<code>None</code>) simultaneously.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Python Code with Detailed Comments</strong></p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ListNode</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, value=<span class="hljs-number">0</span>, next=None)</span>:</span>
+        self.value = value
+        self.next = next
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_intersection_node</span><span class="hljs-params">(headA, headB)</span>:</span>
+    <span class="hljs-comment"># If either list is empty, there can be no intersection</span>
+    <span class="hljs-keyword">if</span> headA <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">or</span> headB <span class="hljs-keyword">is</span> <span class="hljs-literal">None</span>:
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">None</span>
+
+    <span class="hljs-comment"># Initialize two pointers, starting at the heads of both lists</span>
+    pointerA, pointerB = headA, headB
+
+    <span class="hljs-comment"># Traverse both lists until the pointers meet or reach the end</span>
+    <span class="hljs-keyword">while</span> pointerA != pointerB:
+        <span class="hljs-comment"># If pointerA reaches the end of List A, redirect it to the head of List B</span>
+        pointerA = pointerA.next <span class="hljs-keyword">if</span> pointerA <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> headB
+  
+        <span class="hljs-comment"># If pointerB reaches the end of List B, redirect it to the head of List A</span>
+        pointerB = pointerB.next <span class="hljs-keyword">if</span> pointerB <span class="hljs-keyword">is</span> <span class="hljs-keyword">not</span> <span class="hljs-literal">None</span> <span class="hljs-keyword">else</span> headA
+
+    <span class="hljs-comment"># Either both pointers are None (no intersection) or they meet at the intersection node</span>
+    <span class="hljs-keyword">return</span> pointerA
+
+<span class="hljs-comment"># Example usage:</span>
+<span class="hljs-comment"># Create intersecting linked lists:</span>
+<span class="hljs-comment"># List A: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5</span>
+<span class="hljs-comment"># List B: 9 -&gt; 4 -&gt; 5</span>
+headA = ListNode(<span class="hljs-number">1</span>)
+headA.next = ListNode(<span class="hljs-number">2</span>)
+headA.next.next = ListNode(<span class="hljs-number">3</span>)
+intersection = ListNode(<span class="hljs-number">4</span>)
+intersection.next = ListNode(<span class="hljs-number">5</span>)
+headA.next.next.next = intersection
+
+headB = ListNode(<span class="hljs-number">9</span>)
+headB.next = intersection
+
+<span class="hljs-comment"># Find intersection node</span>
+result = get_intersection_node(headA, headB)
+<span class="hljs-keyword">if</span> result:
+    print(<span class="hljs-string">f"Intersecting Node: <span class="hljs-subst">{result.value}</span>"</span>)  <span class="hljs-comment"># Output: Intersecting Node: 4</span>
+<span class="hljs-keyword">else</span>:
+    print(<span class="hljs-string">"No intersection"</span>)
+</div></code></pre>
+<p><strong>Complexity Analysis</strong></p>
+<ul>
+<li><strong>Time Complexity</strong>: <strong>O(M + N)</strong>, where <strong>M</strong> is the length of List A and <strong>N</strong> is the length of List B.
+<ul>
+<li>The worst case is when we traverse both lists entirely (when there is no intersection).</li>
+</ul>
+</li>
+<li><strong>Space Complexity</strong>: <strong>O(1)</strong>.
+<ul>
+<li>The solution uses only constant space (two pointers) and does not require any additional data structures.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Key Points</strong></p>
+<ul>
+<li>The <strong>two-pointer technique</strong> ensures that both pointers traverse the entire length of both lists.</li>
+<li>If the lists intersect, the pointers will meet at the intersection node after switching heads once.</li>
+<li>If there is no intersection, both pointers will reach <code>None</code> at the same time.</li>
+</ul>
+<p>This approach guarantees that the intersection node is found efficiently without extra memory, making it optimal for large linked lists.</p>
+<h1 id="in-place-linkedlist">In-Place LinkedList</h1>
+<h3 id="problem-22-reverse-every-k-nodes-in-a-linked-list">Problem 22: Reverse Every k Nodes in a Linked List</h3>
+<p><strong>Explanation</strong></p>
+<p>You are given a linked list and an integer <code>k</code>. Your task is to reverse the linked list in groups of <code>k</code> nodes at a time. If there are fewer than <code>k</code> nodes left at the end, they should not be reversed.</p>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5 → 6 → 7 → 8</code>, <code>k = 3</code></li>
+<li><strong>Explanation</strong>:
+<ul>
+<li>Reverse the first group of <code>3</code> nodes: <code>1 → 2 → 3</code> becomes <code>3 → 2 → 1</code>.</li>
+<li>Reverse the second group of <code>3</code> nodes: <code>4 → 5 → 6</code> becomes <code>6 → 5 → 4</code>.</li>
+<li>Nodes left after groups of <code>3</code> are: <code>7 → 8</code>, and they are left as is.</li>
+</ul>
+</li>
+<li><strong>Output</strong>: <code>3 → 2 → 1 → 6 → 5 → 4 → 7 → 8</code></li>
+</ul>
+<p>The challenge is to perform this reversal in-place, meaning you cannot use extra space for storing nodes (e.g., a list or array).</p>
+<p><strong>Approach:</strong></p>
+<p>We use an iterative approach to traverse through the linked list and reverse nodes in chunks of <code>k</code>. We'll have pointers to track the start and end of the sub-lists that need to be reversed, and carefully adjust pointers to achieve the desired result.</p>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ListNode</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, val=<span class="hljs-number">0</span>, next=None)</span>:</span>
+        self.val = val
+        self.next = next
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reverse_k_group</span><span class="hljs-params">(head, k)</span>:</span>
+    <span class="hljs-comment"># Step 1: Create a dummy node to act as the new head</span>
+    dummy = ListNode(<span class="hljs-number">0</span>)
+    dummy.next = head
+    group_prev = dummy
+
+    <span class="hljs-comment"># Function to find the k-th node from the given start node</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_kth_node</span><span class="hljs-params">(start, k)</span>:</span>
+        current = start
+        count = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">while</span> current <span class="hljs-keyword">and</span> count &lt; k:
+            current = current.next
+            count += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">return</span> current
+
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        <span class="hljs-comment"># Step 2: Find the k-th node from the current group start</span>
+        kth = get_kth_node(group_prev, k)
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> kth:
+            <span class="hljs-keyword">break</span>  <span class="hljs-comment"># Less than k nodes remaining, stop processing</span>
+  
+        <span class="hljs-comment"># Step 3: Reverse k nodes</span>
+        group_next = kth.next
+        prev, current = group_next, group_prev.next
+  
+        <span class="hljs-comment"># Reverse k nodes</span>
+        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(k):
+            next_node = current.next
+            current.next = prev
+            prev = current
+            current = next_node
+
+        <span class="hljs-comment"># Step 4: Update the pointers for the previous group</span>
+        new_group_start = group_prev.next
+        group_prev.next = prev
+        group_prev = new_group_start
+
+    <span class="hljs-keyword">return</span> dummy.next
+
+<span class="hljs-comment"># Helper function to print the linked list</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">print_linked_list</span><span class="hljs-params">(head)</span>:</span>
+    current = head
+    <span class="hljs-keyword">while</span> current:
+        print(current.val, end=<span class="hljs-string">" -&gt; "</span> <span class="hljs-keyword">if</span> current.next <span class="hljs-keyword">else</span> <span class="hljs-string">"\n"</span>)
+        current = current.next
+
+<span class="hljs-comment"># Example usage</span>
+<span class="hljs-comment"># Creating the linked list: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6 -&gt; 7 -&gt; 8</span>
+nodes = [ListNode(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, <span class="hljs-number">9</span>)]
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(nodes) - <span class="hljs-number">1</span>):
+    nodes[i].next = nodes[i + <span class="hljs-number">1</span>]
+
+k = <span class="hljs-number">3</span>
+print(<span class="hljs-string">"Original Linked List:"</span>)
+print_linked_list(nodes[<span class="hljs-number">0</span>])
+
+print(<span class="hljs-string">"\nReversed in Groups of k:"</span>)
+new_head = reverse_k_group(nodes[<span class="hljs-number">0</span>], k)
+print_linked_list(new_head)
+</div></code></pre>
+<p><strong>Complexity Analysis:</strong></p>
+<ul>
+<li>
+<p><strong>Time Complexity</strong>: <code>O(n)</code></p>
+<ul>
+<li>We traverse each node of the linked list a constant number of times (<code>n</code> is the number of nodes in the linked list).</li>
+<li>The main traversal and the reversal process are linear in time, which gives an overall time complexity of <code>O(n)</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Space Complexity</strong>: <code>O(1)</code></p>
+<ul>
+<li>The reversal is performed in-place, meaning we only use a constant amount of extra space for pointers.</li>
+<li>No additional data structures are used that grow in size relative to the input.</li>
+</ul>
+</li>
+</ul>
+<p>This solution effectively reverses every <code>k</code> nodes in the linked list while maintaining <code>O(n)</code> time complexity and <code>O(1)</code> space complexity, making it both efficient and optimal for this type of in-place linked list manipulation.</p>
+<h3 id="problem-25-reverse-linked-list-in-groups-and-merge-with-original-order">Problem 25: Reverse Linked List in Groups and Merge with Original Order</h3>
+<p><strong>Problem Explanation</strong></p>
+<p>You are given a linked list and an integer <code>k</code>. The task is to:</p>
+<ol>
+<li>Reverse nodes in groups of <code>k</code>.</li>
+<li>Merge the reversed nodes with the original linked list.</li>
+</ol>
+<p><strong>Example:</strong></p>
+<ul>
+<li><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5 → 6</code>, <code>k = 2</code></li>
+<li><strong>Step-by-Step Explanation</strong>:
+<ol>
+<li><strong>Reverse the Nodes in Groups</strong>:
+<ul>
+<li>First group (<code>1 → 2</code>): Reverse to <code>2 → 1</code>.</li>
+<li>Second group (<code>3 → 4</code>): Reverse to <code>4 → 3</code>.</li>
+<li>Third group (<code>5 → 6</code>): Reverse to <code>6 → 5</code>.</li>
+</ul>
+</li>
+<li><strong>Merge the Reversed Groups with Original Order</strong>:
+<ul>
+<li>Merge each reversed group (<code>2 → 1</code>, <code>4 → 3</code>, <code>6 → 5</code>) with their corresponding positions in the original linked list.</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><strong>Output</strong>: <code>1 → 2 → 2 → 1 → 3 → 4 → 4 → 3 → 5 → 6 → 6 → 5</code></li>
+</ul>
+<p>The challenge involves both reversing the nodes and then merging them effectively without additional space.</p>
+<p><strong>Solution Approach</strong></p>
+<p>We use an iterative approach where we traverse through the linked list twice:</p>
+<ol>
+<li><strong>Reverse the Groups</strong>: Reverse nodes in chunks of <code>k</code>.</li>
+<li><strong>Merge with Original Order</strong>: Merge the nodes with the original list as they appear.</li>
+</ol>
+<p><strong>Python Code with Detailed Comments</strong></p>
+<p>Below is a Python implementation that solves the problem:</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">ListNode</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">__init__</span><span class="hljs-params">(self, val=<span class="hljs-number">0</span>, next=None)</span>:</span>
+        self.val = val
+        self.next = next
+
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">reverse_k_group_and_merge</span><span class="hljs-params">(head, k)</span>:</span>
+    <span class="hljs-comment"># Step 1: Reverse nodes in groups of k</span>
+    dummy = ListNode(<span class="hljs-number">0</span>)
+    dummy.next = head
+    group_prev = dummy
+
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">get_kth_node</span><span class="hljs-params">(start, k)</span>:</span>
+        <span class="hljs-comment"># Finds the kth node from the start node</span>
+        current = start
+        count = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">while</span> current <span class="hljs-keyword">and</span> count &lt; k:
+            current = current.next
+            count += <span class="hljs-number">1</span>
+        <span class="hljs-keyword">return</span> current
+
+    <span class="hljs-keyword">while</span> <span class="hljs-literal">True</span>:
+        <span class="hljs-comment"># Find the k-th node from the current position</span>
+        kth = get_kth_node(group_prev, k)
+        <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> kth:
+            <span class="hljs-keyword">break</span>  <span class="hljs-comment"># Not enough nodes to form a group of k</span>
+
+        <span class="hljs-comment"># Reverse k nodes</span>
+        group_next = kth.next
+        prev, current = group_next, group_prev.next
+
+        <span class="hljs-keyword">for</span> _ <span class="hljs-keyword">in</span> range(k):
+            next_node = current.next
+            current.next = prev
+            prev = current
+            current = next_node
+
+        <span class="hljs-comment"># Connect with previous part</span>
+        new_group_start = group_prev.next
+        group_prev.next = prev
+        group_prev = new_group_start
+
+    <span class="hljs-comment"># Step 2: Merge with the original linked list</span>
+    <span class="hljs-comment"># Create two pointers to merge the original and reversed parts</span>
+    original = head
+    reversed_head = dummy.next
+
+    merged_dummy = ListNode(<span class="hljs-number">0</span>)
+    merged_current = merged_dummy
+
+    <span class="hljs-keyword">while</span> original <span class="hljs-keyword">and</span> reversed_head:
+        <span class="hljs-comment"># Merge one node from original, then one from reversed</span>
+        merged_current.next = original
+        original = original.next
+        merged_current = merged_current.next
+
+        merged_current.next = reversed_head
+        reversed_head = reversed_head.next
+        merged_current = merged_current.next
+
+    <span class="hljs-keyword">return</span> merged_dummy.next
+
+<span class="hljs-comment"># Helper function to print the linked list</span>
+<span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">print_linked_list</span><span class="hljs-params">(head)</span>:</span>
+    current = head
+    <span class="hljs-keyword">while</span> current:
+        print(current.val, end=<span class="hljs-string">" -&gt; "</span> <span class="hljs-keyword">if</span> current.next <span class="hljs-keyword">else</span> <span class="hljs-string">"\n"</span>)
+        current = current.next
+
+<span class="hljs-comment"># Example usage</span>
+<span class="hljs-comment"># Creating the linked list: 1 -&gt; 2 -&gt; 3 -&gt; 4 -&gt; 5 -&gt; 6</span>
+nodes = [ListNode(i) <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, <span class="hljs-number">7</span>)]
+<span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(len(nodes) - <span class="hljs-number">1</span>):
+    nodes[i].next = nodes[i + <span class="hljs-number">1</span>]
+
+k = <span class="hljs-number">2</span>
+print(<span class="hljs-string">"Original Linked List:"</span>)
+print_linked_list(nodes[<span class="hljs-number">0</span>])
+
+print(<span class="hljs-string">"\nReversed and Merged Linked List:"</span>)
+new_head = reverse_k_group_and_merge(nodes[<span class="hljs-number">0</span>], k)
+print_linked_list(new_head)
+</div></code></pre>
+<p><strong>Complexity Analysis</strong></p>
+<ul>
+<li>
+<p><strong>Time Complexity</strong>: <code>O(n)</code></p>
+<ul>
+<li>The entire list is traversed a constant number of times (<code>n</code> is the number of nodes in the list).</li>
+<li>The main traversal, the reversing process, and the merging process are all linear, resulting in an overall time complexity of <code>O(n)</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Space Complexity</strong>: <code>O(1)</code></p>
+<ul>
+<li>The solution performs the reversal in-place without using any additional data structures that grow with the input size.</li>
+<li>The space used is constant, making the space complexity <code>O(1)</code>.</li>
+</ul>
+</li>
+</ul>
+<p><strong>Summary</strong></p>
+<p>This solution effectively:</p>
+<ol>
+<li><strong>Reverses</strong> nodes in groups of <code>k</code>.</li>
+<li><strong>Merges</strong> the nodes with the original list, ensuring every <code>k</code> nodes are merged back with their original order.</li>
+</ol>
+<p>It maintains an <code>O(n)</code> time complexity and <code>O(1)</code> space complexity, making it both efficient and optimal for in-place linked list manipulation.</p>
+<p>Certainly! Let's go through Problem 5, <strong>Evaluate Reverse Polish Notation</strong>.</p>
+<hr>
+<h1 id="stack-based-problems">Stack Based Problems</h1>
+<h3 id="problem-5-evaluate-reverse-polish-notation-rpn">Problem 5: Evaluate Reverse Polish Notation (RPN)</h3>
+<p><strong>Description</strong>:
+Given an expression in Reverse Polish Notation (RPN), evaluate its value. The RPN is a mathematical notation where every operator follows all of its operands. You are guaranteed that the input will be valid.</p>
+<p><strong>Supported Operators</strong>: <code>+</code>, <code>-</code>, <code>*</code>, <code>/</code> (integer division).</p>
+<ul>
+<li><strong>Addition (<code>+</code>)</strong>: Adds two numbers.</li>
+<li><strong>Subtraction (<code>-</code>)</strong>: Subtracts the second operand from the first.</li>
+<li><strong>Multiplication (<code>*</code>)</strong>: Multiplies two numbers.</li>
+<li><strong>Division (<code>/</code>)</strong>: Divides the first operand by the second, performing integer division. The result should be truncated towards zero.</li>
+</ul>
+<p><strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: <code>[&quot;2&quot;, &quot;1&quot;, &quot;+&quot;, &quot;3&quot;, &quot;*&quot;]</code></li>
+<li><strong>Output</strong>: <code>9</code></li>
+</ul>
+<p><strong>Explanation</strong>:</p>
+<ol>
+<li><strong>&quot;2&quot;</strong> and <strong>&quot;1&quot;</strong> are numbers, so push them onto the stack.</li>
+<li><strong>&quot;+&quot;</strong> means add the top two elements on the stack (2 + 1 = 3), so pop the top two, compute the result, and push <code>3</code> back onto the stack.</li>
+<li><strong>&quot;3&quot;</strong> is a number, so push it onto the stack.</li>
+<li><strong>&quot;*&quot;</strong> means multiply the top two elements on the stack (3 * 3 = 9), so pop the top two, compute the result, and push <code>9</code> back onto the stack.</li>
+<li>The final stack has a single value, which is <code>9</code>.</li>
+</ol>
+<p><strong>Solution Approach:</strong></p>
+<p>We use a <strong>stack</strong> to handle this problem efficiently:</p>
+<ol>
+<li><strong>Iterate</strong> through each token in the input list.</li>
+<li><strong>If the token is a number</strong>, push it onto the stack.</li>
+<li><strong>If the token is an operator</strong> (<code>+</code>, <code>-</code>, <code>*</code>, <code>/</code>):
+<ul>
+<li>Pop the top two elements from the stack.</li>
+<li>Perform the operation using the two popped numbers.</li>
+<li>Push the result back onto the stack.</li>
+</ul>
+</li>
+<li>After processing all tokens, the stack will contain a single element, which is the result.</li>
+</ol>
+<p><strong>Detailed Walkthrough of Example:</strong></p>
+<p>For the input <code>[&quot;2&quot;, &quot;1&quot;, &quot;+&quot;, &quot;3&quot;, &quot;*&quot;]</code>:</p>
+<ol>
+<li>Start with an empty stack: <code>[]</code>.</li>
+<li>Push <code>2</code>: <code>[2]</code></li>
+<li>Push <code>1</code>: <code>[2, 1]</code></li>
+<li>Encounter <code>&quot;+&quot;</code>:
+<ul>
+<li>Pop <code>1</code> and <code>2</code>.</li>
+<li>Compute <code>2 + 1 = 3</code>.</li>
+<li>Push <code>3</code> back onto the stack: <code>[3]</code></li>
+</ul>
+</li>
+<li>Push <code>3</code>: <code>[3, 3]</code></li>
+<li>Encounter <code>&quot;*&quot;</code>:
+<ul>
+<li>Pop <code>3</code> and <code>3</code>.</li>
+<li>Compute <code>3 * 3 = 9</code>.</li>
+<li>Push <code>9</code> back onto the stack: <code>[9]</code></li>
+</ul>
+</li>
+<li>The final result is <code>9</code>.</li>
+</ol>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">eval_rpn</span><span class="hljs-params">(tokens)</span>:</span>
+    stack = []
+
+    <span class="hljs-keyword">for</span> token <span class="hljs-keyword">in</span> tokens:
+        <span class="hljs-keyword">if</span> token <span class="hljs-keyword">in</span> <span class="hljs-string">"+-*/"</span>:
+            <span class="hljs-comment"># Pop the two top-most elements</span>
+            b = stack.pop()
+            a = stack.pop()
+
+            <span class="hljs-comment"># Perform the respective operation</span>
+            <span class="hljs-keyword">if</span> token == <span class="hljs-string">"+"</span>:
+                stack.append(a + b)
+            <span class="hljs-keyword">elif</span> token == <span class="hljs-string">"-"</span>:
+                stack.append(a - b)
+            <span class="hljs-keyword">elif</span> token == <span class="hljs-string">"*"</span>:
+                stack.append(a * b)
+            <span class="hljs-keyword">elif</span> token == <span class="hljs-string">"/"</span>:
+                <span class="hljs-comment"># Integer division towards zero</span>
+                stack.append(int(a / b))
+        <span class="hljs-keyword">else</span>:
+            <span class="hljs-comment"># If the token is a number, push it to the stack</span>
+            stack.append(int(token))
+  
+    <span class="hljs-comment"># The final result is the last item in the stack</span>
+    <span class="hljs-keyword">return</span> stack.pop()
+
+<span class="hljs-comment"># Example usage</span>
+tokens = [<span class="hljs-string">"2"</span>, <span class="hljs-string">"1"</span>, <span class="hljs-string">"+"</span>, <span class="hljs-string">"3"</span>, <span class="hljs-string">"*"</span>]
+print(eval_rpn(tokens))  <span class="hljs-comment"># Output: 9</span>
+</div></code></pre>
+<p><strong>Explanation of the Code:</strong></p>
+<ol>
+<li><strong>Stack Initialization</strong>: We start with an empty <code>stack</code>.</li>
+<li><strong>Loop through Tokens</strong>:
+<ul>
+<li>For each token:
+<ul>
+<li>If it’s a number, we push it onto the stack.</li>
+<li>If it’s an operator, we pop the two top numbers, apply the operation, and push the result.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Final Result</strong>: At the end, the only element left in the stack is the result, which we return.</li>
+</ol>
+<p><strong>Edge Cases:</strong></p>
+<ol>
+<li><strong>Single Number</strong>: If the input is a single number (e.g., <code>[&quot;4&quot;]</code>), the result is that number itself.</li>
+<li><strong>Negative Numbers</strong>: Handle cases with negative numbers correctly.</li>
+<li><strong>Integer Division</strong>: Division should truncate towards zero, so <code>int(a / b)</code> ensures integer division that truncates towards zero.</li>
+</ol>
+<p>This approach runs in <strong>O(n)</strong> time, where <code>n</code> is the number of tokens, because we only push and pop each token once, making it very efficient.</p>
+<p>Sure! Let's go through <strong>Problem 6: Largest Rectangle in Histogram</strong>.</p>
+<hr>
+<h3 id="problem-6-largest-rectangle-in-histogram">Problem 6: Largest Rectangle in Histogram</h3>
+<p><strong>Description</strong>:
+Given an array of integers where each element represents the <strong>height of a histogram bar</strong>, find the area of the largest rectangle that can be formed within the bounds of the histogram.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: <code>[2, 1, 5, 6, 2, 3]</code></li>
+<li><strong>Output</strong>: <code>10</code></li>
+</ul>
+<p><strong>Explanation</strong>:
+For the given histogram <code>[2, 1, 5, 6, 2, 3]</code>, the largest rectangle has an area of <code>10</code>. This rectangle is formed by the heights <code>5</code> and <code>6</code> with a width of <code>2</code> (from index <code>2</code> to <code>3</code>).</p>
+<p><strong>Approach: Monotonic Stack</strong></p>
+<p>To solve this problem efficiently, we can use a <strong>monotonic stack</strong> to maintain the heights in increasing order, which helps in calculating the maximum area of a rectangle when we encounter a height that breaks the increasing order.</p>
+<p><strong>Steps:</strong></p>
+<ol>
+<li><strong>Initialize an empty stack</strong> to store indices and a <code>max_area</code> variable to track the largest rectangle area.</li>
+<li><strong>Iterate through each bar in the histogram</strong>:
+<ul>
+<li>If the current bar height is less than the height at the index stored at the top of the stack, it indicates that a rectangle with the height of the top of the stack can’t extend further. We then calculate the area with this height.</li>
+<li>To calculate the area:
+<ul>
+<li><strong>Pop the height</strong> from the stack.</li>
+<li><strong>Calculate the width</strong> based on the distance to the current index and the index of the last item remaining in the stack.</li>
+</ul>
+</li>
+<li>Push the current index onto the stack.</li>
+</ul>
+</li>
+<li><strong>Handle remaining bars</strong> in the stack after the loop to ensure any heights left in the stack are used for area calculations.</li>
+</ol>
+<p><strong>Detailed Walkthrough of Example</strong></p>
+<p>For the histogram <code>[2, 1, 5, 6, 2, 3]</code>:</p>
+<ol>
+<li>
+<p>Initialize <code>stack = []</code> and <code>max_area = 0</code>.</p>
+</li>
+<li>
+<p>Traverse through the histogram:</p>
+<ul>
+<li><strong>Index 0 (height 2)</strong>: Push index <code>0</code> onto the stack → <code>stack = [0]</code>.</li>
+<li><strong>Index 1 (height 1)</strong>: Since <code>1 &lt; 2</code>, pop <code>0</code>. Calculate area as <code>2 * 1 = 2</code>. Push <code>1</code> onto the stack → <code>stack = [1]</code>.</li>
+<li><strong>Index 2 (height 5)</strong>: Push <code>2</code> → <code>stack = [1, 2]</code>.</li>
+<li><strong>Index 3 (height 6)</strong>: Push <code>3</code> → <code>stack = [1, 2, 3]</code>.</li>
+<li><strong>Index 4 (height 2)</strong>: Since <code>2 &lt; 6</code>, pop <code>3</code>. Area = <code>6 * 1 = 6</code>. Pop <code>2</code>, area = <code>5 * 2 = 10</code>. Update <code>max_area = 10</code>. Push <code>4</code> → <code>stack = [1, 4]</code>.</li>
+<li><strong>Index 5 (height 3)</strong>: Push <code>5</code> → <code>stack = [1, 4, 5]</code>.</li>
+</ul>
+</li>
+<li>
+<p><strong>Remaining Elements</strong>: After finishing the array, pop and calculate for each remaining index:</p>
+<ul>
+<li>Pop <code>5</code>, area = <code>3 * 1 = 3</code>.</li>
+<li>Pop <code>4</code>, area = <code>2 * 4 = 8</code>.</li>
+</ul>
+</li>
+</ol>
+<p>Final <code>max_area</code> is <code>10</code>.</p>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">largest_rectangle_area</span><span class="hljs-params">(heights)</span>:</span>
+    stack = []
+    max_area = <span class="hljs-number">0</span>
+    n = len(heights)
+
+    <span class="hljs-keyword">for</span> i <span class="hljs-keyword">in</span> range(n):
+        <span class="hljs-comment"># Pop elements if the current height is less than the height of the top of the stack</span>
+        <span class="hljs-keyword">while</span> stack <span class="hljs-keyword">and</span> heights[i] &lt; heights[stack[<span class="hljs-number">-1</span>]]:
+            height = heights[stack.pop()]  <span class="hljs-comment"># Height of the popped bar</span>
+            width = i <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> stack <span class="hljs-keyword">else</span> i - stack[<span class="hljs-number">-1</span>] - <span class="hljs-number">1</span>  <span class="hljs-comment"># Width of the rectangle</span>
+            max_area = max(max_area, height * width)
+    
+        <span class="hljs-comment"># Push current index onto stack</span>
+        stack.append(i)
+  
+    <span class="hljs-comment"># Pop all remaining elements in the stack</span>
+    <span class="hljs-keyword">while</span> stack:
+        height = heights[stack.pop()]
+        width = n <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> stack <span class="hljs-keyword">else</span> n - stack[<span class="hljs-number">-1</span>] - <span class="hljs-number">1</span>
+        max_area = max(max_area, height * width)
+  
+    <span class="hljs-keyword">return</span> max_area
+
+<span class="hljs-comment"># Example usage</span>
+heights = [<span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">5</span>, <span class="hljs-number">6</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>]
+print(largest_rectangle_area(heights))  <span class="hljs-comment"># Output: 10</span>
+</div></code></pre>
+<p><strong>Explanation of Code:</strong></p>
+<ol>
+<li><strong>Stack Initialization</strong>: We start with an empty <code>stack</code> and <code>max_area = 0</code>.</li>
+<li><strong>Traverse the Histogram</strong>:
+<ul>
+<li>For each bar, if it’s shorter than the bar represented by the top index in the stack, pop from the stack and calculate the area. The width is calculated based on the position between the current index and the index at the top of the stack after popping.</li>
+<li>Push each index onto the stack if the height is increasing or the stack is empty.</li>
+</ul>
+</li>
+<li><strong>Remaining Elements</strong>: After the loop, calculate areas for remaining heights in the stack, using the length of the array as the boundary.</li>
+</ol>
+<p><strong>Edge Cases:</strong></p>
+<ol>
+<li><strong>Single Bar</strong>: If there’s only one bar, the area is the height of that bar.</li>
+<li><strong>Increasing Heights</strong>: In cases like <code>[1, 2, 3, 4]</code>, all bars are pushed until the end, and the largest rectangle is the area of the smallest bar multiplied by the width of the entire histogram.</li>
+<li><strong>All Bars of the Same Height</strong>: In cases like <code>[2, 2, 2, 2]</code>, the largest rectangle is simply <code>height * length</code>.</li>
+</ol>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li><strong>Time Complexity</strong>: O(n), where <code>n</code> is the number of bars in the histogram. Each bar is pushed and popped from the stack only once.</li>
+<li><strong>Space Complexity</strong>: O(n), due to the stack used for storing indices.</li>
+</ul>
+<p>Using a <strong>monotonic stack</strong> helps in managing heights efficiently, ensuring we only calculate the area when needed and maintaining a linear time complexity. This approach provides an optimal solution for finding the largest rectangle area in a histogram.</p>
+<p>Sure! Let's go through <strong>Problem 16: Trapping Rain Water</strong>.</p>
+<hr>
+<h3 id="problem-16-trapping-rain-water">Problem 16: Trapping Rain Water</h3>
+<p><strong>Description</strong>:
+Given <code>n</code> non-negative integers representing an elevation map where the width of each bar is <code>1</code>, compute how much water it can trap after raining.</p>
+<p><strong>Example</strong>:</p>
+<ul>
+<li><strong>Input</strong>: <code>[0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]</code></li>
+<li><strong>Output</strong>: <code>6</code></li>
+</ul>
+<p><img src="image/21CodingExtraPrblms/1730259028327.png" alt="1730259028327"></p>
+<p><strong>Explanation</strong>:
+For the elevation map <code>[0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]</code>, the water trapped at each index is:</p>
+<ul>
+<li>At index <code>2</code> → <code>1</code> unit of water</li>
+<li>At index <code>4</code> → <code>1</code> unit</li>
+<li>At index <code>5</code> → <code>2</code> units</li>
+<li>At index <code>6</code> → <code>1</code> unit</li>
+<li>At index <code>9</code> → <code>1</code> unit</li>
+</ul>
+<p>Adding up these values gives a total of <code>6</code> units of trapped water.</p>
+<p><strong>Approach: Monotonic Stack</strong></p>
+<p>To solve this efficiently, we use a <strong>monotonic decreasing stack</strong>. This approach leverages the idea of finding &quot;boundaries&quot; for each water trap:</p>
+<ol>
+<li><strong>Identify lower and upper bounds</strong> around each bar that could trap water.</li>
+<li>The <strong>left and right boundaries</strong> around a lower bar will define how much water can be trapped.</li>
+</ol>
+<p><strong>Steps:</strong></p>
+<ol>
+<li>Initialize an empty stack and a variable <code>water_trapped</code> to accumulate the total trapped water.</li>
+<li>Traverse through each bar in the elevation map:
+<ul>
+<li>If the current bar height is greater than the height at the index stored at the top of the stack, this indicates that water can be trapped above the top index in the stack.</li>
+<li>To calculate trapped water:
+<ul>
+<li>Pop the top height from the stack.</li>
+<li>Use the next height in the stack to define the width for trapped water and the minimum height difference to calculate the trapped water.</li>
+</ul>
+</li>
+<li>Push the current index onto the stack if it’s empty or if the height is less than the height at the top of the stack.</li>
+</ul>
+</li>
+</ol>
+<p><strong>Detailed Walkthrough of Example</strong></p>
+<p>For the elevation map <code>[0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1]</code>:</p>
+<ol>
+<li>Initialize <code>stack = []</code> and <code>water_trapped = 0</code>.</li>
+<li>Traverse through the elevation map:
+<ul>
+<li><strong>Index 0 (height 0)</strong>: Push <code>0</code> → <code>stack = [0]</code>.</li>
+<li><strong>Index 1 (height 1)</strong>: Push <code>1</code> → <code>stack = [0, 1]</code>.</li>
+<li><strong>Index 2 (height 0)</strong>: Push <code>2</code> → <code>stack = [0, 1, 2]</code>.</li>
+<li><strong>Index 3 (height 2)</strong>:
+<ul>
+<li>Pop <code>2</code>. Water trapped = <code>(min(1, 2) - 0) * (3 - 1 - 1) = 1</code>. <code>water_trapped = 1</code>.</li>
+<li>Pop <code>1</code>. Water trapped = <code>(min(0, 2) - 1) * (3 - 0 - 1) = 2</code>. <code>water_trapped = 3</code>.</li>
+</ul>
+</li>
+<li><strong>Index 4 (height 1)</strong>: Push <code>4</code> → <code>stack = [0, 3, 4]</code>.</li>
+<li><strong>Index 5 (height 0)</strong>: Push <code>5</code> → <code>stack = [0, 3, 4, 5]</code>.</li>
+<li><strong>Index 6 (height 1)</strong>:
+<ul>
+<li>Pop <code>5</code>. Water trapped = <code>(min(2, 1) - 0) * (6 - 4 - 1) = 1</code>. <code>water_trapped = 4</code>.</li>
+</ul>
+</li>
+<li><strong>Index 7 (height 3)</strong>: Pop and calculate water for <code>6</code>, <code>4</code>, and <code>3</code>.</li>
+</ul>
+</li>
+<li><strong>Final Result</strong>: <code>water_trapped = 6</code>.</li>
+</ol>
+<p><strong>Python Code:</strong></p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">trap_rain_water</span><span class="hljs-params">(heights)</span>:</span>
+    stack = []
+    water_trapped = <span class="hljs-number">0</span>
+
+    <span class="hljs-keyword">for</span> i, height <span class="hljs-keyword">in</span> enumerate(heights):
+        <span class="hljs-comment"># Calculate water trapped if current height is greater than top of the stack</span>
+        <span class="hljs-keyword">while</span> stack <span class="hljs-keyword">and</span> height &gt; heights[stack[<span class="hljs-number">-1</span>]]:
+            top = stack.pop()  <span class="hljs-comment"># Pop the top of the stack</span>
+            <span class="hljs-keyword">if</span> <span class="hljs-keyword">not</span> stack:
+                <span class="hljs-keyword">break</span>  <span class="hljs-comment"># No left boundary</span>
+
+            <span class="hljs-comment"># Calculate the distance between left and right boundaries</span>
+            distance = i - stack[<span class="hljs-number">-1</span>] - <span class="hljs-number">1</span>
+            <span class="hljs-comment"># Find the bounded height</span>
+            bounded_height = min(height, heights[stack[<span class="hljs-number">-1</span>]]) - heights[top]
+            water_trapped += distance * bounded_height
+      
+        <span class="hljs-comment"># Push the current index onto the stack</span>
+        stack.append(i)
+  
+    <span class="hljs-keyword">return</span> water_trapped
+
+<span class="hljs-comment"># Example usage</span>
+heights = [<span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1</span>, <span class="hljs-number">3</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">1</span>]
+print(trap_rain_water(heights))  <span class="hljs-comment"># Output: 6</span>
+</div></code></pre>
+<p><strong>Explanation of Code:</strong></p>
+<ol>
+<li><strong>Stack Initialization</strong>: Start with an empty <code>stack</code> and set <code>water_trapped = 0</code>.</li>
+<li><strong>Traverse the Heights</strong>:
+<ul>
+<li>For each height:
+<ul>
+<li>If it’s greater than the height at the top index in the stack, this means a boundary is found, and water can be trapped.</li>
+<li><strong>Calculate water trapped</strong> based on the width and the bounded height between two boundaries.</li>
+<li>Push the current index onto the stack if it’s not empty or if the height is less than the height at the top of the stack.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Final Result</strong>: <code>water_trapped</code> accumulates the total units of water trapped.</li>
+</ol>
+<p><strong>Edge Cases:</strong></p>
+<ol>
+<li><strong>No Trapped Water</strong>: Flat heights like <code>[1, 1, 1]</code> or increasing heights <code>[1, 2, 3]</code> result in zero trapped water.</li>
+<li><strong>Only One Bar</strong>: With only one bar or no bars, no water can be trapped.</li>
+<li><strong>Descending Heights</strong>: For arrays like <code>[5, 4, 3, 2, 1]</code>, no water can be trapped, as there’s no boundary.</li>
+</ol>
+<p><strong>Complexity:</strong></p>
+<ul>
+<li><strong>Time Complexity</strong>: O(n), where <code>n</code> is the number of heights, since each height is processed once.</li>
+<li><strong>Space Complexity</strong>: O(n), due to the stack used for storing indices.</li>
+</ul>
+<p>Using a <strong>monotonic stack</strong> helps efficiently manage boundaries and enables an optimal solution for the problem. The above solution provides a way to calculate trapped rainwater by leveraging left and right boundaries to define each trapped segment.</p>
+
+</body>
+</html>

@@ -459,6 +459,19 @@ code {
 <li><strong>Iterative vs. Recursive</strong>: Reversing a linked list can also be implemented recursively, which can make the code cleaner but will have <code>O(n)</code> space complexity due to recursion depth.</li>
 <li><strong>Comparative Analysis</strong>: Iterative solutions are generally preferred for in-place manipulation as they use constant space, whereas recursive solutions may face stack overflow for large lists.</li>
 </ul>
+<h2 id="as">--
+as</h2>
+<ul>
+<li>adf</li>
+<li>adsf</li>
+<li>adf
+--
+--</li>
+<li>asdf
+-- adf</li>
+<li>adsfad</li>
+<li>werf</li>
+</ul>
 <h4 id="8-practice-problems">8. Practice Problems</h4>
 <table>
 <thead>
@@ -474,142 +487,177 @@ code {
 <tr>
 <td>1</td>
 <td>Reverse a Linked List</td>
-<td>Input: <code>1 → 2 → 3</code><br>Explanation: Start with <code>1 → 2 → 3</code>. Reverse pointers to get <code>3 → 2 → 1</code>.<br>Output: <code>3 → 2 → 1</code></td>
+<td><strong>Input</strong>: <code>1 → 2 → 3</code><strong>Explanation</strong>: Start with <code>1 → 2 → 3</code>. Reverse pointers to get <code>3 → 2 → 1</code>.<strong>Output</strong>: <code>3 → 2 → 1</code></td>
 <td>Easy</td>
-<td>Reverse Template (Iterative). Uses <code>prev</code> and <code>current</code> pointers to reverse the links in a single pass.</td>
+<td>Reverse Template (Iterative). Uses <code>prev</code> and <code>current</code> pointers to reverse the links in a single pass. No extra variables are needed.</td>
 </tr>
 <tr>
 <td>2</td>
 <td>Reorder List</td>
-<td>Input: <code>1 → 2 → 3 → 4</code><br>Explanation: Split list into two halves (<code>1 → 2</code> and <code>3 → 4</code>), reverse the second half (<code>4 → 3</code>), and merge alternately to get <code>1 → 4 → 2 → 3</code>.<br>Output: <code>1 → 4 → 2 → 3</code></td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4</code><strong>Explanation</strong>: Split list into two halves (<code>1 → 2</code> and <code>3 → 4</code>), reverse the second half (<code>4 → 3</code>), and merge alternately to get <code>1 → 4 → 2 → 3</code>.<strong>Output</strong>: <code>1 → 4 → 2 → 3</code></td>
 <td>Medium</td>
-<td>Reorder Template. Uses <code>slow</code> and <code>fast</code> pointers to find the middle, then uses <code>prev</code> and <code>current</code> to reverse the second half, followed by merging.</td>
+<td>Reorder Template. Uses <code>slow</code> and <code>fast</code> pointers to find the middle, <code>prev</code> and <code>current</code> to reverse the second half, followed by merging. Extra logic is needed for reversing the second half and merging.</td>
 </tr>
 <tr>
 <td>3</td>
 <td>Reverse Nodes in k-Group</td>
-<td>Input: <code>1 → 2 → 3 → 4 → 5</code>, <code>k=2</code><br>Explanation: Reverse every 2 nodes. First group: <code>2 → 1</code>, Second group: <code>4 → 3</code>, Remaining node: <code>5</code>.<br>Output: <code>2 → 1 → 4 → 3 → 5</code></td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5</code>, <code>k=2</code><strong>Explanation</strong>: Reverse every 2 nodes. First group: <code>2 → 1</code>, Second group: <code>4 → 3</code>, Remaining node: <code>5</code>.<strong>Output</strong>: <code>2 → 1 → 4 → 3 → 5</code></td>
 <td>Medium</td>
-<td>Modify Reverse Template for Groups of k. Uses <code>count</code> to keep track of nodes and reverse in chunks of <code>k</code> size.</td>
+<td>Modify Reverse Template for Groups of k. Uses <code>count</code> to keep track of nodes and reverse in chunks of <code>k</code> size. Extra logic is needed for handling groups and maintaining the links between groups.</td>
 </tr>
 <tr>
 <td>4</td>
 <td>Detect a Cycle in a Linked List</td>
-<td>Input: <code>1 → 2 → 3 → 4 → 2</code> (cycle)<br>Explanation: Detect the cycle using two pointers (slow and fast).<br>Output: <code>True</code> (cycle exists)</td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 2</code> (cycle)<strong>Explanation</strong>: Detect the cycle using two pointers (slow and fast). If slow and fast pointers meet, a cycle exists.<strong>Output</strong>: <code>True</code> (cycle exists)</td>
 <td>Easy</td>
-<td>Floyd's Cycle Detection Algorithm. Uses <code>slow</code> and <code>fast</code> pointers to detect the cycle.</td>
+<td>Floyd's Cycle Detection Algorithm. Uses <code>slow</code> and <code>fast</code> pointers. No extra variables are needed.</td>
 </tr>
 <tr>
 <td>5</td>
 <td>Remove a Cycle in a Linked List</td>
-<td>Input: <code>1 → 2 → 3 → 4 → 2</code> (cycle)<br>Explanation: Detect the cycle and remove it to form <code>1 → 2 → 3 → 4</code>.<br>Output: <code>1 → 2 → 3 → 4</code></td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 2</code> (cycle)<strong>Explanation</strong>: Detect the cycle and remove it to form <code>1 → 2 → 3 → 4</code>.<strong>Output</strong>: <code>1 → 2 → 3 → 4</code></td>
 <td>Medium</td>
-<td>Floyd's Algorithm with cycle removal logic. Uses two pointers to detect and remove the cycle.</td>
+<td>Floyd's Algorithm with cycle removal logic. Uses <code>slow</code> and <code>fast</code> pointers to detect the cycle, and additional logic to remove the cycle.</td>
 </tr>
 <tr>
 <td>6</td>
 <td>Find the Middle of a Linked List</td>
-<td>Input: <code>1 → 2 → 3 → 4 → 5</code><br>Explanation: Use two pointers to find the middle (<code>3</code>).<br>Output: <code>3</code></td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5</code><strong>Explanation</strong>: Use two pointers (<code>slow</code> and <code>fast</code>) to find the middle node (<code>3</code>).<strong>Output</strong>: <code>3</code></td>
 <td>Easy</td>
-<td>Uses <code>slow</code> and <code>fast</code> pointers to find the middle node.</td>
+<td>Uses <code>slow</code> and <code>fast</code> pointers to find the middle node. No extra variables are needed.</td>
 </tr>
 <tr>
 <td>7</td>
 <td>Merge Two Sorted Linked Lists</td>
-<td>Input: <code>1 → 3 → 5</code>, <code>2 → 4 → 6</code><br>Explanation: Merge nodes to form a sorted list <code>1 → 2 → 3 → 4 → 5 → 6</code>.<br>Output: <code>1 → 2 → 3 → 4 → 5 → 6</code></td>
+<td><strong>Input</strong>: <code>1 → 3 → 5</code>, <code>2 → 4 → 6</code><strong>Explanation</strong>: Merge nodes from both lists while maintaining order to form a single sorted list <code>1 → 2 → 3 → 4 → 5 → 6</code>.<strong>Output</strong>: <code>1 → 2 → 3 → 4 → 5 → 6</code></td>
 <td>Easy</td>
-<td>Iterative merge using two pointers (<code>l1</code> and <code>l2</code>).</td>
+<td>Iterative merge using two pointers (<code>l1</code> and <code>l2</code>). No extra variables are needed, but extra logic is required to handle merging.</td>
 </tr>
 <tr>
 <td>8</td>
 <td>Partition List Around a Value</td>
-<td>Input: <code>1 → 4 → 3 → 2 → 5 → 2</code>, <code>x=3</code><br>Explanation: Partition nodes to form <code>1 → 2 → 2 → 4 → 3 → 5</code>.<br>Output: <code>1 → 2 → 2 → 4 → 3 → 5</code></td>
+<td><strong>Input</strong>: <code>1 → 4 → 3 → 2 → 5 → 2</code>, <code>x=3</code><strong>Explanation</strong>: Partition the list such that nodes less than <code>x</code> come before nodes greater than or equal to <code>x</code>. Resulting list: <code>1 → 2 → 2 → 4 → 3 → 5</code>.<strong>Output</strong>: <code>1 → 2 → 2 → 4 → 3 → 5</code></td>
 <td>Medium</td>
-<td>Use two pointers to create less than and greater than partitions.</td>
+<td>Use two pointers to create less than and greater than partitions. Extra logic is needed to maintain the two partitions and merge them.</td>
 </tr>
 <tr>
 <td>9</td>
 <td>Remove N-th Node from End</td>
-<td>Input: <code>1 → 2 → 3 → 4 → 5</code>, <code>n=2</code><br>Explanation: Remove the 2nd node from the end (<code>4</code>).<br>Output: <code>1 → 2 → 3 → 5</code></td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5</code>, <code>n=2</code><strong>Explanation</strong>: Remove the 2nd node from the end (<code>4</code>). Adjust pointers accordingly.<strong>Output</strong>: <code>1 → 2 → 3 → 5</code></td>
 <td>Medium</td>
-<td>Two pointer technique to find and remove the node.</td>
+<td>Two pointer technique to find and remove the node. Uses <code>first</code> and <code>second</code> pointers, with extra logic to handle the removal.</td>
 </tr>
 <tr>
 <td>10</td>
 <td>Rotate List</td>
-<td>Input: <code>1 → 2 → 3 → 4 → 5</code>, <code>k=2</code><br>Explanation: Rotate list right by 2 to form <code>4 → 5 → 1 → 2 → 3</code>.<br>Output: <code>4 → 5 → 1 → 2 → 3</code></td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5</code>, <code>k=2</code><strong>Explanation</strong>: Rotate list to the right by 2 positions. New order: <code>4 → 5 → 1 → 2 → 3</code>.<strong>Output</strong>: <code>4 → 5 → 1 → 2 → 3</code></td>
 <td>Medium</td>
-<td>Calculate length, adjust pointers to rotate the list.</td>
+<td>Rotate Template. Calculate the length, adjust pointers to rotate the list. Uses extra variables to track length and perform the rotation.</td>
 </tr>
 <tr>
 <td>11</td>
 <td>Copy List with Random Pointer</td>
-<td>Input: List with random pointers<br>Explanation: Create a deep copy maintaining random pointers.<br>Output: Deep copied list</td>
+<td><strong>Input</strong>: List with random pointers<strong>Explanation</strong>: Create a deep copy of the original list, ensuring random pointers are correctly assigned.<strong>Output</strong>: Deep copied list</td>
 <td>Hard</td>
-<td>Hashmap to store original and copied node references.</td>
+<td>Hashmap Template. Uses a hashmap to store original and copied node references, requiring extra memory for the mapping.</td>
 </tr>
 <tr>
 <td>12</td>
 <td>Swap Nodes in Pairs</td>
-<td>Input: <code>1 → 2 → 3 → 4</code><br>Explanation: Swap every two nodes to get <code>2 → 1 → 4 → 3</code>.<br>Output: <code>2 → 1 → 4 → 3</code></td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4</code><strong>Explanation</strong>: Swap every two adjacent nodes to get <code>2 → 1 → 4 → 3</code>.<strong>Output</strong>: <code>2 → 1 → 4 → 3</code></td>
 <td>Easy</td>
-<td>Iteratively swap nodes using a loop.</td>
+<td>Swap Template. Iteratively swap nodes using a loop. No extra variables are needed, but extra logic is required to swap nodes in pairs.</td>
 </tr>
 <tr>
 <td>13</td>
 <td>Add Two Numbers (Linked List)</td>
-<td>Input: <code>2 → 4 → 3</code>, <code>5 → 6 → 4</code><br>Explanation: Add numbers to form <code>7 → 0 → 8</code>.<br>Output: <code>7 → 0 → 8</code></td>
+<td><strong>Input</strong>: <code>2 → 4 → 3</code>, <code>5 → 6 → 4</code><strong>Explanation</strong>: Add the numbers represented by the linked lists (<code>342 + 465 = 807</code>). Resulting list: <code>7 → 0 → 8</code>.<strong>Output</strong>: <code>7 → 0 → 8</code></td>
 <td>Medium</td>
-<td>Use carry to add numbers node by node.</td>
+<td>Addition Template. Use carry to add numbers node by node. Uses an extra variable <code>carry</code> to handle the sum.</td>
 </tr>
 <tr>
 <td>14</td>
 <td>Flatten a Multilevel Doubly Linked List</td>
-<td>Input: Multilevel list<br>Explanation: Flatten to a single-level list.<br>Output: Flattened list</td>
+<td><strong>Input</strong>: Multilevel list with child pointers<strong>Explanation</strong>: Flatten the list to a single-level linked list, preserving the order.<strong>Output</strong>: Flattened list</td>
 <td>Medium</td>
-<td>DFS approach to handle child pointers.</td>
+<td>Flatten Template. Uses DFS approach to handle child pointers, requiring a stack for DFS traversal and extra space.</td>
 </tr>
 <tr>
 <td>15</td>
 <td>Reverse Alternating K Nodes</td>
-<td>Input: <code>1 → 2 → 3 → 4 → 5 → 6 → 7 → 8</code>, <code>k=2</code><br>Explanation: Reverse every alternating 2 nodes.<br>Output: <code>2 → 1 → 3 → 4 → 6 → 5 → 7 → 8</code></td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5 → 6 → 7 → 8</code>, <code>k=2</code><strong>Explanation</strong>: Reverse every alternate <code>k</code> nodes. Resulting list: <code>2 → 1 → 3 → 4 → 6 → 5 → 7 → 8</code>.<strong>Output</strong>: <code>2 → 1 → 3 → 4 → 6 → 5 → 7 → 8</code></td>
 <td>Hard</td>
-<td>Modify Reverse Template for alternating groups of <code>k</code>.</td>
+<td>Alternating Reverse Template. Modify Reverse Template for alternating groups of <code>k</code>. Uses <code>count</code> to keep track of nodes and extra logic to handle alternating reversals.</td>
 </tr>
 <tr>
 <td>16</td>
 <td>Split Linked List in Parts</td>
-<td>Input: <code>1 → 2 → 3 → 4 → 5 → 6 → 7</code>, <code>k=3</code><br>Explanation: Split into 3 parts (<code>1 → 2</code>, <code>3 → 4</code>, <code>5 → 6 → 7</code>).<br>Output: <code>[1 → 2], [3 → 4], [5 → 6 → 7]</code></td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5 → 6 → 7</code>, <code>k=3</code><strong>Explanation</strong>: Split the list into 3 parts of as equal length as possible. Resulting parts: <code>[1 → 2], [3 → 4], [5 → 6 → 7]</code>.<strong>Output</strong>: <code>[1 → 2], [3 → 4], [5 → 6 → 7]</code></td>
 <td>Medium</td>
-<td>Calculate length and divide nodes accordingly.</td>
+<td>Split Template. Calculate length and divide nodes accordingly. Uses extra variables to keep track of lengths and split points.</td>
 </tr>
 <tr>
 <td>17</td>
 <td>Remove Duplicates from Sorted List</td>
-<td>Input: <code>1 → 1 → 2 → 3 → 3</code><br>Explanation: Remove duplicates to get <code>1 → 2 → 3</code>.<br>Output: <code>1 → 2 → 3</code></td>
+<td><strong>Input</strong>: <code>1 → 1 → 2 → 3 → 3</code><strong>Explanation</strong>: Remove consecutive duplicate nodes to get <code>1 → 2 → 3</code>.<strong>Output</strong>: <code>1 → 2 → 3</code></td>
 <td>Easy</td>
-<td>Iterate through the list and remove duplicate nodes.</td>
+<td>Duplicate Removal Template. Iterate through the list and remove duplicate nodes. No extra variables are needed.</td>
 </tr>
 <tr>
 <td>18</td>
 <td>Odd Even Linked List</td>
-<td>Input: <code>1 → 2 → 3 → 4 → 5</code><br>Explanation: Group all odd nodes followed by even nodes to get <code>1 → 3 → 5 → 2 → 4</code>.<br>Output: <code>1 → 3 → 5 → 2 → 4</code></td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5</code><strong>Explanation</strong>: Group all odd-indexed nodes followed by all even-indexed nodes. Resulting list: <code>1 → 3 → 5 → 2 → 4</code>.<strong>Output</strong>: <code>1 → 3 → 5 → 2 → 4</code></td>
 <td>Medium</td>
-<td>Separate odd and even indexed nodes and merge.</td>
+<td>Odd-Even Template. Separate odd and even indexed nodes and merge. Uses <code>odd</code> and <code>even</code> pointers, with extra logic to rearrange nodes.</td>
 </tr>
 <tr>
 <td>19</td>
 <td>Intersection of Two Linked Lists</td>
-<td>Input: <code>1 → 9 → 1 → 2 → 4</code>, <code>3 → 2 → 4</code><br>Explanation: Find intersection node (<code>2</code>).<br>Output: <code>2</code></td>
+<td><strong>Input</strong>: <code>1 → 9 → 1 → 2 → 4</code>, <code>3 → 2 → 4</code><strong>Explanation</strong>: Find the intersection node (<code>2</code>). Both lists intersect at node <code>2</code>.<strong>Output</strong>: <code>2</code></td>
 <td>Easy</td>
-<td>Use two pointers to find the intersection point.</td>
+<td>Intersection Template. Use two pointers to find the intersection point. No extra variables are needed, but extra logic is required to synchronize the pointers.</td>
 </tr>
 <tr>
 <td>20</td>
 <td>Sort Linked List</td>
-<td>Input: <code>4 → 2 → 1 → 3</code><br>Explanation: Sort to get <code>1 → 2 → 3 → 4</code>.<br>Output: <code>1 → 2 → 3 → 4</code></td>
+<td><strong>Input</strong>: <code>4 → 2 → 1 → 3</code><strong>Explanation</strong>: Use merge sort to sort the linked list. Resulting list: <code>1 → 2 → 3 → 4</code>.<strong>Output</strong>: <code>1 → 2 → 3 → 4</code></td>
 <td>Medium</td>
-<td>Merge sort algorithm for linked list.</td>
+<td>Merge Sort Template. Uses merge sort algorithm for linked list with a divide-and-conquer approach and extra logic for merging sorted halves.</td>
+</tr>
+<tr>
+<td>21</td>
+<td>Reverse Linked List from Position m to n</td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5</code>, <code>m=2</code>, <code>n=4</code><strong>Explanation</strong>: Reverse the segment from position <code>m</code> to <code>n</code> (<code>2 → 3 → 4</code> becomes <code>4 → 3 → 2</code>).<strong>Output</strong>: <code>1 → 4 → 3 → 2 → 5</code></td>
+<td>Medium</td>
+<td>Reverse Template (Modified). Uses <code>prev</code> and <code>current</code> pointers to reverse the links between positions <code>m</code> and <code>n</code>. Extra logic is required to locate the starting position and handle pointers.</td>
+</tr>
+<tr>
+<td>22</td>
+<td>Reverse Every k Nodes in a Linked List</td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5 → 6 → 7 → 8</code>, <code>k=3</code><strong>Explanation</strong>: Reverse every group of <code>k</code> nodes (<code>1 → 2 → 3</code> becomes <code>3 → 2 → 1</code>, etc).<strong>Output</strong>: <code>3 → 2 → 1 → 6 → 5 → 4 → 7 → 8</code></td>
+<td>Medium</td>
+<td>Reverse Template (Modified). Uses <code>count</code> to keep track of nodes, reversing in chunks of <code>k</code> size. Extra logic is needed for handling segments.</td>
+</tr>
+<tr>
+<td>23</td>
+<td>Reorder Linked List in Place</td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5 → 6</code><strong>Explanation</strong>: Reorder the list such that nodes alternate between the first and the reversed second half (<code>1 → 6 → 2 → 5 → 3 → 4</code>).<strong>Output</strong>: <code>1 → 6 → 2 → 5 → 3 → 4</code></td>
+<td>Medium</td>
+<td>Reorder Template. Split the list into two halves using <code>slow</code> and <code>fast</code> pointers, reverse the second half, and merge the two halves alternately.</td>
+</tr>
+<tr>
+<td>24</td>
+<td>Reverse Alternating k Nodes in a Linked List</td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5 → 6 → 7 → 8 → 9 → 10</code>, <code>k=2</code><strong>Explanation</strong>: Reverse every alternate <code>k</code> nodes (<code>2 → 1</code>, <code>3 → 4</code>, <code>6 → 5</code>, etc).<strong>Output</strong>: <code>2 → 1 → 3 → 4 → 6 → 5 → 7 → 8 → 10 → 9</code></td>
+<td>Hard</td>
+<td>Modified Reverse Template. Uses <code>count</code> to reverse alternating groups of <code>k</code>. Additional logic required to skip nodes between reversals.</td>
+</tr>
+<tr>
+<td>25</td>
+<td>Reverse Linked List in Groups and Merge with Original Order</td>
+<td><strong>Input</strong>: <code>1 → 2 → 3 → 4 → 5 → 6</code>, <code>k=2</code><strong>Explanation</strong>: Reverse the list in groups of <code>k</code> (<code>2 → 1</code>, <code>4 → 3</code>, <code>6 → 5</code>), then merge with original list.<strong>Output</strong>: <code>1 → 2 → 2 → 1 → 3 → 4 → 4 → 3 → 5 → 6 → 6 → 5</code></td>
+<td>Hard</td>
+<td>Combination of Reverse and Reorder Templates. Reverse nodes in chunks of <code>k</code>, then merge with original using the reorder template.</td>
 </tr>
 </tbody>
 </table>

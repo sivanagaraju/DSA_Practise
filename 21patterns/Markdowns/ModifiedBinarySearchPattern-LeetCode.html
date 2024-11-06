@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>ModifiedBinarySearchPattern-LeetCode.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h2 id="binary-search-a-powerful-technique"><strong>Binary Search: A Powerful Technique</strong></h2>
+<p>Binary search is a conceptually simple algorithm that splits the search space into two halves and discards the half that likely does not contain the target, reducing the search time from linear  to logarithmic . Despite its simplicity in theory, implementing a bug-free version can be challenging. Some common pitfalls include:</p>
+<ol>
+<li>Deciding when to exit the loop: Should we use <code>left &lt; right</code> or <code>left &lt;= right</code>?</li>
+<li>Initializing the boundary variables <code>left</code> and <code>right</code> correctly.</li>
+<li>Choosing the right boundary updates: should it be <code>left = mid</code>, <code>left = mid + 1</code>, <code>right = mid</code>, or <code>right = mid - 1</code>?</li>
+</ol>
+<p>A common misconception is that binary search only works on basic problems like &quot;find a specific value in a sorted array.&quot; In reality, binary search can be applied to more complex scenarios.</p>
+<h3 id="most-generalized-binary-search"><strong>Most Generalized Binary Search</strong></h3>
+<p>The generalized form of binary search aims to:</p>
+<p><strong>Minimize K, such that <code>condition(k)</code> is True.</strong></p>
+<p>Here is a generalized template for binary search:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">binary_search</span><span class="hljs-params">(array)</span> -&gt; int:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">condition</span><span class="hljs-params">(value)</span> -&gt; bool:</span>
+        <span class="hljs-keyword">pass</span>
+
+    left, right = min(search_space), max(search_space)  <span class="hljs-comment"># e.g., [0, n], [1, n] etc. Depends on problem</span>
+    <span class="hljs-keyword">while</span> left &lt; right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> condition(mid):
+            right = mid
+        <span class="hljs-keyword">else</span>:
+            left = mid + <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> left
+</div></code></pre>
+<p>For most problems, you need to:</p>
+<ol>
+<li>Correctly initialize <code>left</code> and <code>right</code> to include all possible elements.</li>
+<li>Decide the return value: it is usually <code>left</code> after the loop.</li>
+<li>Design the <code>condition()</code> function, which takes practice to perfect.</li>
+</ol>
+<h3 id="basic-applications"><strong>Basic Applications</strong></h3>
+<h4 id="1-first-bad-version-leetcode-278"><strong>1. First Bad Version (LeetCode 278)</strong></h4>
+<p>You are a product manager and currently leading a team to develop a new product. Since each version is developed based on the previous version, all the versions after a bad version are also bad. Suppose you have n versions [1, 2, ..., n] and you want to find out the first bad one, which causes all the following ones to be bad. You are given an API bool isBadVersion(version) which will return whether version is bad.</p>
+<p>Example:</p>
+<p>Given n = 5, and version = 4 is the first bad version.</p>
+<pre class="hljs"><code><div>call isBadVersion(3) -&gt; false
+call isBadVersion(5) -&gt; true
+call isBadVersion(4) -&gt; true
+</div></code></pre>
+<p>irst, we initialize left = 1 and right = n to include all possible values. Then we notice that we don't even need to design the condition function. It's already given by the isBadVersion API. Finding the first bad version is equivalent to finding the minimal k satisfying isBadVersion(k) is True. Our template can fit in very nicely:</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">firstBadVersion</span><span class="hljs-params">(self, n)</span> -&gt; int:</span>
+        left, right = <span class="hljs-number">1</span>, n
+        <span class="hljs-keyword">while</span> left &lt; right:
+            mid = left + (right - left) // <span class="hljs-number">2</span>
+            <span class="hljs-keyword">if</span> isBadVersion(mid):
+                right = mid
+            <span class="hljs-keyword">else</span>:
+                left = mid + <span class="hljs-number">1</span>
+        <span class="hljs-keyword">return</span> left
+</div></code></pre>
+<h4 id="2-square-root-leetcode-69"><strong>2. Square Root (LeetCode 69)</strong></h4>
+<p>Implement int sqrt(int x). Compute and return the square root of x, where x is guaranteed to be a non-negative integer. Since the return type is an integer, the decimal digits are truncated and only the integer part of the result is returned.</p>
+<pre class="hljs"><code><div>Example:
+
+Input: 4
+Output: 2
+
+Input: 8
+Output: 2
+</div></code></pre>
+<p>Easy one. First we need to search for minimal k satisfying condition k^2 &gt; x, then k - 1 is the answer to the question. We can easily come up with the solution. Notice that I set right = x + 1 instead of right = x to deal with special input cases like x = 0 and x = 1.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">mySqrt</span><span class="hljs-params">(x: int)</span> -&gt; int:</span>
+    left, right = <span class="hljs-number">0</span>, x + <span class="hljs-number">1</span>
+    <span class="hljs-keyword">while</span> left &lt; right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> mid * mid &gt; x:
+            right = mid
+        <span class="hljs-keyword">else</span>:
+            left = mid + <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> left - <span class="hljs-number">1</span> <span class="hljs-comment"># `left` is the minimum k value, `k - 1` is the answer</span>
+</div></code></pre>
+<h4 id="3-search-insert-position-leetcode-35"><strong>3. Search Insert Position (LeetCode 35)</strong></h4>
+<p>Given a sorted array and a target value, return the index if the target is found, or the index where it would be if inserted in order.</p>
+<p><strong>Example:</strong></p>
+<pre class="hljs"><code><div>Input: [1,3,5,6], 5
+
+Output: 2
+
+Input: [1,3,5,6], 2
+
+Output: 1
+</div></code></pre>
+<p>Very classic application of binary search. We are looking for the minimal k value satisfying nums[k] &gt;= target, and we can just copy-paste our template. Notice that our solution is correct regardless of whether the input array nums has duplicates. Also notice that the input target might be larger than all elements in nums and therefore needs to placed at the end of the array. That's why we should initialize right = len(nums) instead of right = len(nums) - 1.</p>
+<pre class="hljs"><code><div><span class="hljs-class"><span class="hljs-keyword">class</span> <span class="hljs-title">Solution</span>:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">searchInsert</span><span class="hljs-params">(self, nums: List[int], target: int)</span> -&gt; int:</span>
+        left, right = <span class="hljs-number">0</span>, len(nums)
+        <span class="hljs-keyword">while</span> left &lt; right:
+            mid = left + (right - left) // <span class="hljs-number">2</span>
+            <span class="hljs-keyword">if</span> nums[mid] &gt;= target:
+                right = mid
+            <span class="hljs-keyword">else</span>:
+                left = mid + <span class="hljs-number">1</span>
+        <span class="hljs-keyword">return</span> left
+</div></code></pre>
+<h3 id="advanced-applications"><strong>Advanced Applications</strong></h3>
+<p>The above problems are quite easy to solve, because they already give us the array to be searched. We'd know that we should use binary search to solve them at first glance. However, more often are the situations where the search space and search target are not so readily available. Sometimes we won't even realize that the problem should be solved with binary search -- we might just turn to dynamic programming or DFS and get stuck for a very long time.</p>
+<p>As for the question &quot;When can we use binary search?&quot;, my answer is that, If we can discover some kind of monotonicity, for example, if condition(k) is True then condition(k + 1) is True, then we can consider binary search.</p>
+<h4 id="1-capacity-to-ship-packages-within-d-days-leetcode-1011"><strong>1. Capacity to Ship Packages Within D Days (LeetCode 1011)</strong></h4>
+<p>A conveyor belt has packages that must be shipped from one port to another within D days. The i-th package on the conveyor belt has a weight of weights[i]. Each day, we load the ship with packages on the conveyor belt (in the order given by weights). We may not load more weight than the maximum weight capacity of the ship.</p>
+<p>Return the least weight capacity of the ship that will result in all the packages on the conveyor belt being shipped within D days.</p>
+<p><strong>Example:</strong></p>
+<pre class="hljs"><code><div>Input: weights = [1,2,3,4,5,6,7,8,9,10], D = 5
+
+Output: 15
+
+Explanation: 
+
+A ship capacity of 15 is the minimum to ship all the packages in 5 days like this:
+
+1st day: 1, 2, 3, 4, 5
+2nd day: 6, 7
+3rd day: 8
+4th day: 9
+5th day: 10
+
+Note that the cargo must be shipped in the order given, so using a ship of capacity 14 and splitting the packages into parts like (2, 3, 4, 5), (1, 6, 7), (8), (9), (10) is not allowed.
+</div></code></pre>
+<p>Binary search probably would not come to our mind when we first meet this problem. We might automatically treat weights as search space and then realize we've entered a dead end after wasting lots of time. In fact, we are looking for the minimal one among all feasible capacities. We dig out the monotonicity of this problem: if we can successfully ship all packages within D days with capacity m, then we can definitely ship them all with any capacity larger than m. Now we can design a condition function, let's call it feasible, given an input capacity, it returns whether it's possible to ship all packages within D days. This can run in a greedy way: if there's still room for the current package, we put this package onto the conveyor belt, otherwise we wait for the next day to place this package. If the total days needed exceeds D, we return False, otherwise we return True.</p>
+<p>Next, we need to initialize our boundary correctly. Obviously capacity should be at least max(weights), otherwise the conveyor belt couldn't ship the heaviest package. On the other hand, capacity need not be more thansum(weights), because then we can ship all packages in just one day.Given packages with weights, find the minimal capacity needed to ship all packages within  days.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">shipWithinDays</span><span class="hljs-params">(weights: List[int], D: int)</span> -&gt; int:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">feasible</span><span class="hljs-params">(capacity)</span> -&gt; bool:</span>
+        days, total = <span class="hljs-number">1</span>, <span class="hljs-number">0</span>
+        <span class="hljs-keyword">for</span> weight <span class="hljs-keyword">in</span> weights:
+            total += weight
+            <span class="hljs-keyword">if</span> total &gt; capacity:
+                total = weight
+                days += <span class="hljs-number">1</span>
+                <span class="hljs-keyword">if</span> days &gt; D:
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+
+    left, right = max(weights), sum(weights)
+    <span class="hljs-keyword">while</span> left &lt; right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> feasible(mid):
+            right = mid
+        <span class="hljs-keyword">else</span>:
+            left = mid + <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> left
+</div></code></pre>
+<h4 id="2-split-array-largest-sum-leetcode-410"><strong>2. Split Array Largest Sum (LeetCode 410)</strong></h4>
+<p>Split an array into  non-empty continuous subarrays to minimize the largest sum among them.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">splitArray</span><span class="hljs-params">(nums: List[int], m: int)</span> -&gt; int:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">feasible</span><span class="hljs-params">(threshold)</span> -&gt; bool:</span>
+        count, total = <span class="hljs-number">1</span>, <span class="hljs-number">0</span>
+        <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> nums:
+            total += num
+            <span class="hljs-keyword">if</span> total &gt; threshold:
+                total = num
+                count += <span class="hljs-number">1</span>
+                <span class="hljs-keyword">if</span> count &gt; m:
+                    <span class="hljs-keyword">return</span> <span class="hljs-literal">False</span>
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">True</span>
+
+    left, right = max(nums), sum(nums)
+    <span class="hljs-keyword">while</span> left &lt; right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> feasible(mid):
+            right = mid
+        <span class="hljs-keyword">else</span>:
+            left = mid + <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> left
+</div></code></pre>
+<h4 id="3-koko-eating-bananas-mediumleetcode-875"><strong>3. Koko Eating Bananas [Medium](LeetCode 875)</strong></h4>
+<p>Koko loves to eat bananas. There are <code>N</code> piles of bananas, and the i-th pile has <code>piles[i]</code> bananas. The guards will come back in <code>H</code> hours. Koko can decide her bananas-per-hour eating speed <code>K</code>. Each hour, she chooses a pile and eats <code>K</code> bananas from it. If the pile has fewer than <code>K</code> bananas, she eats all of them and does not eat more in that hour.</p>
+<p>Koko likes to eat slowly but wants to finish all the bananas before the guards return. Return the minimum integer <code>K</code> such that she can eat all the bananas within <code>H</code> hours.</p>
+<p><strong>Example 1:</strong></p>
+<pre class="hljs"><code><div>Input: piles = [3, 6, 7, 11], H = 8
+Output: 4
+</div></code></pre>
+<p><strong>Example 2:</strong></p>
+<pre class="hljs"><code><div>Input: piles = [30, 11, 23, 4, 20], H = 5
+Output: 30
+</div></code></pre>
+<p><strong>Example 3:</strong></p>
+<pre class="hljs"><code><div>Input: piles = [30, 11, 23, 4, 20], H = 6
+Output: 23
+</div></code></pre>
+<p>Very similar to LC 1011 and LC 410 mentioned above. Let's design a feasible function, given an input speed, determine whether Koko can finish all bananas within H hours with hourly eating speed speed. Obviously, the lower bound of the search space is 1, and upper bound is max(piles), because Koko can only choose one pile of bananas to eat every hour.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">minEatingSpeed</span><span class="hljs-params">(piles: List[int], H: int)</span> -&gt; int:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">feasible</span><span class="hljs-params">(speed)</span> -&gt; bool:</span>
+        <span class="hljs-comment"># return sum(math.ceil(pile / speed) for pile in piles) &lt;= H  # slower  </span>
+        <span class="hljs-keyword">return</span> sum((pile - <span class="hljs-number">1</span>) // speed + <span class="hljs-number">1</span> <span class="hljs-keyword">for</span> pile <span class="hljs-keyword">in</span> piles) &lt;= H  <span class="hljs-comment"># faster</span>
+
+    left, right = <span class="hljs-number">1</span>, max(piles)
+    <span class="hljs-keyword">while</span> left &lt; right:
+        mid = left  + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> feasible(mid):
+            right = mid
+        <span class="hljs-keyword">else</span>:
+            left = mid + <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> left
+</div></code></pre>
+<hr>
+<h4 id="4-minimum-number-of-days-to-make-m-bouquets-medium-1482"><strong>4. Minimum Number of Days to Make m Bouquets [Medium] (1482)</strong></h4>
+<p>Given an integer array <code>bloomDay</code>, an integer <code>m</code>, and an integer <code>k</code>, you need to make <code>m</code> bouquets. To make a bouquet, you need <code>k</code> adjacent flowers from the garden. The garden has <code>n</code> flowers, and the i-th flower blooms on <code>bloomDay[i]</code>. Each flower can only be used once in a bouquet. Return the minimum number of days needed to make <code>m</code> bouquets, or <code>-1</code> if it is impossible.</p>
+<p><strong>Example 1:</strong></p>
+<pre class="hljs"><code><div>Input: bloomDay = [1, 10, 3, 10, 2], m = 3, k = 1
+Output: 3
+Explanation: 
+After day 1: [x, _, _, _, _] - can make 1 bouquet.
+After day 2: [x, _, _, _, x] - can make 2 bouquets.
+After day 3: [x, _, x, _, x] - can make 3 bouquets.
+</div></code></pre>
+<p><strong>Example 2:</strong></p>
+<pre class="hljs"><code><div>Input: bloomDay = [1, 10, 3, 10, 2], m = 3, k = 2
+Output: -1
+Explanation: 
+Need 3 bouquets of 2 flowers each, i.e., 6 flowers. Only 5 flowers available, so return -1.
+</div></code></pre>
+<p>Now that we've solved three advanced problems above, this one should be pretty easy to do. The monotonicity of this problem is very clear: if we can make m bouquets after waiting for d days, then we can definitely finish that as well if we wait for more than d days.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">minDays</span><span class="hljs-params">(bloomDay: List[int], m: int, k: int)</span> -&gt; int:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">feasible</span><span class="hljs-params">(days)</span> -&gt; bool:</span>
+        bonquets, flowers = <span class="hljs-number">0</span>, <span class="hljs-number">0</span>
+        <span class="hljs-keyword">for</span> bloom <span class="hljs-keyword">in</span> bloomDay:
+            <span class="hljs-keyword">if</span> bloom &gt; days:
+                flowers = <span class="hljs-number">0</span>
+            <span class="hljs-keyword">else</span>:
+                bonquets += (flowers + <span class="hljs-number">1</span>) // k
+                flowers = (flowers + <span class="hljs-number">1</span>) % k
+        <span class="hljs-keyword">return</span> bonquets &gt;= m
+
+    <span class="hljs-keyword">if</span> len(bloomDay) &lt; m * k:
+        <span class="hljs-keyword">return</span> <span class="hljs-number">-1</span>
+    left, right = <span class="hljs-number">1</span>, max(bloomDay)
+    <span class="hljs-keyword">while</span> left &lt; right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> feasible(mid):
+            right = mid
+        <span class="hljs-keyword">else</span>:
+            left = mid + <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> left
+</div></code></pre>
+<hr>
+<h4 id="5-kth-smallest-number-in-multiplication-table-hard"><strong>5. Kth Smallest Number in Multiplication Table <a href="668">Hard</a></strong></h4>
+<p>Nearly everyone has used the Multiplication Table. But could you find out the k-th smallest number quickly from the multiplication table? Given the height m and the length n of a m * n Multiplication Table, and a positive integer k, you need to return the k-th smallest number in this table.</p>
+<p><strong>Example 1:</strong></p>
+<pre class="hljs"><code><div>Input: m = 3, n = 3, k = 5
+Output: 3
+Explanation:
+Multiplication Table:
+1  2  3
+2  4  6
+3  6  9
+The 5th smallest number is 3 (order: 1, 2, 2, 3, 3).
+</div></code></pre>
+<p>For Kth-Smallest problems like this, what comes to our mind first is Heap. Usually we can maintain a Min-Heap and just pop the top of the Heap for k times. However, that doesn't work out in this problem. We don't have every single number in the entire Multiplication Table, instead, we only have the height and the length of the table. If we are to apply Heap method, we need to explicitly calculate these m * n values and save them to a heap. The time complexity and space complexity of this process are both O(mn), which is quite inefficient. This is when binary search comes in. Remember we say that designing condition function is the most difficult part? In order to find the k-th smallest value in the table, we can design an enough function, given an input num, determine whether there're at least k values less than or equal to num. The minimal num satisfying enough function is the answer we're looking for. Recall that the key to binary search is discovering monotonicity. In this problem, if num satisfies enough, then of course any value larger than num can satisfy. This monotonicity is the fundament of our binary search algorithm.</p>
+<p>Let's consider search space. Obviously the lower bound should be 1, and the upper bound should be the largest value in the Multiplication Table, which is m * n, then we have search space <code>[1, m * n]</code>. The overwhelming advantage of binary search solution to heap solution is that it doesn't need to explicitly calculate all numbers in that table, all it needs is just picking up one value out of the search space and apply enough function to this value, to determine should we keep the left half or the right half of the search space. In this way, binary search solution only requires constant space complexity, much better than heap solution.</p>
+<p>Next let's consider how to implement enough function. It can be observed that every row in the Multiplication Table is just multiples of its index. For example, all numbers in 3rd row <code>[3,6,9,12,15...]</code> are multiples of 3. Therefore, we can just go row by row to count the total number of entries less than or equal to input num. Following is the complete solution.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">findKthNumber</span><span class="hljs-params">(m: int, n: int, k: int)</span> -&gt; int:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">enough</span><span class="hljs-params">(num)</span> -&gt; bool:</span>
+        count = <span class="hljs-number">0</span>
+        <span class="hljs-keyword">for</span> val <span class="hljs-keyword">in</span> range(<span class="hljs-number">1</span>, m + <span class="hljs-number">1</span>):  <span class="hljs-comment"># count row by row</span>
+            add = min(num // val, n)
+            <span class="hljs-keyword">if</span> add == <span class="hljs-number">0</span>:  <span class="hljs-comment"># early exit</span>
+                <span class="hljs-keyword">break</span>
+            count += add
+        <span class="hljs-keyword">return</span> count &gt;= k        
+
+    left, right = <span class="hljs-number">1</span>, n * m
+    <span class="hljs-keyword">while</span> left &lt; right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> enough(mid):
+            right = mid
+        <span class="hljs-keyword">else</span>:
+            left = mid + <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> left 
+</div></code></pre>
+<p>In LC 410 above, we have doubt &quot;Is the result from binary search actually a subarray sum?&quot;. Here we have a similar doubt: &quot;Is the result from binary search actually in the Multiplication Table?&quot;. The answer is yes, and we also can apply proof by contradiction. Denote num as the minimal input that satisfies enough function. Let's assume that num is not in the table, which means that num is not divisible by any val in <code>[1, m]</code>, that is, <code>num % val &gt; 0</code>. Therefore, changing the input from <code>num</code> to <code>num - 1</code> doesn't have any effect on the expression <code>add = min(num // val, n)</code>. So <code>enough(num - 1)</code> would also return True, same as <code>enough(num)</code>. But we already know <code>num</code> is the minimal input satisfying enough function, so <code>enough(num - 1)</code> has to be False. Contradiction! The opposite of our original assumption is true: <code>num</code> is actually in the table.</p>
+<hr>
+<h4 id="6-find-k-th-smallest-pair-distance-hard-719"><strong>6. Find K-th Smallest Pair Distance [Hard] (719)</strong></h4>
+<p>Given an integer array <code>nums</code>, return the k-th smallest distance among all pairs. The distance between a pair <code>(A, B)</code> is <code>|A - B|</code>.
+<strong>Example 1:</strong></p>
+<pre class="hljs"><code><div>Input: nums = [1, 3, 1], k = 1
+Output: 0
+Explanation:
+All pairs:
+(1, 3) -&gt; Distance = 2
+(1, 1) -&gt; Distance = 0
+(3, 1) -&gt; Distance = 2
+The 1st smallest distance is 0.
+</div></code></pre>
+<p>Very similar to LC 668 above, both are about finding Kth-Smallest. Just like LC 668, We can design an enough function, given an input distance, determine whether there're at least k pairs whose distances are less than or equal to distance. We can sort the input array and use two pointers (fast pointer and slow pointer, pointed at a pair) to scan it. Both pointers go from leftmost end. If the current pair pointed at has a distance less than or equal to distance, all pairs between these pointers are valid (since the array is already sorted), we move forward the fast pointer. Otherwise, we move forward the slow pointer. By the time both pointers reach the rightmost end, we finish our scan and see if total counts exceed k. Here is the implementation:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">enough</span><span class="hljs-params">(distance)</span> -&gt; bool:</span>  <span class="hljs-comment"># two pointers</span>
+    count, i, j = <span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>
+    <span class="hljs-keyword">while</span> i &lt; n <span class="hljs-keyword">or</span> j &lt; n:
+        <span class="hljs-keyword">while</span> j &lt; n <span class="hljs-keyword">and</span> nums[j] - nums[i] &lt;= distance:  <span class="hljs-comment"># move fast pointer</span>
+            j += <span class="hljs-number">1</span>
+        count += j - i - <span class="hljs-number">1</span>  <span class="hljs-comment"># count pairs</span>
+        i += <span class="hljs-number">1</span>  <span class="hljs-comment"># move slow pointer</span>
+    <span class="hljs-keyword">return</span> count &gt;= k
+</div></code></pre>
+<p>Obviously, our search space should be <code>[0, max(nums) - min(nums)]</code>. Now we are ready to copy-paste our template:</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">smallestDistancePair</span><span class="hljs-params">(nums: List[int], k: int)</span> -&gt; int:</span>
+    nums.sort()
+    n = len(nums)
+    left, right = <span class="hljs-number">0</span>, nums[<span class="hljs-number">-1</span>] - nums[<span class="hljs-number">0</span>]
+    <span class="hljs-keyword">while</span> left &lt; right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> enough(mid):
+            right = mid
+        <span class="hljs-keyword">else</span>:
+            left = mid + <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> left
+</div></code></pre>
+<hr>
+<h4 id="7-ugly-number-iii-medium-1201"><strong>7. Ugly Number III [Medium] (1201)</strong></h4>
+<p>Write a program to find the n-th ugly number. Ugly numbers are positive integers which are divisible by a or b or c.</p>
+<p><strong>Example 1:</strong></p>
+<pre class="hljs"><code><div>Input: n = 3, a = 2, b = 3, c = 5
+Output: 4
+Explanation: Ugly numbers are 2, 3, 4, 5, 6, 8, 9, 10...
+The 3rd is 4.
+</div></code></pre>
+<p><strong>Example 2:</strong></p>
+<pre class="hljs"><code><div>Input: n = 4, a = 2, b = 3, c = 4
+Output: 6
+Explanation: Ugly numbers are 2, 3, 4, 6, 8, 9, 10, 12...
+The 4th is 6.
+</div></code></pre>
+<p>Nothing special. Still finding the Kth-Smallest. We need to design an enough function, given an input num, determine whether there are at least n ugly numbers less than or equal to num. Since a might be a multiple of b or c, or the other way round, we need the help of greatest common divisor to avoid counting duplicate numbers.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">nthUglyNumber</span><span class="hljs-params">(n: int, a: int, b: int, c: int)</span> -&gt; int:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">enough</span><span class="hljs-params">(num)</span> -&gt; bool:</span>
+        total = num//a + num//b + num//c - num//ab - num//ac - num//bc + num//abc
+        <span class="hljs-keyword">return</span> total &gt;= n
+
+    ab = a * b // math.gcd(a, b)
+    ac = a * c // math.gcd(a, c)
+    bc = b * c // math.gcd(b, c)
+    abc = a * bc // math.gcd(a, bc)
+    left, right = <span class="hljs-number">1</span>, <span class="hljs-number">10</span> ** <span class="hljs-number">10</span>
+    <span class="hljs-keyword">while</span> left &lt; right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> enough(mid):
+            right = mid
+        <span class="hljs-keyword">else</span>:
+            left = mid + <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> left
+</div></code></pre>
+<hr>
+<h4 id="8-find-the-smallest-divisor-given-a-threshold-medium-1283"><strong>8. Find the Smallest Divisor Given a Threshold [Medium] (1283)</strong></h4>
+<p>Given an array of integers nums and an integer threshold, we will choose a positive integer divisor and divide all the array by it and sum the result of the division. Find the smallest divisor such that the result mentioned above is less than or equal to threshold.</p>
+<p>Each result of division is rounded to the nearest integer greater than or equal to that element. (For example: <code>7/3 = 3</code> and <code>10/2 = 5</code>). It is guaranteed that there will be an answer.</p>
+<p>Example:</p>
+<pre class="hljs"><code><div>Input: nums = [1, 2, 5, 9], threshold = 6
+Output: 5
+Explanation:
+Divisor = 1 -&gt; Sum = 17 (1+2+5+9)
+Divisor = 4 -&gt; Sum = 7 (1+1+2+3)
+Divisor = 5 -&gt; Sum = 5 (1+1+1+2)
+</div></code></pre>
+<p>After so many problems introduced above, this one should be a piece of cake. We don't even need to bother to design a condition function, because the problem has already told us explicitly what condition we need to satisfy.</p>
+<pre class="hljs"><code><div><span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">smallestDivisor</span><span class="hljs-params">(nums: List[int], threshold: int)</span> -&gt; int:</span>
+    <span class="hljs-function"><span class="hljs-keyword">def</span> <span class="hljs-title">condition</span><span class="hljs-params">(divisor)</span> -&gt; bool:</span>
+        <span class="hljs-keyword">return</span> sum((num - <span class="hljs-number">1</span>) // divisor + <span class="hljs-number">1</span> <span class="hljs-keyword">for</span> num <span class="hljs-keyword">in</span> nums) &lt;= threshold
+
+    left, right = <span class="hljs-number">1</span>, max(nums)
+    <span class="hljs-keyword">while</span> left &lt; right:
+        mid = left + (right - left) // <span class="hljs-number">2</span>
+        <span class="hljs-keyword">if</span> condition(mid):
+            right = mid
+        <span class="hljs-keyword">else</span>:
+            left = mid + <span class="hljs-number">1</span>
+    <span class="hljs-keyword">return</span> left
+</div></code></pre>
+<hr>
+<h3 id="key-takeaway"><strong>Key Takeaway</strong></h3>
+<p>Binary search can be used in diverse scenarios beyond simple value search. The key is to recognize monotonicity in the problem. Practice designing condition functions to solve problems effectively. Use the generalized template and adapt it to various scenarios.</p>
+<h3 id="end-note"><strong>End Note</strong></h3>
+<p>Binary search problems often look very similar, and this is because a good template helps abstract away common details. With enough practice, you'll build intuition to recognize and solve even complex problems using binary search.</p>
+
+</body>
+</html>
