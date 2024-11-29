@@ -961,6 +961,10 @@ def bucket_sort(arr):
 **Stability:** Stable
 **Usage in Python:** Used in Python's built-in `sort()` and `sorted()` functions.
 
+![1732152083374](image/Sorting/1732152083374.png)
+
+![1732152146455](image/Sorting/1732152146455.png)
+
 **Key Features:**
 
 - **Runs of Data:** Identifies runs (sequences of already sorted elements) and merges them.
@@ -969,57 +973,130 @@ def bucket_sort(arr):
 **Python Implementation:**
 
 ```python
-   def insertion_sort_for_timsort(arr, left, right):
-       for i in range(left + 1, right + 1):
-           key_item = arr[i]
-           j = i - 1
-           while j >= left and arr[j] > key_item:
-               arr[j + 1] = arr[j]
-               j -= 1
-           arr[j + 1] = key_item
+def calc_min_run(n):
+    """Calculate the minimum run size for Timsort."""
+    r = 0
+    while n >= 64:
+        r |= n & 1
+        n >>= 1
+    return n + r
 
-   def merge_for_timsort(arr, l, m, r):
-       left = arr[l:m + 1]
-       right = arr[m + 1:r + 1]
-       i = j = 0
-       k = l
+def insertion_sort(arr, left, right):
+    """Sorts the array from left to right using insertion sort."""
+    for i in range(left + 1, right + 1):
+        key = arr[i]
+        j = i - 1
+        while j >= left and arr[j] > key:
+            arr[j + 1] = arr[j]
+            j -= 1
+        arr[j + 1] = key
 
-       while i < len(left) and j < len(right):
-           if left[i] <= right[j]:
-               arr[k] = left[i]
-               i += 1
-           else:
-               arr[k] = right[j]
-               j += 1
-           k += 1
+def merge(arr, start, mid, end):
+    """Merges two sorted subarrays arr[start:mid+1] and arr[mid+1:end+1]."""
+    left = arr[start:mid + 1]
+    right = arr[mid + 1:end + 1]
 
-       while i < len(left):
-           arr[k] = left[i]
-           k += 1
-           i += 1
+    i = j = 0
+    k = start
 
-       while j < len(right):
-           arr[k] = right[j]
-           k += 1
-           j += 1
+    while i < len(left) and j < len(right):
+        if left[i] <= right[j]:
+            arr[k] = left[i]
+            i += 1
+        else:
+            arr[k] = right[j]
+            j += 1
+        k += 1
 
-   def timsort(arr):
-       min_run = 32
-       n = len(arr)
+    # Copy any remaining elements of left
+    while i < len(left):
+        arr[k] = left[i]
+        i += 1
+        k += 1
 
-       for i in range(0, n, min_run):
-           insertion_sort_for_timsort(arr, i, min((i + min_run - 1), n - 1))
+    # Copy any remaining elements of right
+    while j < len(right):
+        arr[k] = right[j]
+        j += 1
+        k += 1
 
-       size = min_run
-       while size < n:
-           for start in range(0, n, size * 2):
-               midpoint = start + size - 1
-               end = min((start + size * 2 - 1), (n - 1))
-               if midpoint < end:
-                   merge_for_timsort(arr, start, midpoint, end)
-           size *= 2
+def find_run(arr, start, n):
+    """
+    Identifies a run starting from 'start'.
+    Returns the end index of the run.
+    """
+    end = start + 1
+    if end == n:
+        return end
 
-       return arr
+    # Determine if the run is ascending or descending
+    if arr[end] < arr[start]:
+        # Descending run
+        while end < n and arr[end] < arr[end - 1]:
+            end += 1
+        # Reverse to make it ascending
+        arr[start:end] = arr[start:end][::-1]
+    else:
+        # Ascending run
+        while end < n and arr[end] >= arr[end - 1]:
+            end += 1
+
+    return end
+
+def timsort(arr):
+    """Implements the Timsort algorithm."""
+    n = len(arr)
+    min_run = calc_min_run(n)
+    runs = []
+
+    # Step 1: Identify runs and sort them using insertion sort
+    i = 0
+    while i < n:
+        run_end = find_run(arr, i, n)
+        run_length = run_end - i
+        if run_length < min_run:
+            # Extend the run to min_run
+            run_end = min(i + min_run, n)
+            insertion_sort(arr, i, run_end - 1)
+            run_length = run_end - i
+        runs.append((i, run_end - 1))
+        i = run_end
+
+    # Step 2: Merge runs from the stack while maintaining invariants
+    while len(runs) > 1:
+        new_runs = []
+        for j in range(0, len(runs), 2):
+            if j + 1 < len(runs):
+                start, mid = runs[j]
+                _, end = runs[j + 1]
+                merge(arr, start, mid, end)
+                new_runs.append((start, end))
+            else:
+                # If there's an odd run out, just carry it over
+                new_runs.append(runs[j])
+        runs = new_runs
+
+    return arr
+
+# Example Usage
+if __name__ == "__main__":
+    import random
+
+    # Generate a random list
+    lst = [random.randint(0, 1000) for _ in range(100)]
+
+    print("Original list:")
+    print(lst)
+
+    sorted_lst = timsort(lst)
+
+    print("\nSorted list:")
+    print(sorted_lst)
+
+    # Verify with built-in sorted
+    assert sorted_lst == sorted(lst), "Timsort implementation is incorrect!"
+    print("\nTimsort successfully sorted the list.")
+
 
    # Time Complexity: O(n log n)
    # Space Complexity: O(n)
@@ -1238,6 +1315,9 @@ def topological_sort_dfs(vertices, edges):
 | Counting Sort  | O(n + k)    | O(n + k)    | O(n + k)     | O(k)     | Yes    |
 | Radix Sort     | O(d(n + k)) | O(d(n + k)) | O(d(n + k))  | O(n + k) | Yes    |
 | TimSort        | O(n)        | O(n log n)  | O(n log n)   | O(n)     | Yes    |
+
+
+![1732152951873](image/Sorting/1732152951873.png)
 
 ## 5. **Choosing the Right Algorithm**
 
