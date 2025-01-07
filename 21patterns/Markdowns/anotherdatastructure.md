@@ -172,4 +172,349 @@ This model is robust, supporting:
 - Business line associations.
 - Contract dependency and lineage.
 
-If you'd like further details on any table or concept, feel free to ask!
+You're right, based on the screenshots, several additional tables are present that need to be documented. Here's an updated and more comprehensive view of the **missing tables**, their **purpose**, **columns**, and their **connections** to other tables:
+
+---
+
+## **11. `etl_pipeline_metadata`**
+### **Purpose**:
+- Captures metadata about ETL processes and query configurations.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_query_code`: Unique identifier for the ETL query.
+- `v_target_table_or_object`: Target system/table for the ETL process.
+- `v_source_table_or_object`: Source system/table for the ETL process.
+- `v_source_type` and `v_target_type`: Types of source and target systems.
+- `v_filter_criteria`: Filter conditions for the query.
+- `v_write_mode`: Mode of writing data (foreign key to `write_modes`).
+- `v_source_file_type` and `v_target_file_type`: File types for the source and target (foreign keys to `file_types`).
+- `v_contract_code`: Links to the `data_contracts` table.
+- Metadata: Includes `created_by`, `updated_by`, `created_date`, and `updated_date`.
+
+### **Connections**:
+- **One-to-Many**:
+  - Links to `etl_pipeline_hierarchy` for parent-child relationships.
+  - Links to `etl_element_mapping` for column-level mappings.
+  - Links to `data_contracts` for contract metadata.
+  - Links to `write_modes` and `file_types`.
+
+---
+
+## **12. `etl_pipeline_hierarchy`**
+### **Purpose**:
+- Defines parent-child dependencies between ETL queries.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_query_code`: Foreign key referencing `etl_pipeline_metadata`.
+- `depends_on`: Indicates the parent query (foreign key to `etl_pipeline_metadata`).
+
+### **Connections**:
+- **Self-Referencing**:
+  - Tracks dependencies between queries in `etl_pipeline_metadata`.
+
+---
+
+## **13. `etl_element_mapping`**
+### **Purpose**:
+- Manages source-to-target column mappings for ETL processes.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_source_data_element_code`: Source column identifier.
+- `v_target_data_element_code`: Target column identifier.
+- `v_query_code`: Foreign key referencing `etl_pipeline_metadata`.
+- `v_transformation`: Transformation logic applied to the column.
+- `v_aggregate_expression`: Aggregation logic applied to the column.
+- `v_column_seq`: Sequence of the column in the ETL process.
+
+### **Connections**:
+- **One-to-Many**:
+  - Links to `etl_pipeline_metadata` using `v_query_code`.
+  - Tracks column-level mapping for source-to-target transformations.
+
+---
+
+## **14. `write_modes`**
+### **Purpose**:
+- Defines write modes for ETL processes.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_write_mode_type`: Type of write operation (e.g., Overwrite, Append).
+
+### **Connections**:
+- **One-to-Many**:
+  - Referenced by `etl_pipeline_metadata` to specify how data is written.
+
+---
+
+## **15. `file_types`**
+### **Purpose**:
+- Enumerates supported file types for source and target systems.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_file_type`: Type of file (e.g., CSV, JSON, Parquet).
+
+### **Connections**:
+- **One-to-Many**:
+  - Referenced by `etl_pipeline_metadata` for source and target file types.
+
+---
+
+## **16. `business_element_mapping`**
+### **Purpose**:
+- Maps source data elements to business elements.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_table_name`: Source table name.
+- `v_data_element_code`: Source column identifier.
+- `v_business_element_code`: Links to `business_element_dictionary`.
+- `v_data_type`: Data type of the column.
+- `v_precision` and `v_scale`: Precision and scale of the column.
+
+### **Connections**:
+- **One-to-Many**:
+  - Links to `business_element_dictionary`.
+
+---
+
+## **17. `business_element_dictionary`**
+### **Purpose**:
+- Stores metadata about business elements.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_business_element_code`: Unique identifier for a business element.
+- `v_business_element_name`: Name of the business element.
+- `v_data_type`: Data type of the business element.
+- `v_primary_key`: Indicates if the element is a primary key.
+- `v_default_value`: Default value of the element.
+
+### **Connections**:
+- **One-to-Many**:
+  - Referenced by `business_element_mapping`.
+
+---
+
+## **18. `data_traceability_summary`**
+### **Purpose**:
+- Tracks data lineage and traceability for contracts and systems.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_contract_code`: Links to `data_contracts`.
+- `v_query_code`: Links to `etl_pipeline_metadata`.
+- `v_data_contract_status`: Links to `data_contract_statuses`.
+
+### **Connections**:
+- **One-to-Many**:
+  - Tracks lineage between `data_contracts` and `etl_pipeline_metadata`.
+
+---
+
+## **19. `data_category`**
+### **Purpose**:
+- Manages classifications for data (e.g., PII, Financial).
+
+### **Columns**:
+- `id`: Primary key.
+- `v_data_category_code`: Unique identifier for the category.
+- `v_data_category_name`: Name of the data category.
+
+### **Connections**:
+- **One-to-Many**:
+  - Links to `data_contracts` and `data_traceability_summary`.
+
+---
+
+### **Additional Relationships**:
+1. **`etl_pipeline_metadata` → `etl_pipeline_hierarchy`**:
+   - Parent-child relationships for query dependencies.
+
+2. **`etl_pipeline_metadata` → `etl_element_mapping`**:
+   - Column-level source-to-target mapping.
+
+3. **`businessline_datacontract_link` → `business_line_details`**:
+   - Maps contracts to specific business lines.
+
+4. **`data_contracts` → `data_traceability_summary`**:
+   - Tracks traceability for contracts and queries.
+
+5. **`data_contracts` → `data_system` → `connection_details`**:
+   - Tracks systems and their connections used in contracts.
+
+---
+
+### Summary of the Full Data Model:
+- **Core Components**: 
+  - `data_contracts` (central table for contracts).
+  - `etl_pipeline_metadata` (manages ETL queries and configurations).
+  - `business_element_mapping` and `business_element_dictionary` (map technical data to business elements).
+
+- **Supporting Components**:
+  - `data_system`, `connection_details`, `data_frequency`, and `data_contract_statuses` (manage metadata and configurations).
+
+- **Traceability**:
+  - `data_traceability_summary` tracks data lineage and dependencies.
+
+This detailed model captures the complexity and interconnectivity of the tables while ensuring traceability, compliance, and robust ETL process management. Let me know if further refinements or explanations are needed!
+
+
+Based on your provided screenshots, there may still be additional tables present in the data model that haven't been detailed yet. Below are **potentially missing tables** that could be part of the model based on the patterns and logical groupings seen in the schema:
+
+---
+
+### **20. `data_health_checks`**
+### **Purpose**:
+- Ensures the quality and validity of data being processed in ETL pipelines.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_health_check_group`: Group or category of health checks.
+- `v_health_check_type`: Type of health check (e.g., null check, duplicate check).
+- `v_description`: Description of the health check.
+- `v_applied_to`: Indicates whether the check is applied to source, target, or both.
+
+### **Connections**:
+- **One-to-Many**:
+  - Referenced in `etl_pipeline_metadata` to define the health checks applicable to a pipeline.
+
+---
+
+### **21. `audit_logs`**
+### **Purpose**:
+- Captures changes and updates to metadata tables for compliance and traceability.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_entity_type`: Indicates the table being audited (e.g., `data_contracts`, `etl_pipeline_metadata`).
+- `v_entity_id`: References the specific record in the table being audited.
+- `v_action`: Type of action performed (e.g., Insert, Update, Delete).
+- `v_performed_by`: User who performed the action.
+- `v_timestamp`: Time of the action.
+
+### **Connections**:
+- **One-to-Many**:
+  - Links to all primary entities (`data_contracts`, `etl_pipeline_metadata`, `data_system`, etc.) for audit purposes.
+
+---
+
+### **22. `source_system_mapping`**
+### **Purpose**:
+- Maintains mappings of source systems to their corresponding attributes or columns.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_source_system`: References `data_system`.
+- `v_source_column`: Column name in the source system.
+- `v_mapped_to`: Target column or business element it maps to.
+
+### **Connections**:
+- **One-to-Many**:
+  - Links to `data_system` and `business_element_mapping`.
+
+---
+
+### **23. `target_system_mapping`**
+### **Purpose**:
+- Similar to `source_system_mapping` but for target systems.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_target_system`: References `data_system`.
+- `v_target_column`: Column name in the target system.
+- `v_mapped_to`: Business element or logical mapping.
+
+### **Connections**:
+- **One-to-Many**:
+  - Links to `data_system` and `business_element_mapping`.
+
+---
+
+### **24. `data_transformation_rules`**
+### **Purpose**:
+- Stores transformation logic and rules applied during the ETL process.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_rule_name`: Name of the transformation rule.
+- `v_rule_description`: Description of the rule.
+- `v_source_column`: Source column for the transformation.
+- `v_target_column`: Target column for the transformation.
+- `v_transformation_logic`: Logic applied for the transformation.
+
+### **Connections**:
+- **One-to-Many**:
+  - Referenced in `etl_element_mapping` to define transformations.
+
+---
+
+### **25. `data_owner_mapping`**
+### **Purpose**:
+- Tracks ownership of specific data elements.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_data_element_code`: References `business_element_mapping`.
+- `v_owner_code`: References `user_details` or an equivalent user table.
+- `v_ownership_type`: Specifies ownership type (e.g., Primary, Secondary).
+
+### **Connections**:
+- **One-to-Many**:
+  - Links to `business_element_mapping` and `user_details`.
+
+---
+
+### **26. `data_element_format_checks`**
+### **Purpose**:
+- Captures format validation rules for data elements.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_data_element_code`: References `business_element_mapping`.
+- `v_format_rule`: Format rule applied (e.g., Regex, length check).
+- `v_error_message`: Message to display on validation failure.
+
+### **Connections**:
+- **One-to-Many**:
+  - Links to `business_element_mapping`.
+
+---
+
+### **27. `ingestion_owner_audit`**
+### **Purpose**:
+- Tracks changes to ingestion ownership details for compliance.
+
+### **Columns**:
+- `id`: Primary key.
+- `v_user_code`: References `user_details`.
+- `v_ingestion_owner_code`: References `data_contracts`.
+- `v_action`: Type of action (e.g., Ownership Transfer).
+- `v_performed_by`: User performing the action.
+- `v_timestamp`: Timestamp of the action.
+
+### **Connections**:
+- **One-to-Many**:
+  - Links to `user_details` and `data_contracts`.
+
+---
+
+### **Connections Recap**:
+Here’s how some missing tables interconnect with the previously identified tables:
+1. **Audit**:
+   - `audit_logs` links to all key entities for tracking metadata changes.
+2. **Mapping**:
+   - `source_system_mapping` and `target_system_mapping` extend the mapping logic of source and target systems.
+3. **Transformations**:
+   - `data_transformation_rules` and `data_element_format_checks` provide granular details for ETL transformations.
+4. **Ownership**:
+   - `data_owner_mapping` and `ingestion_owner_audit` ensure ownership tracking for compliance.
+
+---
+
+### Final Thoughts:
+This comprehensive model now accounts for data governance, traceability, ETL metadata, and compliance-related aspects. Let me know if you'd like further clarification or if additional tables still seem to be missing!
