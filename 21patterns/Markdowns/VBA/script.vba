@@ -70,34 +70,6 @@ Function GetSQLData() As Collection
     Set GetSQLData = result
 End Function
 
-Sub AddNewValueToDatabase(newValue As String)
-    Dim conn As ADODB.Connection
-    Dim cmd As ADODB.Command
-    Dim connectionString As String
-    
-    connectionString = "Provider=SQLOLEDB;" & _
-                      "Server=YourServerName;" & _
-                      "Database=YourDatabaseName;" & _
-                      "Trusted_Connection=Yes;"
-    
-    Set conn = New ADODB.Connection
-    conn.Open connectionString
-    
-    Set cmd = New ADODB.Command
-    With cmd
-        .ActiveConnection = conn
-        .CommandType = adCmdText
-        ' Modify this INSERT statement according to your table structure
-        .CommandText = "INSERT INTO YourTable (ColumnName) VALUES (?)"
-        .Parameters.Append .CreateParameter("@Value", adVarChar, adParamInput, 255, newValue)
-        .Execute
-    End With
-    
-    conn.Close
-    Set cmd = Nothing
-    Set conn = Nothing
-End Sub
-
 Sub CreateSingleComboBox(cellAddress As String, comboList As Collection)
     Dim cb As OLEObject
     Dim targetCell As Range
@@ -125,58 +97,59 @@ Sub CreateSingleComboBox(cellAddress As String, comboList As Collection)
     If Not IsEmpty(targetCell.Value) Then
         cb.Object.Value = targetCell.Value
     End If
+    
+    ' Assign the change event
+    With cb.Object
+        .OnChange = "ValidateComboBoxEntry"
+    End With
+End Sub
+
+Sub ValidateComboBoxEntry()
+    Dim cb As MSForms.ComboBox
+    Set cb = Application.Caller
+    
+    Dim enteredValue As String
+    enteredValue = cb.Text
+    
+    ' If nothing entered, exit
+    If enteredValue = "" Then Exit Sub
+    
+    ' Check if value exists in list
+    Dim valueExists As Boolean
+    Dim i As Long
+    valueExists = False
+    
+    For i = 0 To cb.ListCount - 1
+        If StrComp(cb.List(i), enteredValue, vbTextCompare) = 0 Then
+            valueExists = True
+            ' Set the exact case from the list
+            cb.Text = cb.List(i)
+            Exit For
+        End If
+    Next i
+    
+    ' If value doesn't exist, clear the combobox
+    If Not valueExists Then
+        cb.Text = ""
+    End If
+    
+    ' Update the cell value
+    Dim cellAddress As String
+    cellAddress = Replace(cb.Name, "DataCombo", "")
+    Range(cellAddress).Value = cb.Text
 End Sub
 
 Private Sub Worksheet_Change(ByVal Target As Range)
+    ' This event will handle any direct changes to the cells
     Dim obj As OLEObject
     Dim cellAddress As String
-    Dim newValue As String
-    Dim existingValues As Collection
     
     On Error Resume Next
     For Each obj In ActiveSheet.OLEObjects
         If TypeName(obj.Object) = "ComboBox" Then
             cellAddress = Replace(obj.Name, "DataCombo", "")
-            
-            ' Get the new value from the combobox
-            newValue = obj.Object.Value
-            
-            ' If there's a new value
-            If newValue <> "" Then
-                ' Check if this value already exists in the combobox list
-                Dim valueExists As Boolean
-                valueExists = False
-                
-                Dim i As Long
-                For i = 0 To obj.Object.ListCount - 1
-                    If obj.Object.List(i) = newValue Then
-                        valueExists = True
-                        Exit For
-                    End If
-                Next i
-                
-                ' If it's a new value
-                If Not valueExists Then
-                    ' Ask user for confirmation
-                    Dim response As VbMsgBoxResult
-                    response = MsgBox("Add '" & newValue & "' to the list?", _
-                                    vbQuestion + vbYesNo, "Add New Value")
-                    
-                    If response = vbYes Then
-                        ' Add to database
-                        AddNewValueToDatabase newValue
-                        
-                        ' Add to combobox
-                        obj.Object.AddItem newValue
-                        obj.Object.Value = newValue
-                        
-                        ' Update cell
-                        Range(cellAddress).Value = newValue
-                    End If
-                Else
-                    ' Update cell with existing value
-                    Range(cellAddress).Value = newValue
-                End If
+            If Not Range(cellAddress).Value = obj.Object.Value Then
+                obj.Object.Value = Range(cellAddress).Value
             End If
         End If
     Next obj
